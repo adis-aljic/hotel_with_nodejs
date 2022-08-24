@@ -1,7 +1,9 @@
 var express = require("express");
 const { dirname } = require("path");
-
+var bodyParser = require("body-parser")
 var app = express();
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(express.static(__dirname));
 
 app.set("view engine", "ejs")
@@ -23,6 +25,10 @@ app.get("/adminguest", function(req,res){
 app.get("/adminemployee", function(req,res){
     res.render("adminemployee")
 })
+app.post("/adminemployee", urlencodedParser, function(req,res){
+    console.log(req.body)
+    res.render("newemployee", {info: req.body})
+})
 app.get("/findbooking", function(req,res){
     res.render("findbooking")
 })
@@ -35,5 +41,6 @@ var data = {room_number:29 , typeofroom: "single bed", aditionalServices: ["pool
 res.render("guest",{person: req.params.name, room_number : data.room_number, typeofroom:data.typeofroom , aditionalServices : data.aditionalServices});
 
 })
+
 
 app.listen(3000);

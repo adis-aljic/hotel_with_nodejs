@@ -15,32 +15,20 @@
 
 <body>
     <%- include ("./partials/nav.ejs") %>
+<!-- ubaciti kalendar da cita slobodne datume -->
 
   <form action="">
-    <h1>For booking room please fill form bellow</h1>
+    <h1>Booking information</h1>
+    <h2>After submiting form our hotel will contact you via email or by phone</h2>
     <label for="first_name">First Name</label>
     <input type="text" id="first_name">
     <label for="last_name">Last Name</label>
     <input type="text" id="last_name">
-    <label for="date_of_birth">Date of birth</label>
-    <input type="date" id="date_of_birth">
-    <label for="country">Country</label>
-    <input type="text" id="country">
-    <label for="city">City</label>
-    <input type="text" id="city">
     <label for="phone_number">Phone number</label>
     <input type="text" id="phone_number">
     <label for="email">Email</label>
     <input type="email" id="email">
-    <h1>Gender</h1>
-    <div id="radio_btn">
-      <input type="radio" id="gender" name="gender" value="M">
-      <label for="gender">Male</label>
-      <input type="radio" id="gender" name="gender" value="F">
-      <label for="gender">Female</label>
-      <input type="radio" id="gender" name="gender" value="O">
-      <label for="gender">Other</label>
-    </div>
+
     <h1>Prefered Languages</h1>
     <div id="radio_btn">
       <input type="radio" id="prefered_languages" name="language" value="Bosnian">
@@ -48,30 +36,32 @@
       <input type="radio" id="prefered_languages" name="language" value="English">
       <label for="prefered_languages">English</label>
     </div>
-    <h1>Indefication document</h1>
-    <div id="radio_btn">
-      <input type="radio" id="document_for_indefication" name="id_doc" value="Passport number">
-      <label for="document_for_indefication">Passport number</label>
-      <input type="radio" id="document_for_indefication" name="id_doc" value="ID Card number">
-      <label for="document_for_indefication">ID Card</label>
-      <input type="radio" id="document_for_indefication" name="id_doc" value="Social security number">
-      <label for="document_for_indefication">Social security number</label>
-
-    </div>
-    <br>
-    <label for="number_of_document_for_indefication">Number of document</label>
-    <input type="text" id="number_of_document_for_indefication">
-
+   
     <label for="check_in_date">Check in date</label>
     <input type="date" id="check_in_date">
     <label for="check_out_date">Check out date</label>
     <input type="date" id="check_out_date">
-    <label for="number_of_people"> Number of guests (Max 5 persons)</label>
-    <input type="number"  name="" id="number_of_people"> 
-    <!-- filtritati datume da onemoguce one koji su zauzeti -->
-    <h1>Choose type of room</h1>
-    <div>
-      <div id="radio_btn">
+    <h1>Aditional Services</h1>
+<div id="radio_btn">
+
+  <label for="aditional_services">
+    <input type="checkbox" id="aditional_services" value="Pool">Pool</label>
+    
+    <label for="aditional_services">
+      <input type="checkbox" id="aditional_services" value="Restaurant">Restaurant</label>
+    
+      <label for="aditional_services">
+    <input type="checkbox" id="aditional_services" value="Cinema">Cinema</label>
+   
+    <label for="aditional_services">
+      <input type="checkbox" id="aditional_services" value="Gym">Gym</label>
+   
+      <label for="aditional_services">
+        <input type="checkbox" id="aditional_services" value="Sauna">Sauna</label>
+      </div>
+        <h1>Choose type of room</h1>
+        <div>
+          <div id="radio_btn">
         <input type="radio" id="type_of_room" name="type_of_room" value="Single Bed">
         <label for="type_of_room">Single Bed</label>
         <input type="radio" id="type_of_room" name="type_of_room" value="Twin Bed">
@@ -80,73 +70,12 @@
         <label for="type_of_room"> Apartment</label>
 
       </div>
-
-
-    </div>
-    <!-- skontat kako da radi sa bazom -->
-    <h1>Choose room number</h1>
-    <h2>Single bed</h2>
-    <div id="radio-btn">
-
-      <input type="radio" id="room_number" value="102" name="room_num">
-      <label for="type_of_room">Room 101</label>
-      <input type="radio" id="room_number" name="room_num" value="101">
-      <label for="type_of_room">Room 102</label>
-      <h2>Twin bed</h2>
-      <input type="radio" id="room_number" value="201" name="room_num">
-      <label for="type_of_room">Room 201</label>
-      <input type="radio" id="room_number" value="202" name="room_num">
-      <label for="type_of_room">Room 202</label>
-      <h2>Apartment</h2>
-      <input type="radio" id="room_number" value="301" name="room_num">
-      <label for="type_of_room">Room 301</label>
-      <input type="radio" id="room_number" value="302" name="room_num">
-      <label for="type_of_room">Room 302</label>
-    </div>
       
-      <h1>Additional services</h1>
-    <div>
-      <div>
-        <h2>Sauna</h2>
-        <label for="date_from_sauna">Choose date from</label>
-        <input type="date" id="date_from_sauna">
-        <label for="date_to_sauna">Choose date to</label>
-        <input type="date" id="date_to_sauna">
-
-
-      </div>
-      <div>
-        <h2>Restaurant</h2>
-        <label for="date_from_restaurant">Choose date from</label>
-        <input type="date" id="date_from_restaurant">
-        <label for="date_to_restaurant">Choose date to</label>
-        <input type="date" id="date_to_restaurant">
-
-      </div>
-      <div>
-        <h2>Gym</h2>
-        <label for="date_from_gym">Choose date from</label>
-        <input type="date" id="date_from_gym">
-        <label for="date_to_gym">Choose date to</label>
-        <input type="date" id="date_to_gym">
-
-      </div>
-      <div>
-        <h2>Pool</h2>
-        <label for="date_from_pool">Choose date from</label>
-        <input type="date" id="date_from_pool">
-        <label for="date_to_pool">Choose date to</label>
-        <input type="date" id="date_to_pool">
-
-      </div>
-      <div>
-        <h2>Cinema</h2>
-        <label for="date_from_cinema">Choose date from</label>
-        <input type="date" id="date_from_cinema">
-        <label for="date_to_cinema">Choose date to</label>
-        <input type="date" id="date_to_cinema">
-
-      </div>
+    </div>
+    <br>
+    <h1>Aditional information</h1>
+    <textarea name="comment" id="booking_msg" cols="30" rows="10"></textarea>
+  
     </div>
     </div>
     <br>

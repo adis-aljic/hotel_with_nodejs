@@ -8,12 +8,16 @@ form {
     margin-top: 3rem;
     /* width: 5rem; */
 }
+label{
+    font-size: 20px;
+}
 
 #radio_btn {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     border-radius: 15px;
+    justify-content: center;
 
 }
 

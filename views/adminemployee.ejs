@@ -34,23 +34,27 @@
         <div>
 
             <h1>Employee registration</h1>
-            <form id="form_employees" onclick="submit()" method="post">
+            <form id="form_employees" action="./adminemployee" method="post">
                 <label for="first_name">First Name</label>
-                <input type="text" id="first_name">
+                <input type="text" id="first_name" name="first_name">
                 <label for="last_name">Last Name</label>
-                <input type="text" id="last_name">
+                <input type="text" id="last_name" name="last_name">
+
                 <label for="job_title">Job title</label>
-                <input type="text" id="job_title">
+                <input type="text" id="job_title" name="job_title">
+                
                 <label for="date_of_birth">Date of birth</label>
-                <input type="date" id="date_of_birth">
+                <input type="date" id="date_of_birth" name="date_of_birth" >
+                
                 <label for="country">Country</label>
-                <input type="text" id="country">
+                <input type="text" id="country" name="country">
                 <label for="city">City</label>
-                <input type="text" id="city">
+                <input type="text" id="city" name="city">
+                
                 <label for="phone_number">Phone number</label>
-                <input type="text" id="phone_number">
+                <input type="text" id="phone_number" name="phone_number">
                 <label for="email">Email</label>
-                <input type="email" id="email">
+                <input type="email" id="email" name="email">
                 <h1>Gender</h1>
                 <div id="radio_btn">
                     <input type="radio" id="gender" name="gender" value="M">
@@ -61,29 +65,33 @@
                     <label for="gender">Other</label>
                 </div>
                 <h1> Languages</h1>
-                <label for="languages">Languages</label>
-                <input type="text" id="languages">
+                <label for="Bosnian">Bosnian</label>
+                <input type="checkbox" id="Bosnian" name="languages" value="Bosnian">
+                <label for="English">English</label>
+                <input type="checkbox" id="English" name="languages" value="English">
+                <label for="German">German</label>
+                <input type="checkbox" id="German" name="languages" value="German">
                 <h1>Indefication document</h1>
                 <div id="radio_btn">
-                    <input type="radio" id="document_for_indefication" name="id_doc"value="Passport number">
+                    <input type="radio" id="document_for_indefication" name="document_for_indefication"value="Passport number">
                     <label for="document_for_indefication">Passport number</label>
-                    <input type="radio" id="document_for_indefication" name="id_doc"value="ID Card number">
+                    <input type="radio" id="document_for_indefication" name="document_for_indefication"value="ID Card number">
                     <label for="document_for_indefication">ID Card</label>
-                    <input type="radio" id="document_for_indefication" name="id_doc"value="Social security number">
+                    <input type="radio" id="document_for_indefication" name="document_for_indefication"value="Social security number">
                     <label for="document_for_indefication">Social security number</label>
 
                 </div>
                 <br>
-                <input type="text" id="number_of_document_for_indefication">
+                <input type="text" id="number_of_document_for_indefication" name="number_of_document_for_indefication">
                 <label for="number_of_document_for_indefication">Serial number of document</label>
                 <h1>Generate username and password</h1>
                 <div>
                     <div>
-                        <p id="admin_username"></p>
+                        <p id="admin_username" name="username"> </p>
                         <button type="button" id="admin_username"  onclick="generate_username_admin()">Generate username</button>
                     </div>
                     <div>
-                        <p id="admin_password"></p>
+                        <p id="admin_password" name="password"></p>
                         <button type="button" id="admin_password" onclick="generate_password_admin()">Generate password</button>
                     </div>
 

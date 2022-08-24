@@ -1,0 +1,60 @@
+        <!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+            ako je zauzeta, skontat da li
+        moze da se kopira dio koda na klik butona ako ima vise gostiju
+    problem vise gostiju 
+            ako je inactive gost ne moze pristupiti sa sifrom, u js napraviti
+            napraiti da ispise sve sobe i ko je u njima u novoj stranici
+
+            racun ici na ispis samo kao i ispis checkout..
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Adis Aljic">
+    <title>Imaginery hotel</title>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/admin_guest.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/user_pass.js" defer></script>
+
+</head>
+
+<body>
+    <%- include ("./partials/nav.ejs") %>
+    <div class="newemployee">
+
+        <h1>New employee information</h1>
+        
+        <p> Welcome <%= info.first_name %> to our hotel</p>
+        
+        <br>
+
+        <p> First name : <%= info.first_name %></p>
+        <p> Last name : <%= info.last_name %></p>
+        <p> Date of birth  : <%= info.date_of_birth %></p>
+        <p> Gender  : <%= info.gender %></p>
+        <p> Job title  : <%= info.job_title %></p>
+        <p>  Username : <%= info.username %></p>
+        <p> Password  : <%= info.password %></p>
+       <p> Languages : 
+        <% info.languages.forEach(function(item) { %>
+            <li> <%= item %></li>
+            <% }) %> 
+
+       </p> 
+    
+    </div>
+
+
+     
+    <%- include ("./partials/nav1.ejs") %>
+
+</body>
+
+</html>

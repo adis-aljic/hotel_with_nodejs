@@ -8,7 +8,9 @@ form {
     margin-top: 3rem;
     /* width: 5rem; */
 }
-
+.newemployee{
+margin: auto;
+}
 #radio_btn {
     display: flex;
     flex-direction: row;
