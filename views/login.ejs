@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author = "Adis Aljic">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/login.js"></script>
+</head>
+<body>
+    <%- include ("./partials/nav.ejs") %>
+
+      <section class="position">
+
+          <div class="center">
+              <h1>Login page</h1>
+              <form>
+                  <div class="forms">
+                      
+                      <div class="inputbox">
+                        <input type="text" required="required" id="email" class="tb">
+                        <span>Email</span>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" required="required" id="pwd1" class="tb">
+                        <span>Password</span>
+                    </div>
+              </div>
+    <div class="btn">
+        <div class="inputbox">
+            <input class="button" type="button" value="Submit" onclick="login()">
+        </div>
+        <div class="inputbox">
+            <input class="button" type="button" value="Reset" onclick="clearFunc()">
+        </div>
+    </div>
+            </form>
+          </div>
+        </div>
+    </section>
+ 
+
+
+</body>
+</html>

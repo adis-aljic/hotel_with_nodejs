@@ -1,0 +1,101 @@
+        <!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+            ako je zauzeta, skontat da li
+        moze da se kopira dio koda na klik butona ako ima vise gostiju
+    problem vise gostiju 
+            ako je inactive gost ne moze pristupiti sa sifrom, u js napraviti
+            napraiti da ispise sve sobe i ko je u njima u novoj stranici
+
+            racun ici na ispis samo kao i ispis checkout..
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Adis Aljic">
+    <title>Imaginery hotel</title>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin_guest.css">
+    <script src="../js/user_pass.js" defer></script>
+
+</head>
+
+<body>
+    <%- include ("./partials/nav.ejs") %>
+
+
+    <div class="reg_forms">
+
+        <div>
+
+            <h1>Employee registration</h1>
+            <form id="form_employees" onclick="submit()" method="post">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name">
+                <label for="job_title">Job title</label>
+                <input type="text" id="job_title">
+                <label for="date_of_birth">Date of birth</label>
+                <input type="date" id="date_of_birth">
+                <label for="country">Country</label>
+                <input type="text" id="country">
+                <label for="city">City</label>
+                <input type="text" id="city">
+                <label for="phone_number">Phone number</label>
+                <input type="text" id="phone_number">
+                <label for="email">Email</label>
+                <input type="email" id="email">
+                <h1>Gender</h1>
+                <div id="radio_btn">
+                    <input type="radio" id="gender" name="gender" value="M">
+                    <label for="gender">Male</label>
+                    <input type="radio" id="gender" name="gender" value="F">
+                    <label for="gender">Female</label>
+                    <input type="radio" id="gender" name="gender" value="O">
+                    <label for="gender">Other</label>
+                </div>
+                <h1> Languages</h1>
+                <label for="languages">Languages</label>
+                <input type="text" id="languages">
+                <h1>Indefication document</h1>
+                <div id="radio_btn">
+                    <input type="radio" id="document_for_indefication" name="id_doc"value="Passport number">
+                    <label for="document_for_indefication">Passport number</label>
+                    <input type="radio" id="document_for_indefication" name="id_doc"value="ID Card number">
+                    <label for="document_for_indefication">ID Card</label>
+                    <input type="radio" id="document_for_indefication" name="id_doc"value="Social security number">
+                    <label for="document_for_indefication">Social security number</label>
+
+                </div>
+                <br>
+                <input type="text" id="number_of_document_for_indefication">
+                <label for="number_of_document_for_indefication">Serial number of document</label>
+                <h1>Generate username and password</h1>
+                <div>
+                    <div>
+                        <p id="admin_username"></p>
+                        <button type="button" id="admin_username"  onclick="generate_username_admin()">Generate username</button>
+                    </div>
+                    <div>
+                        <p id="admin_password"></p>
+                        <button type="button" id="admin_password" onclick="generate_password_admin()">Generate password</button>
+                    </div>
+
+                    <button class="sub_butt" type="submit">Submit</button>
+
+            </form>
+
+
+        </div>
+    </div>
+    <%- include ("./partials/nav1.ejs") %>
+
+</body>
+
+</html>

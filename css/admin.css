@@ -1,0 +1,63 @@
+form {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 1.7rem;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 3rem;
+    /* width: 5rem; */
+}
+
+#radio_btn {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    border-radius: 15px;
+
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+p {
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    border: 1px solid black;
+    height: 1.2rem;
+}
+
+.reg_forms {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    padding-top: 2rem;
+    margin: auto;
+}
+
+input {
+    border-radius: 5px;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+}
+
+.findg {
+    padding-top: 20px;
+}
+
+.findb{
+    /* padding-top: 20px; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center;  */
+    /* justify-content: center; */
+    padding-left: 40rem;
+}

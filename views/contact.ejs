@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author = "Adis Aljic">
+    <title>Imaginery hotel</title>
+
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <%- include ("./partials/nav.ejs") %>
+
+      <section>
+        <p>u can reach us via social network (ubacit linkove sa nav barom) </p>
+        
+        <p> find us on adress : bla bla poredati lijepo, formatirati input,fiksirat teztareu</p>
+       <p>or send us a mess</p>
+        <form method="post" action="contact.php">
+            
+            <div>
+                <h2> Send Message</h2>
+                <label id="space" for="fname">First Name: </label>
+                <input type="text" id="fname" required name="firstname" placeholder="Your first name ...">
+                <br> <br>
+                <label id="space" for="lname">Last Name: </label>
+                <input type="text" id="lname" required name="lastname" placeholder="Your last name ...">
+                <br> <br>
+                <label for="email">E-mail: </label>
+                <input class="email" type="text" id="email" required name="email" placeholder="Your email ...">
+                <br>
+            </div>
+
+            <!-- <label for="subject">Subject</label> -->
+            <div>
+
+                <textarea id="subject" name="subject" required placeholder="Write your message ..."></textarea>
+                <br>
+                <input type="submit" value="Submit">
+            </div>
+
+        </form>
+      </section>
+ 
+
+
+</body>
+</html>

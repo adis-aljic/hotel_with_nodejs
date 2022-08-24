@@ -1,0 +1,82 @@
+        <!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+            ako je zauzeta, skontat da li
+        moze da se kopira dio koda na klik butona ako ima vise gostiju
+    problem vise gostiju 
+            ako je inactive gost ne moze pristupiti sa sifrom, u js napraviti
+            napraiti da ispise sve sobe i ko je u njima u novoj stranici
+
+            racun ici na ispis samo kao i ispis checkout..
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Adis Aljic">
+    <title>Imaginery hotel</title>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/guest.css">
+    <link rel="stylesheet" href="../css/admin_guest.css">
+
+</head>
+
+<body>
+    <%- include ("./partials/nav.ejs") %>
+
+
+    <div class="guest_page">
+        
+        <div class="room_info">
+    <h1>Welcome  <%= person %> </h1>
+<br>
+Room number: <%= room_number %>
+<br>
+Type of room:  <%= typeofroom %>
+<br> 
+Aditional services: <% aditionalServices.forEach(function(item) { %>
+<li> <%= item %></li>
+<% }) %> 
+<br>
+Check in date:
+<br>
+Check out date:
+<br>
+</div>
+<p> If you want to see reciept with services please click on the right side on reciept.</p>
+<br>
+<p>If you want to checkout before you checkout date you can do that with click on the right
+    side. </p>
+    <br>
+    <p> 
+    If you choose this option you need to checkout atlest 6 hours before your deaprture.
+</p>
+<br>
+<p>
+    
+    If you want to change room, have message for our stuff or aditional services please fill form and we will call you 
+    as soon we prepare everthing.  <br>
+    Please inside box bellow adress us with your request. 
+    Explain us your request in details.
+</p>
+<form action="" method="post">
+    <label for="request_for_services">
+        <textarea name="change_reservation" id="request_for_services cols="40" rows="10"></textarea>
+    </label>
+</form>
+<button type="submit">Send request</button>
+
+
+</div>
+
+<nav1>
+    <a href="#">RECIEPT</a>
+    <a href="#">CHECKOUT</a>
+    <div id="indicator"></div>
+  </nav1>
+</body>
+
+</html>
