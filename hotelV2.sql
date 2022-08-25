@@ -12,18 +12,16 @@ date_of_birth DATE,
 gender ENUM ("M","F","O"),
 country VARCHAR(40),
 city VARCHAR(40),
-languages VARCHAR(100) DEFAULT "Bosnian",
+languages ENUM("Bosnian","English","German") DEFAULT "Bosnian",
 phone_number VARCHAR(15) UNIQUE NOT NULL,
 email VARCHAR(40) UNIQUE NOT NULL,
 document_for_indefication ENUM("Passport number","ID Card number","Social security number"),
 number_of_document_for_indefication VARCHAR (20) NOT NULL UNIQUE,
 job_title VARCHAR(40) NOT NULL,
-date_for_hiring DATE NOT NULL,
-status_for_employee ENUM ("Active","Fired","On leave"),
-user_pass_id INT,
-timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+date_for_hiring TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+status_for_employee ENUM ("Active","Fired","On leave") DEFAULT "Active",
+user_pass_id INT
 );
-
 CREATE TABLE guest(
 guest_id INT PRIMARY KEY AUTO_INCREMENT,
 first_name VARCHAR(40) NOT NULL,
@@ -261,7 +259,7 @@ SELECT * FROM room;
 UPDATE booking 
 SET reciept_id =1 WHERE guest_id =1; 
 
-SELECT * FROM user_pass;
+SELECT * FROM employees;
 INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication)
 VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556");
 

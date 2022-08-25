@@ -8,8 +8,12 @@
     "start": "node server.js"
   },
   "repository": {},
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Hotel managment",
+    "nodejs",
+    "mysql"
+  ],
+  "author": "Profa",
   "license": "ISC",
   "bugs": {},
   "dependencies": {
@@ -17,7 +21,8 @@
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "mysql2": "^2.3.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

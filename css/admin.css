@@ -8,8 +8,10 @@ form {
     margin-top: 3rem;
     /* width: 5rem; */
 }
-.newemployee{
+#newemployee{
 margin: auto;
+text-decoration: none;
+list-style: none;
 }
 #radio_btn {
     display: flex;

@@ -27,7 +27,7 @@
 
 <body>
     <%- include ("./partials/nav.ejs") %>
-    <div class="newemployee">
+    <div id="newemployee">
 
         <h1>New employee information</h1>
         
@@ -40,15 +40,13 @@
         <p> Date of birth  : <%= info.date_of_birth %></p>
         <p> Gender  : <%= info.gender %></p>
         <p> Job title  : <%= info.job_title %></p>
-        <p>  Username : <%= info.username %></p>
-        <p> Password  : <%= info.password %></p>
-       <p> Languages : 
-        <% info.languages.forEach(function(item) { %>
-            <li> <%= item %></li>
-            <% }) %> 
-
-       </p> 
-    
+        <p>  Username : <%= info.admin_username %></p>
+        <p> Password  : <%= info.admin_password %></p>
+        <p> Languages : 
+       
+            <%= info.languages %>
+  
+    </p>
     </div>
 
 
