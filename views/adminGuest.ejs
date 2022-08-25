@@ -83,35 +83,112 @@
                     <label for="number_of_document_for_indefication">Number of document</label>
                     <input type="text" name="number_of_document_for_indefication"
                         id="number_of_document_for_indefication">
-                  
+
                     <br>
-                  
+                    <hr>
 
                     <h1>Generate username and password</h1>
+
+                    <div>
+                        <p id="guest_username"></p>
+                        <input type="text" name="username" id="guest_username">
+                        <button type="button" id="guest_username" onclick="generate_username()">Generate
+                            username</button>
+                    </div>
+                    <div>
+
+                        <p id="guest_password"></p>
+                        <input type="text" name="password" id="guest_password">
+                        <button type="button" id="guest_password" onclick="generate_password()">Generate
+                            password</button>
+                    </div>
+                    <br>
+                    <hr>
+                    <h1>Choose room number</h1>
+                    <h2>Single bed</h2>
+
+                    <label for="type_of_room">
+                        <input class="radio" type="radio" id="room_number" name="room_number" value="101">Room
+                        101</label>
+
+                    <label for="type_of_room">
+                        <input type="radio" id="room_number" value="102" name="room_number">Room 102</label>
                     
-                        <div>
-                            <input type="text" name="username" id="">
-                            <p id="guest_username"></p>
-                            <button type="button" id="guest_username" onclick="generate_username()">Generate
-                                username</button>
-                        </div>
-                        <div>
-                            <input type="text" name="password" id="">
+                        <h2>Twin bed</h2>
+                    <label for="type_of_room">
+                    <input type="radio" id="room_number" value="201" name="room_number">Room 201</label>
 
-                            <p id="guest_password"></p>
-                            <button type="button" id="guest_password" onclick="generate_password()">Generate
-                                password</button>
-                        </div>
-                        <br>
-                        <button class="sub_butt" type="submit" onClick="window.open('/adminGuestRoom');">Submit</button>
+                    <label for="type_of_room">
+                        <input type="radio" id="room_number" value="202" name="room_number">Room 202</label>
+                           
+                        <h2>Apartment</h2>
+                        <label for="type_of_room">
+                            <input type="radio" id="room_number" value="301" name="room_number">Room 301</label>
+                            <label for="type_of_room">
+                                <input type="radio" id="room_number" value="302" name="room_number">Room 302</label>
+                                 
+            
+                                   
+                                    <hr>
+                                    <label for="check_in_date">Check in date</label>
+                                    <input type="date" name="check_in_date" id="check_in_date">
+                                    <label for="check_out_date">Check out date</label>
+                                    <input type="date" name="check_out_date" id="check_out_date">
+                                    <br>
+                                    <hr>
+                                    <h1>Additional services</h1>
+                                    <div>
+                                        <div>
+                                            <h2>Sauna</h2>
+                                            <label for="date_from_sauna">Choose date from</label>
+                                            <input type="date" id="date_from_sauna" name="date_from_sauna">
+                                            <label for="date_to_sauna">Choose date to</label>
+                                            <input type="date" id="date_to_sauna" name="date_to_sauna">
 
+
+                                        </div>
+                                        <div>
+                                            <h2>Restaurant</h2>
+                                            <label for="date_from_restaurant">Choose date from</label>
+                                            <input type="date" id="date_from_restaurant">
+                                            <label for="date_to_restaurant">Choose date to</label>
+                                            <input type="date" id="date_to_restaurant">
+
+                                        </div>
+                                        <div>
+                                            <h2>Gym</h2>
+                                            <label for="date_from_gym">Choose date from</label>
+                                            <input type="date" id="date_from_gym">
+                                            <label for="date_to_gym">Choose date to</label>
+                                            <input type="date" id="date_to_gym">
+
+                                        </div>
+                                        <div>
+                                            <h2>Pool</h2>
+                                            <label for="date_from_pool">Choose date from</label>
+                                            <input type="date" id="date_from_pool">
+                                            <label for="date_to_pool">Choose date to</label>
+                                            <input type="date" id="date_to_pool">
+
+                                        </div>
+                                        <div>
+                                            <h2>Cinema</h2>
+                                            <label for="date_from_cinema">Choose date from</label>
+                                            <input type="date" id="date_from_cinema">
+                                            <label for="date_to_cinema">Choose date to</label>
+                                            <input type="date" id="date_to_cinema">
+
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <button class="sub_butt" type="submit">Submit</button>
                 </form>
                 <br>
-               
 
-        </div>
 
-        <%- include ("./partials/nav1.ejs") %>
+            </div>
+
+            <%- include ("./partials/nav1.ejs") %>
 
 </body>
 

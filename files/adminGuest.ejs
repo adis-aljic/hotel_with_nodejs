@@ -1,0 +1,118 @@
+<!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+            ako je zauzeta, skontat da li
+        moze da se kopira dio koda na klik butona ako ima vise gostiju
+    problem vise gostiju 
+            ako je inactive gost ne moze pristupiti sa sifrom, u js napraviti
+            napraiti da ispise sve sobe i ko je u njima u novoj stranici
+
+            racun ici na ispis samo kao i ispis checkout..
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Adis Aljic">
+    <title>Imaginery hotel</title>
+    <script src="../js/user_pass.js" defer></script>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin_guest.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <%- include ("./partials/nav.ejs") %>
+
+
+        <div class="reg_forms">
+
+            <div>
+
+                <h1>Guest registration</h1>
+                <form action="./adminGuest" method="post">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name">
+                    <label for="date_of_birth">Date of birth</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city">
+                    <label for="phone_number">Phone number</label>
+                    <input type="text" id="phone_number" name="phone_number">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                    <h1>Gender</h1>
+                    <div id="radio_btn">
+                        <input type="radio" id="gender" name="gender" value="M">
+                        <label for="gender">Male</label>
+                        <input type="radio" id="gender" name="gender" value="F">
+                        <label for="gender">Female</label>
+                        <input type="radio" id="gender" name="gender" value="O">
+                        <label for="gender">Other</label>
+                    </div>
+                    <h1>Prefered Languages</h1>
+                    <div id="radio_btn">
+                        <input type="radio" id="prefered_languages" name="prefered_languages" value="Bosnian">
+                        <label for="prefered_languages">Bosnian</label>
+                        <input type="radio" id="prefered_languages" name="prefered_languages" value="English">
+                        <label for="prefered_languages">English</label>
+                    </div>
+                    <h1>Indefication document</h1>
+                    <div id="radio_btn">
+                        <input type="radio" id="document_for_indefication" name="document_for_indefication"
+                            value="Passport number">
+                        <label for="document_for_indefication">Passport number</label>
+                        <input type="radio" id="document_for_indefication" name="document_for_indefication"
+                            value="ID Card number">
+                        <label for="document_for_indefication">ID Card</label>
+                        <input type="radio" id="document_for_indefication" name="document_for_indefication"
+                            value="Social security number">
+                        <label for="document_for_indefication">Social security number</label>
+
+                    </div>
+                    <br>
+                    <label for="number_of_document_for_indefication">Number of document</label>
+                    <input type="text" name="number_of_document_for_indefication"
+                        id="number_of_document_for_indefication">
+                  
+                    <br>
+                  
+
+                    <h1>Generate username and password</h1>
+                    
+                        <div>
+                            <input type="text" name="username" id="">
+                            <p id="guest_username"></p>
+                            <button type="button" id="guest_username" onclick="generate_username()">Generate
+                                username</button>
+                        </div>
+                        <div>
+                            <input type="text" name="password" id="">
+
+                            <p id="guest_password"></p>
+                            <button type="button" id="guest_password" onclick="generate_password()">Generate
+                                password</button>
+                        </div>
+                        <br>
+                        <button class="sub_butt" type="submit" onClick="window.open('/adminGuestRoom');">Submit</button>
+
+                </form>
+                <br>
+               
+
+        </div>
+
+        <%- include ("./partials/nav1.ejs") %>
+
+</body>
+
+</html>

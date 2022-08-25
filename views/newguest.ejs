@@ -31,12 +31,12 @@
 
         <h1>New guest information</h1>
         
-        <p> Welcome <%= infoGuest.first_name %> to our hotel</p>
+        <p> Welcome <%= info.first_name %> to our hotel</p>
         
             <ul>
-                <% Object.keys(infoGuest).forEach(function(item){ %>
+                <% Object.keys(info).forEach(function(item){ %>
                   <li>
-                     <%= item %> : <%= infoGuest[item] %>
+                     <%= item %> : <%= info[item] %>
 
                   </li> 
               <%  }) %>

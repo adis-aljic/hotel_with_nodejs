@@ -37,12 +37,13 @@
 <form class="search" onsubmit="submitForm()">
   <input type="text" placeholder="Search.." name="search" id="search_booking">
   <button type="submit" id="search_booking"><i class="fa fa-search"></i></button>
-  <button type="submit" onclick="" id="submit_checkout"> Checkout guest</button>
-</form>
+  <button type="submit" onclick="checkout_guest()" id="submit_checkout"> Checkout guest</button>
+</form> 
+ <!--  napraviti funkciju koja u bazi updatuje da je gost checkoutovan -->
 <p id="search_booking"></p>
         </div>
         <!-- when clicked on booking, automaticly change date to checkout date and status room to avaiable -->
-        <!-- on submit send req to databse to change data for booking, room, userpass etc-->
+        <!-- on submit send req to databse to change data for booking, room etc-->
 
    
     </div>
