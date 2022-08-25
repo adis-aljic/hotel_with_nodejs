@@ -10,3 +10,7 @@ kako napraviti da se mjenja url za dinamicko ubacivanje na stranicu
 problem sa inputom pass i username i kako hash integirati
 
 ne radi / or /home ruta 
+
+
+
+ne radi for each

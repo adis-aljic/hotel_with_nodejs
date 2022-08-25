@@ -39,11 +39,24 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
    
     res.render("newemployee", { info: req.body })
     const info = req.body;
-            var sql = `INSERT INTO employees   SET ?`    
+            var sql = `INSERT INTO employees   SET ?`   
+
     db.query(sql,info ,function(err, data){
     if(err) throw err;
     else console.log(" one employee added")
 })  
+})
+app.post("/adminguest", urlencodedParser, function (req, res) {
+   
+    res.render("newguest", { infoGuest: req.body })
+    const infoGuest = req.body;
+    console.log(infoGuest)
+            // var sql = `INSERT INTO employees   SET ?`   
+
+    // db.query(sql,info ,function(err, data){
+    // if(err) throw err;
+    // else console.log(" one employee added")
+// })  
 })
 app.get("/findbooking", function (req, res) {
     res.render("findbooking")
