@@ -1,3 +1,4 @@
+
 CREATE DATABASE hotel_node;
 USE hotel_node;
 
@@ -20,7 +21,8 @@ number_of_document_for_indefication VARCHAR (20) NOT NULL UNIQUE,
 job_title VARCHAR(40) NOT NULL,
 date_for_hiring TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 status_for_employee ENUM ("Active","Fired","On leave") DEFAULT "Active",
-user_pass_id INT
+username VARCHAR(10) UNIQUE NOT NULL,
+password VARCHAR(10) UNIQUE NOT NULL
 );
 CREATE TABLE guest(
 guest_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -30,11 +32,16 @@ date_of_birth DATE,
 gender ENUM ("M","F","O"),
 country VARCHAR(40),
 city VARCHAR(40),
+username VARCHAR(10) UNIQUE NOT NULL,
+password VARCHAR(10) UNIQUE NOT NULL,
+isLoged ENUM ("online","offline") DEFAULT "offline",
 prefered_language ENUM ("Bosnian","English"),
 phone_number VARCHAR(15) UNIQUE NOT NULL,
 email VARCHAR(40) UNIQUE NOT NULL,
 document_for_indefication ENUM("Passport number","ID Card number","Social security number"),
 number_of_document_for_indefication VARCHAR (20) NOT NULL UNIQUE,
+booking_id INT,
+reciept_id INT,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -53,22 +60,11 @@ booking_id INT,
 cooment VARCHAR (4000)
 );
 ALTER TABLE room alter  room_status SET DEFAULT "Avaiable";
-CREATE TABLE user_pass (
-user_pass_id INT PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR (20) UNIQUE NOT NULL,
-password VARCHAR (20) UNIQUE NOT NULL,
-status ENUM ("Active","Inactive") DEFAULT "Active",
-isLogged ENUM("Online","Offline"),
-reciept_id INT,
-booking_id INT
-);
+
 CREATE TABLE booking (
 booking_id INT PRIMARY KEY AUTO_INCREMENT,
 room_id INT,
 FOREIGN KEY (room_id) REFERENCES room (room_id)ON DELETE CASCADE
-ON UPDATE CASCADE,
-user_pass_id INT,
-FOREIGN KEY (user_pass_id) REFERENCES user_pass(user_pass_id)ON DELETE CASCADE
 ON UPDATE CASCADE,
 reciept_id INT,
 guest_id INT,
@@ -79,7 +75,6 @@ check_out_date DATE NOT NULL,
 total_price_for_room INT NOT NULL,
 comment VARCHAR (4000)
 );
-ALTER TABLE user_pass ADD FOREIGN KEY (booking_id) REFERENCES booking(booking_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 CREATE TABLE sauna (
@@ -98,7 +93,7 @@ price_per_day_sauna INT NOT NULL,
 total_price_sauna INT,
 date_from_sauna DATE NOT NULL,
 date_to_sauna DATE NOT NULL,
-receipt_id INT
+reciept_id INT
 );
 CREATE TABLE restaurant (
 restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -166,7 +161,7 @@ date_to_pool DATE NOT NULL,
 total_price_pool INT
 );
 
-CREATE TABLE receipt (
+CREATE TABLE reciept (
 reciept_id INT PRIMARY KEY AUTO_INCREMENT,
 guest_id INT,
 FOREIGN KEY (guest_id) REFERENCES guest (guest_id)ON DELETE CASCADE
@@ -193,9 +188,9 @@ total_price_for_booking INT,
 reciept_status ENUM ("active","paid") DEFAULT "active",
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-SELECT * FROM user_pass;
-ALTER TABLE user_pass ADD COLUMN guest_id INT;
-ALTER TABLE user_pass ADD FOREIGN KEY (guest_id) REFERENCES guest(guest_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE guest ADD FOREIGN KEY (booking_id) REFERENCES booking(booking_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE guest ADD FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id) ON UPDATE CASCADE ON DELETE CASCADE;
 INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication)
 VALUES ("Adis","Aljic","1989-9-19","M","BIH", "Tuzla","Bosnian","061555555","adis.adis@gmail.com","Passport number","55555");
 
@@ -211,17 +206,14 @@ INSERT INTO room (room_number, type_of_room,price_per_night,room_status)
 VALUES (301,"Apartment",50,"Avaiable");
 INSERT INTO room (room_number, type_of_room,price_per_night,room_status) 
 VALUES (302,"Apartment",50,"Avaiable");
-INSERT INTO user_pass (username, password,status,guest_id) VALUES ("test","test","Active",1);
-INSERT INTO booking (room_id,user_pass_id,guest_id,check_in_date,check_out_date,total_price_for_room)
-VALUES (1,1,1,current_date(),adddate(current_date(),5),0);
-UPDATE room SET room_status = "Ocupated" WHERE room_id =1;
+
+-- UPDATE room SET room_status = "Ocupated" WHERE room_id =1;
 INSERT INTO pool (booking_id,room_id,guest_id,price_per_day_pool,date_from_pool,date_to_pool,total_price_pool)
 VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
-INSERT INTO receipt (guest_id, room_id,pool_id,reciept_status) 
+INSERT INTO reciept (guest_id, room_id,pool_id,reciept_status) 
 VALUES(1,1,1,"active");
 
 
-SELECT * FROM receipt;
 
 UPDATE booking 
 -- updating total price for room
@@ -234,7 +226,7 @@ WHERE room_id =1;
 
 -- updating reciept
 
-UPDATE receipt 
+UPDATE reciept 
 SET total_price_for_booking = (SELECT total_price_pool FROM pool WHERE guest_id = 1) + (SELECT total_price_for_room FROM booking WHERE guest_id = 1) WHERE reciept_id = 1;
 
 -- for creating online booking, just sending inquire to hotel 
@@ -259,12 +251,9 @@ SELECT * FROM room;
 UPDATE booking 
 SET reciept_id =1 WHERE guest_id =1; 
 
-SELECT * FROM employees;
-INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication)
-VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556");
+alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
+INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
+VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test");
+select * from guest
 
 
-
-UPDATE user_pass
-SET isLogged = "Online"
-WHERE user_pass_id =1;

@@ -1,0 +1,98 @@
+<!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+            ako je zauzeta, skontat da li
+        moze da se kopira dio koda na klik butona ako ima vise gostiju
+    problem vise gostiju 
+            ako je inactive gost ne moze pristupiti sa sifrom, u js napraviti
+            napraiti da ispise sve sobe i ko je u njima u novoj stranici
+
+            racun ici na ispis samo kao i ispis checkout..
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Adis Aljic">
+    <title>Imaginery hotel</title>
+    <script src="../js/user_pass.js" defer></script>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin_guest.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <%- include ("./partials/nav.ejs") %>
+
+
+        <div class="reg_forms">
+
+            <div>
+
+                <h1>Guest registration room</h1>
+               
+
+                <form action="./adminGuestRoom" method="post">
+                    <h1>Choose type of room</h1>
+                    <div>
+                        <div id="radio_btn">
+                            <input type="radio" id="type_of_room" name="type_of_room" value="Single Bed">
+                            <label for="type_of_room">Single Bed</label>
+                            <input type="radio" id="type_of_room" name="type_of_room" value="Twin Bed">
+                            <label for="type_of_room">Twin Bed</label>
+                            <input type="radio" id="type_of_room" name="type_of_room" value="Apartment">
+                            <label for="type_of_room"> Apartment</label>
+
+                        </div>
+
+
+                    </div>
+
+                    <h1>Choose room number</h1>
+                    <h2>Single bed</h2>
+                    <input type="radio" id="room_number" name="room_number" value="101">
+                    <label for="type_of_room">Room 101</label>
+                    <input type="radio" id="room_number" value="102" name="room_number">
+                    <label for="type_of_room">Room 102</label>
+                    <h2>Twin bed</h2>
+                    <input type="radio" id="room_number" value="201" name="room_number">
+                    <label for="type_of_room">Room 201</label>
+                    <input type="radio" id="room_number" value="202" name="room_number">
+                    <label for="type_of_room">Room 202</label>
+                    <h2>Apartment</h2>
+                    <input type="radio" id="room_number" value="301" name="room_number">
+                    <label for="type_of_room">Room 301</label>
+                    <input type="radio" id="room_number" value="302" name="room_number">
+                    <label for="type_of_room">Room 302</label>
+                    <h1>Room status</h1>
+                    <input type="radio" id="room_status" value="Avaiable" name="room_status">
+                    <label for="room_status">Avaiable</label>
+                    <input type="radio" id="room_status" value="Ocupated" name="room_status">
+                    <label for="room_status">Ocupated</label>
+                    <br>
+                    <button class="sub_butt" type="submit" onClick="window.open('/adminGuestBooking')"">Submit</button>
+
+                </form>
+          
+
+             
+                <br>
+
+
+
+
+
+
+
+        </div>
+
+        <%- include ("./partials/nav1.ejs") %>
+
+</body>
+
+</html>

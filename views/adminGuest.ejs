@@ -1,4 +1,4 @@
-        <!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+<!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
             ako je zauzeta, skontat da li
         moze da se kopira dio koda na klik butona ako ima vise gostiju
     problem vise gostiju 
@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/admin_guest.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -30,178 +30,88 @@
     <%- include ("./partials/nav.ejs") %>
 
 
-    <div class="reg_forms">
-       
-        <div>
+        <div class="reg_forms">
 
-            <h1>Guest registration</h1>
-            <form action="./adminGuest" method="post">
-                <label for="first_name">First Name</label>
-                <input type="text" id="first_name" name="first_name">
-                <label for="last_name">Last Name</label>
-                <input type="text" id="last_name" name="last_name">
-                <label for="date_of_birth">Date of birth</label>
-                <input type="date" id="date_of_birth" name="date_of_birth">
-                <label for="country">Country</label>
-                <input type="text" id="country" name="country">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city">
-                <label for="phone_number">Phone number</label>
-                <input type="text" id="phone_number" name="phone_number">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email">
-                <h1>Gender</h1>
-                <div id="radio_btn">
-                    <input type="radio" id="gender" name="gender" value="M">
-                    <label for="gender">Male</label>
-                    <input type="radio" id="gender" name="gender" value="F">
-                    <label for="gender">Female</label>
-                    <input type="radio" id="gender" name="gender" value="O">
-                    <label for="gender">Other</label>
-                </div>
-                <h1>Prefered Languages</h1>
-                <div id="radio_btn">
-                    <input type="radio" id="prefered_languages"name="prefered_languages" value="Bosnian">
-                    <label for="prefered_languages">Bosnian</label>
-                    <input type="radio" id="prefered_languages"name="prefered_languages" value="English">
-                    <label for="prefered_languages">English</label>
-                </div>
-                <h1>Indefication document</h1>
-                <div id="radio_btn">
-                    <input type="radio" id="document_for_indefication" name="document_for_indefication"value="Passport number">
-                    <label for="document_for_indefication">Passport number</label>
-                    <input type="radio" id="document_for_indefication"name="document_for_indefication" value="ID Card number">
-                    <label for="document_for_indefication">ID Card</label>
-                    <input type="radio" id="document_for_indefication" name="document_for_indefication"value="Social security number">
-                    <label for="document_for_indefication">Social security number</label>
+            <div>
 
-                </div>
-                <br>
-                <label for="number_of_document_for_indefication">Number of document</label>
-                <input type="text" name="number_of_document_for_indefication" id="number_of_document_for_indefication">
-             
-                <label for="check_in_date">Check in date</label>
-                <input type="date" name="check_in_date" id="check_in_date">
-                <label for="check_out_date">Check out date</label>
-                <input type="date" name="check_out_date" id="check_out_date">
-             
-                <h1>Generate username and password</h1>
-                <div>
-                    <div>
-                        <p id="guest_username"></p>
-                        <button type="button" id="guest_username"  onclick="generate_username()">Generate username</button>
-                    </div>
-                    <div>
-                        <p id="guest_password"></p>
-                        <button type="button" id="guest_password" onclick="generate_password()">Generate password</button>
-                    </div>
-                    <h1>Status for guest</h1>
+                <h1>Guest registration</h1>
+                <form action="./adminGuest" method="post">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name">
+                    <label for="date_of_birth">Date of birth</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city">
+                    <label for="phone_number">Phone number</label>
+                    <input type="text" id="phone_number" name="phone_number">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                    <h1>Gender</h1>
                     <div id="radio_btn">
-                        <input type="radio" id="status" value="Active" name="status_guest">
-                        <label for="status">Active</label>
-                        <input type="radio" id="status" name="status_guest"value="Inactive">
-                        <label for="status">Inactive</label>
+                        <input type="radio" id="gender" name="gender" value="M">
+                        <label for="gender">Male</label>
+                        <input type="radio" id="gender" name="gender" value="F">
+                        <label for="gender">Female</label>
+                        <input type="radio" id="gender" name="gender" value="O">
+                        <label for="gender">Other</label>
                     </div>
-                    <h1>Choose type of room</h1>
-                    <div>
-                        <div id="radio_btn">
-                            <input type="radio" id="type_of_room" name="type_of_room"value="Single Bed">
-                            <label for="type_of_room">Single Bed</label>
-                            <input type="radio" id="type_of_room" name="type_of_room"value="Twin Bed">
-                            <label for="type_of_room">Twin Bed</label>
-                            <input type="radio" id="type_of_room"name="type_of_room" value="Apartment">
-                            <label for="type_of_room"> Apartment</label>
-                            
-                        </div>
-
+                    <h1>Prefered Languages</h1>
+                    <div id="radio_btn">
+                        <input type="radio" id="prefered_languages" name="prefered_languages" value="Bosnian">
+                        <label for="prefered_languages">Bosnian</label>
+                        <input type="radio" id="prefered_languages" name="prefered_languages" value="English">
+                        <label for="prefered_languages">English</label>
+                    </div>
+                    <h1>Indefication document</h1>
+                    <div id="radio_btn">
+                        <input type="radio" id="document_for_indefication" name="document_for_indefication"
+                            value="Passport number">
+                        <label for="document_for_indefication">Passport number</label>
+                        <input type="radio" id="document_for_indefication" name="document_for_indefication"
+                            value="ID Card number">
+                        <label for="document_for_indefication">ID Card</label>
+                        <input type="radio" id="document_for_indefication" name="document_for_indefication"
+                            value="Social security number">
+                        <label for="document_for_indefication">Social security number</label>
 
                     </div>
-                    <!-- skontat kako da radi sa bazom -->
-                    <h1>Choose room number</h1>
-                    <h2>Single bed</h2>
-                    <input type="radio" id="room_number" name="room_number" value="101">
-                    <label for="type_of_room">Room 101</label>
-                    <input type="radio" id="room_number" value="102"name="room_number" >
-                    <label for="type_of_room">Room 102</label>
-                    <h2>Twin bed</h2>
-                    <input type="radio" id="room_number" value="201"name="room_number" >
-                    <label for="type_of_room">Room 201</label>
-                    <input type="radio" id="room_number" value="202"name="room_number" >
-                    <label for="type_of_room">Room 202</label>
-                    <h2>Apartment</h2>
-                    <input type="radio" id="room_number" value="301"name="room_number" >
-                    <label for="type_of_room">Room 301</label>
-                    <input type="radio" id="room_number" value="302"name="room_number" >
-                    <label for="type_of_room">Room 302</label>
-                    <h1>Room status</h1>
-                    <input type="radio" id="room_status" value="Avaiable"name="room_status">
-                    <label for="room_status">Avaiable</label>
-                    <input type="radio" id="room_status" value="Ocupated"name="room_status">
-                    <label for="room_status">Ocupated</label>
-                    <h1>Additional services</h1>
-                    <div>
-                        <div>
-                            <h2>Sauna</h2>
-                            <label for="date_from_sauna">Choose date from</label>
-                            <input type="date" id="date_from_sauna" name="date_from_sauna">
-                            <label for="date_to_sauna">Choose date to</label>
-                            <input type="date" id="date_to_sauna" name="date_to_sauna">
-                          
+                    <br>
+                    <label for="number_of_document_for_indefication">Number of document</label>
+                    <input type="text" name="number_of_document_for_indefication"
+                        id="number_of_document_for_indefication">
+                  
+                    <br>
+                  
 
-                        </div>
-                        <div>
-                            <h2>Restaurant</h2>
-                            <label for="date_from_restaurant">Choose date from</label>
-                            <input type="date" id="date_from_restaurant">
-                            <label for="date_to_restaurant">Choose date to</label>
-                            <input type="date" id="date_to_restaurant">
-                            
-                        </div>
-                        <div>
-                            <h2>Gym</h2>
-                            <label for="date_from_gym">Choose date from</label>
-                            <input type="date" id="date_from_gym">
-                            <label for="date_to_gym">Choose date to</label>
-                            <input type="date" id="date_to_gym">
-                     
-                        </div>
-                        <div>
-                            <h2>Pool</h2>
-                            <label for="date_from_pool">Choose date from</label>
-                            <input type="date" id="date_from_pool">
-                            <label for="date_to_pool">Choose date to</label>
-                            <input type="date" id="date_to_pool">
+                    <h1>Generate username and password</h1>
                     
+                        <div>
+                            <input type="text" name="username" id="">
+                            <p id="guest_username"></p>
+                            <button type="button" id="guest_username" onclick="generate_username()">Generate
+                                username</button>
                         </div>
                         <div>
-                            <h2>Cinema</h2>
-                            <label for="date_from_cinema">Choose date from</label>
-                            <input type="date" id="date_from_cinema">
-                            <label for="date_to_cinema">Choose date to</label>
-                            <input type="date" id="date_to_cinema">
-                           
+                            <input type="text" name="password" id="">
+
+                            <p id="guest_password"></p>
+                            <button type="button" id="guest_password" onclick="generate_password()">Generate
+                                password</button>
                         </div>
-                    </div>
-                </div>
+                        <br>
+                        <button class="sub_butt" type="submit" onClick="window.open('/adminGuestRoom');">Submit</button>
 
-                <button class="sub_butt" type="submit">Submit</button>
-            </form>
-
+                </form>
+                <br>
+               
 
         </div>
-        <div class="findg">
-            <h1>Find guest</h1>
 
-<form class="search">
-  <input type="text" placeholder="Search.." name="search">
-  <button type="submit"><i class="fa fa-search"></i></button>
-</form>
-        </div>
-
-   
-    </div>
-   
-      <%- include ("./partials/nav1.ejs") %>
+        <%- include ("./partials/nav1.ejs") %>
 
 </body>
 
