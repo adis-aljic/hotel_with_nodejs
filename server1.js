@@ -103,7 +103,8 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     var sqlGym = `INSERT INTO gym   SET ?`
     var sqlCinema = `INSERT INTO cinema   SET ?`
     var sqlSauna = `INSERT INTO sauna   SET ?`
-    var price_per_night = ``
+    var price_per_night = `UPDATE booking SET total_price_for_room = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * (SELECT price_per_night FROM room WHERE guest_room = ${guestRoom.room_number})
+     WHERE booking_id = LAST_INSERT_ID();`
     db.query(sqlGuest, newguest, function (err, data) {
         if (err) throw err;
         else console.log(" new guest added")
@@ -111,6 +112,10 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     db.query(sqlRoom, guestRoom, function (err, data) {
         if (err) throw err;
         else console.log(" new guest added into room " + guestRoom.room_number)
+    })
+    db.query(price_per_night, guestBooking, guestRoom, function (err, data) {
+        if (err) throw err;
+        else console.log(" booking is updated for prie")
     })
     db.query(sqlBooking, guestBooking, function (err, data) {
         if (err) throw err;
