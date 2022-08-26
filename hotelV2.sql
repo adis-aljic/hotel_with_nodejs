@@ -74,8 +74,8 @@ check_out_date DATE NOT NULL,
 total_price_for_room INT NOT NULL,
 comment VARCHAR (4000)
 );
-
-
+select * from sauna;
+alter table booking modify total_price_for_room INT;
 CREATE TABLE sauna (
 sauna_id INT PRIMARY KEY AUTO_INCREMENT,
 booking_id INT,
@@ -185,11 +185,9 @@ total_price_for_booking INT,
 reciept_status ENUM ("active","paid") DEFAULT "active",
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+select * from booking;
 ALTER TABLE guest ADD FOREIGN KEY (booking_id) REFERENCES booking(booking_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE guest ADD FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id) ON UPDATE CASCADE ON DELETE CASCADE;
-INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
-VALUES ("Adis","Aljic","1989-9-19","M","BIH", "Tuzla","Bosnian","061555555","adis.adis@gmail.com","Passport number","55555","test","test");
 
 INSERT INTO room (room_number, type_of_room,price_per_night,room_status) 
 VALUES (101,"Single bed",20,"Avaiable");
@@ -205,25 +203,25 @@ INSERT INTO room (room_number, type_of_room,price_per_night,room_status)
 VALUES (302,"Apartment",50,"Avaiable");
 
 -- UPDATE room SET room_status = "Ocupated" WHERE room_id =1;
-INSERT INTO pool (booking_id,room_id,guest_id,price_per_day_pool,date_from_pool,date_to_pool,total_price_pool)
-VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
-INSERT INTO reciept (guest_id, room_id,pool_id,reciept_status) 
-VALUES(1,1,1,"active");
-select * from room;
+-- INSERT INTO pool (booking_id,room_id,guest_id,price_per_day_pool,date_from_pool,date_to_pool,total_price_pool)
+-- VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
+-- INSERT INTO reciept (guest_id, room_id,pool_id,reciept_status) 
+-- VALUES(1,1,1,"active");
+select * from booking;
 
-UPDATE booking 
+-- UPDATE booking 
 -- updating total price for room
-SET total_price_for_room = datediff(check_out_date, check_in_date) * (SELECT price_per_night FROM room WHERE room_id = 1) WHERE booking_id = 1;
-UPDATE room 
-SET guest_id= 1,
-reciept_id =1,
-booking_id = 1
-WHERE room_id =1;
+-- SET total_price_for_room = datediff(check_out_date, check_in_date) * (SELECT price_per_night FROM room WHERE room_id = 1) WHERE booking_id = 1;
+-- UPDATE room 
+-- SET guest_id= 1,
+-- reciept_id =1,
+-- booking_id = 1
+-- WHERE room_id =1;
 select * from booking;
 -- updating reciept
 
-UPDATE reciept 
-SET total_price_for_booking = (SELECT total_price_pool FROM pool WHERE guest_id = 1) + (SELECT total_price_for_room FROM booking WHERE guest_id = 1) WHERE reciept_id = 1;
+-- UPDATE reciept 
+-- SET total_price_for_booking = (SELECT total_price_pool FROM pool WHERE guest_id = 1) + (SELECT total_price_for_room FROM booking WHERE guest_id = 1) WHERE reciept_id = 1;
 
 -- for creating online booking, just sending inquire to hotel 
 CREATE TABLE create_booking (
@@ -244,12 +242,11 @@ timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
 -- ako je manji checkout date od curr date staviti da je curr date chekcout date
 SELECT * FROM booking;
-UPDATE booking 
-SET reciept_id =1 WHERE guest_id =1; 
+-- UPDATE booking SET reciept_id =1 WHERE guest_id =1; 
 
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
-INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
-VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test1");
+-- INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
+-- VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test1");
 select * from guest;
 
 

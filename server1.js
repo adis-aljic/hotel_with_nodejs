@@ -69,11 +69,12 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     var guestRoom = {
         room_number: info.room_number,
         room_status : "Ocupated",
-        price_per_night : info.price_per_night
     }
     var guestBooking = {
         check_in_date: info.check_in_date,
-        check_out_date : info.check_out_date
+        check_out_date : info.check_out_date,
+        price_per_night : info.price_per_night
+
     } 
     var guestSauna = {
         date_from_sauna: info.date_from_sauna,
@@ -118,18 +119,21 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
         if (err) throw err;
         else console.log(" new guest added into room " + guestRoom.room_number)
     })
-    db.query(price_per_night, guestBooking, guestRoom, function (err, data) {
-        if (err) throw err;
-        else console.log(" booking is updated for price")
-    })
+   
     db.query(sqlBooking, guestBooking, function (err, data) {
         if (err) throw err;
         else console.log(" new guest is booked")
     })
     var price_per_night = `UPDATE booking 
     SET total_price_for_room 
-    = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * ${guestRoom.price_per_night})
-    WHERE booking_id = LAST_INSERT_ID();`
+    = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * ${guestBooking.price_per_night}),
+    room_id = SCOPE_IDENTITY("room"),
+    guest_id = SCOPE_IDENTITY("guest")
+    WHERE booking_id = SCOPE_IDENTITY("booking");`
+    db.query(price_per_night, guestBooking, function (err, data) {
+        if (err) throw err;
+        else console.log(" booking is updated for price")
+    })
     db.query(sqlCinema, guestCinema, function (err, data) {
         if (err) throw err;
         else console.log(" new guest added cinema")
@@ -164,6 +168,39 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
     if(err) throw err;
     else console.log(" new employee added")
     })  
+})
+
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'adis.qm@gmail.com',
+      pass: 'yourpassword'
+    }
+  });
+app.post("/contact", urlencodedParser, function (req, res) {
+
+    res.render("contact",{ msg: req.body })
+    const msg = req.body;
+    console.log(msg)
+    var mailOptions = {
+        to: 'adis.qm@gmail.com',
+        from: 'myfriend@yahoo.com',
+        subject: msg.subject,
+        text: `Email address: ${msg.email},
+         phone number: ${msg.phone_number}, 
+        name: ${msg.full_name},
+        messege: ${msg.message}`
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
 })
 
 // app.get("/adminguestroom", function (req, res){
