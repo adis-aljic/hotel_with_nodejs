@@ -5,6 +5,7 @@ const app = express();
 const mysql = require("mysql2")
 const con = require("./databaseCon.js");
 const { Console } = require("console");
+// const roomPrice = require("./js/price");
 
 
 const db = mysql.createConnection(con)
@@ -67,7 +68,8 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     }
     var guestRoom = {
         room_number: info.room_number,
-        room_status : "Ocupated"
+        room_status : "Ocupated",
+        price_per_night : info.price_per_night
     }
     var guestBooking = {
         check_in_date: info.check_in_date,
@@ -94,17 +96,20 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
         date_to_cinema : info.date_to_cinema
     } 
 
-
+    console.log(guestBooking)
+    console.log(guestRoom)
     var sqlGuest = `INSERT INTO guest   SET ?`
-    var sqlRoom = `INSERT INTO room   SET ?`
+    var sqlRoom = `UPDATE room   
+    SET room_status = "Ocupated" 
+    WHERE room_number = ${guestRoom.room_number}`
     var sqlBooking = `INSERT INTO booking   SET ?`
     var sqlRestaurant = `INSERT INTO restaurant   SET ?`
     var sqlPool = `INSERT INTO pool   SET ?`
     var sqlGym = `INSERT INTO gym   SET ?`
     var sqlCinema = `INSERT INTO cinema   SET ?`
     var sqlSauna = `INSERT INTO sauna   SET ?`
-    var price_per_night = `UPDATE booking SET total_price_for_room = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * (SELECT price_per_night FROM room WHERE guest_room = ${guestRoom.room_number})
-     WHERE booking_id = LAST_INSERT_ID();`
+    
+    
     db.query(sqlGuest, newguest, function (err, data) {
         if (err) throw err;
         else console.log(" new guest added")
@@ -115,15 +120,19 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     })
     db.query(price_per_night, guestBooking, guestRoom, function (err, data) {
         if (err) throw err;
-        else console.log(" booking is updated for prie")
+        else console.log(" booking is updated for price")
     })
     db.query(sqlBooking, guestBooking, function (err, data) {
         if (err) throw err;
         else console.log(" new guest is booked")
     })
+    var price_per_night = `UPDATE booking 
+    SET total_price_for_room 
+    = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * ${guestRoom.price_per_night})
+    WHERE booking_id = LAST_INSERT_ID();`
     db.query(sqlCinema, guestCinema, function (err, data) {
         if (err) throw err;
-        else console.log(" new guest added sauna")
+        else console.log(" new guest added cinema")
     })
     db.query(sqlGym, guestGym, function (err, data) {
         if (err) throw err;
