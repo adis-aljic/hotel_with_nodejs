@@ -74,7 +74,8 @@ check_out_date DATE NOT NULL,
 total_price_for_room INT NOT NULL,
 comment VARCHAR (4000)
 );
-select * from sauna;
+select * from booking;
+delete from guest where guest_id = 12;
 alter table booking modify total_price_for_room INT;
 CREATE TABLE sauna (
 sauna_id INT PRIMARY KEY AUTO_INCREMENT,
