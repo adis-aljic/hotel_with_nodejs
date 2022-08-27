@@ -12,7 +12,7 @@ const db = mysql.createConnection(con)
 db.connect((err) => {
     if (err) throw err
     else
-    console.log("database is connected")
+        console.log("database is connected")
 })
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -46,56 +46,58 @@ app.get("/findbooking", function (req, res) {
 
 
 
-
 app.post("/adminguest", urlencodedParser, function (req, res) {
 
     res.render("newguest", { info: req.body })
     const info = req.body;
+    console.log(info)
     var newguest = {
         first_name: info.first_name,
-        last_name : info.last_name,
-        date_of_birth : info.date_of_birth,
-        country : info.country,
-        city : info.city,
-        phone_number : info.phone_number,
+        last_name: info.last_name,
+        date_of_birth: info.date_of_birth,
+        country: info.country,
+        city: info.city,
+        phone_number: info.phone_number,
         email: info.email,
         gender: info.gender,
         prefered_language: info.prefered_language,
         username: info.username,
-        password : info.password,
+        password: info.password,
         document_for_indefication: info.document_for_indefication,
         number_of_document_for_indefication: info.number_of_document_for_indefication
     }
     var guestRoom = {
         room_number: info.room_number,
-        room_status : "Ocupated",
+        room_status: "Ocupated",
     }
     var guestBooking = {
         check_in_date: info.check_in_date,
-        check_out_date : info.check_out_date,
-        price_per_night : info.price_per_night
+        check_out_date: info.check_out_date,
+        // price_per_night : info.price_per_night
+        // insertedID : insertedID
 
-    } 
+
+    }
     var guestSauna = {
         date_from_sauna: info.date_from_sauna,
-        date_to_sauna : info.date_to_sauna
-    } 
+        date_to_sauna: info.date_to_sauna
+    }
     var guestRestaurant = {
         date_from_restaurant: info.date_from_restaurant,
-        date_to_restaurant : info.date_to_restaurant
-    } 
+        date_to_restaurant: info.date_to_restaurant
+    }
     var guestPool = {
         date_from_pool: info.date_from_pool,
-        date_to_pool : info.date_to_pool
-    } 
+        date_to_pool: info.date_to_pool
+    }
     var guestGym = {
         date_from_gym: info.date_from_gym,
-        date_to_gym : info.date_to_gym
-    } 
+        date_to_gym: info.date_to_gym
+    }
     var guestCinema = {
         date_from_cinema: info.date_from_cinema,
-        date_to_cinema : info.date_to_cinema
-    } 
+        date_to_cinema: info.date_to_cinema
+    }
 
     console.log(guestBooking)
     console.log(guestRoom)
@@ -109,8 +111,8 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     var sqlGym = `INSERT INTO gym   SET ?`
     var sqlCinema = `INSERT INTO cinema   SET ?`
     var sqlSauna = `INSERT INTO sauna   SET ?`
-    
-    
+
+
     db.query(sqlGuest, newguest, function (err, data) {
         if (err) throw err;
         else console.log(" new guest added")
@@ -119,89 +121,133 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
         if (err) throw err;
         else console.log(" new guest added into room " + guestRoom.room_number)
     })
-   
+
+    // var price = `UPDATE booking 
+    // SET total_price_for_room 
+    // = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * ${guestBooking.price_per_night}),
+    // room_number = ${guestRoom.room_number}
+    // WHERE booking_id = ${guestBooking.insertedID};`
+
+    // db.query(sqlBooking,guestBooking,price_per_night, function(err, results, fileds){
+    //     if(err) throw err;
+    //     else console.log("booking added" + ":" + results)
+    // })
+
     db.query(sqlBooking, guestBooking, function (err, data) {
         if (err) throw err;
-        else console.log(" new guest is booked")
+        else {
+            var findLastGuestID = `SELECT guest_id FROM guest ORDER BY guest_id DESC LIMIT 1 ;`
+            db.query(findLastGuestID, function (err, results) {
+                if (err) throw err
+                else {
+
+                    // console.log(results)
+                    const updateBookingGuest = `UPDATE booking SET guest_id = ${results[0].guest_id} ;`
+
+                    db.query(updateBookingGuest, function (err, data) {
+                        if (err) throw err
+                        else console.log("updated booking with guest_id");
+
+                    })
+                }
+            })
+
+            console.log(" new guest is booked")
+        }
     })
-    var price_per_night = `UPDATE booking 
-    SET total_price_for_room 
-    = datediff(${guestBooking.check_out_date}, ${guestBooking.check_in_date}) * ${guestBooking.price_per_night}),
-    room_id = SCOPE_IDENTITY("room"),
-    guest_id = SCOPE_IDENTITY("guest")
-    WHERE booking_id = SCOPE_IDENTITY("booking");`
-    db.query(price_per_night, guestBooking, function (err, data) {
-        if (err) throw err;
-        else console.log(" booking is updated for price")
-    })
-    db.query(sqlCinema, guestCinema, function (err, data) {
-        if (err) throw err;
-        else console.log(" new guest added cinema")
-    })
-    db.query(sqlGym, guestGym, function (err, data) {
-        if (err) throw err;
-        else console.log(" new guest added gym")
-    })
-    db.query(sqlPool, guestPool, function (err, data) {
-        if (err) throw err;
-        else console.log(" new guest added pool")
-    })
-    db.query(sqlRestaurant, guestRestaurant, function (err, data) {
-        if (err) throw err;
-        else console.log(" new guest added restaurant")
-    })
-    db.query(sqlSauna, guestSauna, function (err, data) {
-        if (err) throw err;
-        else console.log(" new guest added sauna")
-    })
+    // db.query(price, guestBooking, function (err, data) {
+    //     if (err) throw err;
+    // else console.log(" booking is updated for price")
+    // })
+    if (guestCinema.date_from_cinema != "" && guestCinema.date_to_cinema != "") {
+
+        db.query(sqlCinema, guestCinema, function (err, data) {
+            if (err) throw err;
+            else console.log(" new guest added cinema")
+        })
+    }
+    if (guestGym.date_from_gym != "" && guestGym.date_to_gym != "") {
+
+        db.query(sqlGym, guestGym, function (err, data) {
+            if (err) throw err;
+            else console.log(" new guest added gym")
+        })
+    }
+    if (guestPool.date_from_pool != "" && guestPool.date_to_pool != "") {
+
+        db.query(sqlPool, guestPool, function (err, data) {
+            if (err) throw err;
+            else console.log(" new guest added pool")
+        })
+    }
+    if (guestRestaurant.date_from_restaurant != "" && guestRestaurant.date_to_restaurant != "") {
+
+        db.query(sqlRestaurant, guestRestaurant, function (err, data) {
+            if (err) throw err;
+            else console.log(" new guest added restaurant")
+        })
+    }
+    if (guestSauna.date_from_sauna != "" && guestSauna.date_to_sauna != "") {
+
+        db.query(sqlSauna, guestSauna, function (err, data) {
+            if (err) throw err;
+            else console.log(" new guest added sauna")
+        })
+    }
 })
+
 
 
 app.post("/adminemployee", urlencodedParser, function (req, res) {
 
-    res.render("newemployee",{ infoAdmin: req.body })
+    res.render("newemployee", { infoAdmin: req.body })
     const infoAdmin = req.body;
     console.log(infoAdmin)
-    var sql = `INSERT INTO employees   SET ?`   
+    var sql = `INSERT INTO employees   SET ?`
 
-    db.query(sql,infoAdmin ,function(err, data){
-    if(err) throw err;
-    else console.log(" new employee added")
-    })  
+    db.query(sql, infoAdmin, function (err, data) {
+        if (err) throw err;
+        else console.log(" new employee added")
+    })
 })
 
 var nodemailer = require('nodemailer');
+const { generateKeyPairSync } = require("crypto");
+const { isBuffer } = require("util");
+const { query } = require("express");
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'adis.qm@gmail.com',
-      pass: 'yourpassword'
+        user: 'adis@gmail.com',
+        pass: 'yourpassword'
     }
-  });
+});
 app.post("/contact", urlencodedParser, function (req, res) {
 
-    res.render("contact",{ msg: req.body })
+    res.render("contact", { msg: req.body })
     const msg = req.body;
     console.log(msg)
     var mailOptions = {
-        to: 'adis.qm@gmail.com',
-        from: 'myfriend@yahoo.com',
+        to: 'adis.@gmail.com',
+        from: 'email@gmail.com',
         subject: msg.subject,
         text: `Email address: ${msg.email},
          phone number: ${msg.phone_number}, 
         name: ${msg.full_name},
         messege: ${msg.message}`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          console.log(error);
+            console.log(error);
         } else {
-          console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
         }
-      });
+    });
 })
+
+
 
 // app.get("/adminguestroom", function (req, res){
 //     res.render("adminguestroom")
