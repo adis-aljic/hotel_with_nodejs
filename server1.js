@@ -187,24 +187,31 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     var sqlRoom = `UPDATE room   
     SET room_status = "Ocupated", guest_id = ${newguest.guestid}, booking_id = ${guestBooking.bookingid} 
     WHERE room_number = ${guestRoom.room_number}`
+    
+    var total_price_for_room = (new Date (newguest.check_out_date) - new Date (newguest.check_in_date) )/(1000*3600*24)*guestBooking.price_per_night
     var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_out_date,total_price_for_room)
-    VALUES (${guestRoom.room_number}, ${newguest.guestid}, "${guestBooking.check_in_date}","${guestBooking.check_out_date}",${(new Date (newguest.check_out_date) - new Date (newguest.check_in_date) )/(1000*3600*24)*guestBooking.price_per_night})`
+    VALUES (${guestRoom.room_number}, ${newguest.guestid}, "${guestBooking.check_in_date}","${guestBooking.check_out_date}",${total_price_for_room})`
     
+    var total_price_restaurant = (new Date (guestRestaurant.date_to_restaurant) - new Date (guestRestaurant.date_from_restaurant) )*guestRestaurant.price_per_day_restaurant
     var sqlRestaurant = `INSERT INTO restaurant(booking_id,room_number,guest_id,date_from_restaurant,date_to_restaurant,price_per_day_restaurant,total_price_restaurant)
-    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestRestaurant.date_from_restaurant}", "${guestRestaurant.date_to_restaurant}",${guestRestaurant.price_per_day_restaurant},${(new Date (guestRestaurant.date_to_restaurant) - new Date (guestRestaurant.date_from_restaurant) )*guestRestaurant.price_per_day_restaurant})`
+    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestRestaurant.date_from_restaurant}", "${guestRestaurant.date_to_restaurant}",${guestRestaurant.price_per_day_restaurant},${total_price_restaurant})`
    
+    var total_price_pool=(new Date (guestPool.date_to_pool) - new Date (guestPool.date_from_pool) )*guestRestaurant.price_per_day_pool
     var sqlPool = `INSERT INTO pool(booking_id,room_number,guest_id,date_from_pool,date_to_pool,price_per_day_pool,total_price_pool)
-    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestPool.date_from_pool}", "${guestPool.date_to_pool}",${guestPool.price_per_day_restaurant},${(new Date (guestPool.date_to_pool) - new Date (guestPool.date_from_pool) )*guestRestaurant.price_per_day_pool})`
+    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestPool.date_from_pool}", "${guestPool.date_to_pool}",${guestPool.price_per_day_restaurant},${total_price_pool})`
    
-   
+   var total_price_gym = (new Date (guestGym.date_to_gym) - new Date (guestGym.date_from_gym) )*guestGym.price_per_day_gym;
     var sqlGym = `INSERT INTO gym(booking_id,room_number,guest_id,date_from_gym,date_to_gym,price_per_day_gym,total_price_gym)
-    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestGym.date_from_gym}", "${guestGym.date_to_gym}",${guestGym.price_per_day_restaurant},${(new Date (guestGym.date_to_gym) - new Date (guestGym.date_from_gym) )*guestGym.price_per_day_gym})`
+    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestGym.date_from_gym}", "${guestGym.date_to_gym}",${guestGym.price_per_day_restaurant},${total_price_gym})`
     
+
+    var total_price_cinema = (new Date (guestCinema.date_to_cinema) - new Date (guestCinema.date_from_cinema) )*guestCinema.price_per_day_cinema;
     var sqlCinema = `INSERT INTO cinema(booking_id,room_number,guest_id,date_from_cinema,date_to_cinema,price_per_day_cinema,total_price_cinema)
-    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestCinema.date_from_cinema}", "${guestCinema.date_to_cinema}",${guestCinema.price_per_day_restaurant},${(new Date (guestCinema.date_to_cinema) - new Date (guestCinema.date_from_cinema) )*guestCinema.price_per_day_cinema})`
+    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestCinema.date_from_cinema}", "${guestCinema.date_to_cinema}",${guestCinema.price_per_day_cinema},${total_price_cinema})`
    
+    var total_price_sauna = (new Date (guestSauna.date_to_sauna) - new Date (guestSauna.date_from_sauna) )*guestSauna.price_per_day_sauna
     var sqlSauna = `INSERT INTO sauna(booking_id,room_number,guest_id,date_from_sauna,date_to_sauna,price_per_day_sauna,total_price_sauna)
-    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestSauna.date_from_sauna}", "${guestSauna.date_to_sauna}",${guestSauna.price_per_day_restaurant},${(new Date (guestSauna.date_to_sauna) - new Date (guestSauna.date_from_sauna) )*guestSauna.price_per_day_sauna})`
+    VALUES(guestBooking.bookingid, guestRoom.room_number,newguest.guestid, "${guestSauna.date_from_sauna}", "${guestSauna.date_to_sauna}",${guestSauna.price_per_day_restaurant},${total_price_sauna})`
 
 
 
@@ -291,8 +298,57 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
         })
     }
 })
+   class guestRecieptClass {
+        static id =1;
+        constructor(){
+            this.recieptid = ++guestRecieptClass.id 
+        }
+    }
+    var guestReciept = new guestRecieptClass();
+var total_price_for_booking = total_price_for_room + total_price_cinema + total_price_gym + total_price_pool + total_price_restaurant +total_price_sauna
+var  sqlReciept = ` INSERT INTO reciept(guest_id,room_number,sauna_id = null, restaurant_id = null, gym_id = null, cinema_id = null, pool_id = null, total_price_for_booking)
+VALUES (${newguest.guestid},${guestRoom.room_number},${guestSauna.saunaid},${guestRestaurant.restaurantid},${guestGym.gymid},${guestCinema.cinemaid},${guestPool.poolid},${total_price_for_booking})`
+db.query(sqlReciept, guestReciept, function(err,data){
+    if (err) throw err;
+    else console.log(`Reciept for ${newguest.first_name} ${newguest.last_name} with username ${newguest.username} is created`);
+})
+// update for reciept
+    var updateRoom = `UPDATE room SET reciept_id = ${guestReciept.recieptid} WHERE room_number = ${guestRoom.room_number}`
+    var updateBooking = `UPDATE booking SET reciept_id = ${guestReciept.recieptid} WHERE booking_id = ${guestBooking.bookingid}`
+    var updateSauna = `UPDATE sauna SET reciept_id = ${guestSauna.recieptid} WHERE sauna_id = ${guestSauna.saunaid}`
+    var updateRestaurant = `UPDATE restaurant SET reciept_id = ${guestRestaurant.recieptid} WHERE restaurant_id = ${guestRestaurant.restaurantid}`
+    var updateCinema = `UPDATE cinema SET reciept_id = ${guestCinema.recieptid} WHERE cinema_id = ${guestCinema.cinemaid}`
+    var updateGym = `UPDATE gym SET reciept_id = ${guestReciept.recieptid} WHERE gym_id = ${guestGym.gymid}`
+    var updatePool = `UPDATE pool SET reciept_id = ${guestReciept.recieptid} WHERE pool_id = ${guestPool.poolid}`
 
-
+    db.query(updateRoom, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to room")
+    })
+    db.query(updateBooking, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to booking")
+    })
+    db.query(updateSauna, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to sauna")
+    })
+    db.query(updateRestaurant, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to restaurant")
+    })
+    db.query(updateCinema, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to cinema")
+    })
+    db.query(updateGym, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to gym")
+    })
+    db.query(updatePool, function(err, data){
+        if (err) throw err;
+        console.log("Reciept added to pool")
+    })
 
 app.post("/adminemployee", urlencodedParser, function (req, res) {
 

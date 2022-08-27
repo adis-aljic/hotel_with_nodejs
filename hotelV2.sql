@@ -1,4 +1,4 @@
- drop database hotel_node;
+-- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
 
@@ -208,7 +208,7 @@ VALUES (302,"Apartment",50,"Avaiable");
 -- VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
 -- INSERT INTO reciept (guest_id, room_number,pool_id,reciept_status) 
 -- VALUES(1,1,1,"active");
-select * from booking;
+select * from restaurant;
 
 -- UPDATE booking 
 -- updating total price for room
@@ -218,7 +218,7 @@ select * from booking;
 -- reciept_id =1,
 -- booking_id = 1
 -- WHERE room_number =1;
-select * from booking;
+select * from sauna;
 -- updating reciept
 
 -- UPDATE reciept 
@@ -242,7 +242,7 @@ timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
 
 -- ako je manji checkout date od curr date staviti da je curr date chekcout date
-SELECT * FROM booking;
+SELECT * FROM sauna;
 -- UPDATE booking SET reciept_id =1 WHERE guest_id =1; 
 
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
