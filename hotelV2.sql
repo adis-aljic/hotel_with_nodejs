@@ -1,4 +1,4 @@
--- drop database hotel_node;
+ drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
 
@@ -35,7 +35,7 @@ city VARCHAR(40),
 username VARCHAR(10) UNIQUE NOT NULL,
 password VARCHAR(10) UNIQUE NOT NULL,
 isLoged ENUM ("online","offline") DEFAULT "offline",
-prefered_language ENUM ("Bosnian","English"),
+prefered_language ENUM ("Bosnian","English") DEFAULT "Bosnian",
 phone_number VARCHAR(15) UNIQUE NOT NULL,
 email VARCHAR(40) UNIQUE NOT NULL,
 document_for_indefication ENUM("Passport number","ID Card number","Social security number"),
@@ -250,4 +250,4 @@ alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Act
 -- VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test1");
 select * from guest;
 select guest_id from guest order by guest_id desc limit 1;
-delete from guest where guest_id = 21;
+
