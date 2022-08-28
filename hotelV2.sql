@@ -1,7 +1,7 @@
- drop database hotel_node;
+ -- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
-  select * from restaurant;
+ -- select * from booking;
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
@@ -25,14 +25,13 @@ username VARCHAR(10) UNIQUE NOT NULL,
 password VARCHAR(10) UNIQUE NOT NULL
 );
 CREATE TABLE guest(
-guest_id INT PRIMARY KEY AUTO_INCREMENT,
 first_name VARCHAR(40) NOT NULL,
 last_name VARCHAR(40) NOT NULL,
 date_of_birth DATE,
 gender ENUM ("M","F","O"),
 country VARCHAR(40),
 city VARCHAR(40),
-username VARCHAR(10) UNIQUE NOT NULL,
+username VARCHAR(10) PRIMARY KEY,
 password VARCHAR(10) UNIQUE NOT NULL,
 isLoged ENUM ("online","offline") DEFAULT "offline",
 prefered_language ENUM ("Bosnian","English") DEFAULT "Bosnian",
@@ -51,8 +50,8 @@ room_number INT PRIMARY KEY,
 type_of_room ENUM("Single bed", "Twin bed", "Apartment"),
 price_per_night INT NOT NULL,
 room_status ENUM ("Avaiable","Ocupated"),
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 reciept_id INT,
 booking_id INT,
@@ -66,8 +65,8 @@ room_number INT,
 FOREIGN KEY (room_number) REFERENCES room (room_number)ON DELETE CASCADE
 ON UPDATE CASCADE,
 reciept_id INT,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 check_in_date DATE NOT NULL,
 check_out_date DATE NOT NULL,
@@ -75,7 +74,6 @@ total_price_for_room INT NOT NULL,
 comment VARCHAR (4000)
 );
 select * from booking;
-delete from guest where guest_id = 12;
 alter table booking modify total_price_for_room INT;
 CREATE TABLE sauna (
 sauna_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -85,15 +83,14 @@ ON UPDATE CASCADE,
 room_number INT,
 FOREIGN KEY (room_number) REFERENCES room(room_number)ON DELETE CASCADE
 ON UPDATE CASCADE,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 price_per_day_sauna INT,
 total_price_sauna INT,
 date_from_sauna DATE ,
 date_to_sauna DATE ,
-reciept_id INT,
-FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
+reciept_id INT
 );
 CREATE TABLE restaurant (
 restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -103,15 +100,14 @@ ON UPDATE CASCADE,
 room_number INT,
 FOREIGN KEY (room_number) REFERENCES room(room_number)ON DELETE CASCADE
 ON UPDATE CASCADE,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 price_per_day_restaurant INT,
 date_from_restaurant DATE ,
 date_to_restaurant DATE ,
 total_price_restaurant INT,
-reciept_id INT,
-FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
+reciept_id INT
 );
 CREATE TABLE gym (
 gym_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -121,15 +117,14 @@ ON UPDATE CASCADE,
 room_number INT,
 FOREIGN KEY (room_number) REFERENCES room(room_number)ON DELETE CASCADE
 ON UPDATE CASCADE,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 price_per_day_gym INT,
 date_from_gym DATE ,
 date_to_gym DATE ,
 total_price_gym INT,
-reciept_id INT,
-FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
+reciept_id INT
 );
 CREATE TABLE cinema (
 cinema_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -139,15 +134,14 @@ ON UPDATE CASCADE,
 room_number INT,
 FOREIGN KEY (room_number) REFERENCES room(room_number)ON DELETE CASCADE
 ON UPDATE CASCADE,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 price_per_day_cinema INT ,
 date_from_cinema DATE ,
 date_to_cinema DATE ,
 total_price_cinema INT,
-reciept_id INT,
-FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
+reciept_id INT
 );
 CREATE TABLE pool (
 pool_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -157,21 +151,20 @@ ON UPDATE CASCADE,
 room_number INT,
 FOREIGN KEY (room_number) REFERENCES room(room_number)ON DELETE CASCADE
 ON UPDATE CASCADE,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest(guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 price_per_day_pool INT ,
 date_from_pool DATE ,
 date_to_pool DATE ,
 total_price_pool INT,
-reciept_id INT,
-FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
+reciept_id INT
 );
 SELECT * FROM room;
 CREATE TABLE reciept (
 reciept_id INT PRIMARY KEY AUTO_INCREMENT,
-guest_id INT,
-FOREIGN KEY (guest_id) REFERENCES guest (guest_id)ON DELETE CASCADE
+username VARCHAR(10),
+FOREIGN KEY (username) REFERENCES guest (username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 room_number INT,
 FOREIGN KEY (room_number) REFERENCES room (room_number)ON DELETE CASCADE
@@ -213,9 +206,9 @@ INSERT INTO room (room_number, type_of_room,price_per_night,room_status)
 VALUES (302,"Apartment",50,"Avaiable");
 
 -- UPDATE room SET room_status = "Ocupated" WHERE room_number =1;
--- INSERT INTO pool (booking_id,room_number,guest_id,price_per_day_pool,date_from_pool,date_to_pool,total_price_pool)
+-- INSERT INTO pool (booking_id,room_number,username,price_per_day_pool,date_from_pool,date_to_pool,total_price_pool)
 -- VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
--- INSERT INTO reciept (guest_id, room_number,pool_id,reciept_status) 
+-- INSERT INTO reciept (username, room_number,pool_id,reciept_status) 
 -- VALUES(1,1,1,"active");
 select * from reciept
 ;
@@ -223,7 +216,7 @@ select * from reciept
 -- updating total price for room
 -- SET total_price_for_room = datediff(check_out_date, check_in_date) * (SELECT price_per_night FROM room WHERE room_number = 1) WHERE booking_id = 1;
 -- UPDATE room 
--- SET guest_id= 1,
+-- SET username= 1,
 -- reciept_id =1,
 -- booking_id = 1
 -- WHERE room_number =1;
@@ -231,7 +224,7 @@ select * from sauna;
 -- updating reciept
 
 -- UPDATE reciept 
--- SET total_price_for_booking = (SELECT total_price_pool FROM pool WHERE guest_id = 1) + (SELECT total_price_for_room FROM booking WHERE guest_id = 1) WHERE reciept_id = 1;
+-- SET total_price_for_booking = (SELECT total_price_pool FROM pool WHERE username = 1) + (SELECT total_price_for_room FROM booking WHERE username = 1) WHERE reciept_id = 1;
 
 -- for creating online booking, just sending inquire to hotel 
 CREATE TABLE create_booking (
@@ -249,14 +242,18 @@ comment VARCHAR (4000),
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
+alter table cinema add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
+alter table restaurant add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
+alter table gym add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
+alter table pool add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
+alter table sauna add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
 -- ako je manji checkout date od curr date staviti da je curr date chekcout date
-SELECT * FROM guest;
--- UPDATE booking SET reciept_id =1 WHERE guest_id =1; 
+SELECT * FROM reciept;
+-- UPDATE booking SET reciept_id =1 WHERE username =1; 
 
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
 -- INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
 -- VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test1");
 select * from booking;
-select guest_id from guest order by guest_id desc limit 1;
+select username from guest order by username desc limit 1;
 
