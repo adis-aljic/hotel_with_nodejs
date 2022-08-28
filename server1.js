@@ -102,33 +102,33 @@ class guestRoomClass {
     }
     
     class guestSaunaClass {
-        static id = 0;
+        static id = 1;
         date_to_sauna;
         date_from_sauna;
         constructor(date_from_sauna,date_to_sauna){
-            this.saunaid = ++guestSaunaClass.id,
+            this.saunaid = guestSaunaClass.id++,
             this.date_from_sauna= date_from_sauna,
             this.date_to_sauna=  date_to_sauna,
             this.price_per_day_sauna = 20
         }
     }
     class guestRestaurantClass {
-        static id = 0;
+        static id = 1;
         date_to_restaurant;
         date_from_restaurant;
         constructor(date_from_restaurant,date_to_restaurant){
-            this.restaurantid = ++guestRestaurantClass.id,
+            this.restaurantid = guestRestaurantClass.id++,
             this.date_from_restaurant= date_from_restaurant,
             this.date_to_restaurant=  date_to_restaurant,
             this.price_per_day_restaurant = 20
         }
     }
     class guestPoolClass {
-        static id = 0;
+        static id = 1;
         date_to_pool;
         date_from_pool
         constructor(date_to_pool,date_from_pool){
-            this.poolid = ++guestPoolClass.id,
+            this.poolid = guestPoolClass.id++,
             this.date_from_pool= date_from_pool,
             this.date_to_pool=  date_to_pool,
             this.price_per_day_pool = 10
@@ -137,11 +137,11 @@ class guestRoomClass {
     }
     
     class guestGymClass {
-        static id = 0;
+        static id = 1;
         date_to_gym;
         date_from_gym
         constructor(date_to_gym,date_from_gym){
-            this.gymid = ++guestGymClass.id,
+            this.gymid = guestGymClass.id++,
             this.date_from_gym= date_from_gym,
             this.date_to_gym=  date_to_gym,
             this.price_per_day_gym = 10       
@@ -149,11 +149,11 @@ class guestRoomClass {
     }
     
     class guestCinemaClass {
-        static id = 0;
+        static id = 1;
         date_to_cinema;
-        date_from_cinema
+        date_from_cinema;
         constructor(date_to_cinema,date_from_cinema){
-            this. cinemaid = ++guestCinemaClass.id,
+            this. cinemaid = guestCinemaClass.id++,
             this.date_from_cinema= date_from_cinema,
             this.date_to_cinema=  date_to_cinema,
             this.price_per_day_cinema = 10
@@ -161,9 +161,9 @@ class guestRoomClass {
         }
     }
     class guestRecieptClass {
-        static id =0;
+        static id =1;
         constructor(){
-            this.recieptid= ++guestRecieptClass.id;
+            this.recieptid= guestRecieptClass.id++;
         }
     }
 
@@ -172,9 +172,9 @@ class guestRoomClass {
         var guestSauna = new guestSaunaClass(info.date_from_sauna,info.date_to_sauna)
         var guestBooking = new guestBookingClass(info.check_in_date,info.check_out_date,info.price_per_night)
         var guestRestaurant= new guestRestaurantClass(info.date_from_restaurant,info.date_to_restaurant)
-        var guestPool= new guestPoolClass (info.date_from_restaurant,info.date_to_restaurant) 
-        var guestGym= new guestGymClass (info.date_from_restaurant,info.date_to_restaurant)
-        var guestCinema= new guestCinemaClass (info.date_from_restaurant,info.date_to_restaurant)
+        var guestPool= new guestPoolClass (info.date_from_pool,info.date_to_pool) 
+        var guestGym= new guestGymClass (info.date_from_gym,info.date_to_gym)
+        var guestCinema= new guestCinemaClass (info.date_from_cinema,info.date_to_cinema)
         var guestReciept = new guestRecieptClass();
     
     // console.log(guestRoom)
