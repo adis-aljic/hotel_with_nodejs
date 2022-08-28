@@ -5,8 +5,8 @@ const app = express();
 const mysql = require("mysql2")
 const con = require("./databaseCon.js");
 const { Console } = require("console");
-// const roomPrice = require("./js/price");
-
+const guestModule = require("./models/guestModel")
+const roomModule = require("./models/roomModel")
 
 const db = mysql.createConnection(con)
 db.connect((err) => {
@@ -42,62 +42,27 @@ app.get("/adminemployee", function (req, res) {
 app.get("/findbooking", function (req, res) {
     res.render("findbooking")
 })
-
-
+    
     app.post("/adminguest", urlencodedParser, function (req, res) {
     
 
     res.render("newguest", { info: req.body })
     const info = req.body;
     console.log(req.body)
-    class newguestClass {
-        static id=0;
-        first_name;
-        last_name;
-        date_of_birth;
-        country;
-        city;
-        phone_number;
-        email;
-        gender;
-        prefered_language;
-        username;
-        password;
-        document_for_indefication;
-        number_of_document_for_indefication;
-        constructor(first_name,last_name,date_of_birth,country,city,phone_number,email,gender,prefered_languages,username,password,document_for_indefication,number_of_document_for_indefication){
-        this.first_name = first_name,
-        this.last_name= last_name,
-        this.date_of_birth= date_of_birth,
-        this.country= country,
-        this.city= city,
-        this.phone_number= phone_number,
-        this.email= email,
-        this.gender= gender,
-        this.prefered_language= prefered_languages,
-        this.username= username,
-        this.password= password,
-        this.document_for_indefication= document_for_indefication,
-        this.number_of_document_for_indefication= number_of_document_for_indefication
-    }
-}
-class guestRoomClass {
-    room_number;
-        room_status;
-        constructor(room_number){
-            this.room_number = room_number,
-            this.room_status = "Ocupated"
-        }
-    }
+  
+
     class guestBookingClass {
         static id = 1;
+        bookingid;
         check_in_date;
         check_out_date;
+        price_per_night;
         constructor(check_in_date,check_out_date,price_per_night){
             this.bookingid = guestBookingClass.id++,
             this.check_in_date= check_in_date,
             this.check_out_date= check_out_date,
             this.price_per_night = price_per_night
+            console.log(this.bookingid)
         }
     }
     
@@ -135,7 +100,6 @@ class guestRoomClass {
 
         }
     }
-    
     class guestGymClass {
         static id = 1;
         date_to_gym;
@@ -166,10 +130,19 @@ class guestRoomClass {
             this.recieptid= guestRecieptClass.id++;
         }
     }
+    if (roomModule.returnRoomStatus(info.room_number) === "Avaiable") {
+            // adding guest 
+    var newguest = new guestModule.newguestClass(info.first_name,info.last_name,info.date_of_birth,info.country,info.city,info.phone_number,info.email,info.gender,info.prefered_language,info.username,info.password,info.document_for_indefication,info.number_of_document_for_indefication)       
+    guestModule.addGuestSQL(newguest,newguest.first_name,newguest.last_name,newguest.date_of_birth,newguest.gender,newguest.country,newguest.city,newguest.prefered_language,newguest.phone_number,newguest.email,newguest.document_for_indefication,newguest.number_of_document_for_indefication,newguest.username, newguest.password)
 
-        var newguest = new newguestClass(info.first_name,info.last_name,info.date_of_birth,info.country,info.city,info.phone_number,info.email,info.gender,info.prefered_language,info.username,info.password,info.document_for_indefication,info.number_of_document_for_indefication)
-        var guestRoom = new guestRoomClass(info.room_number)
-        var guestSauna = new guestSaunaClass(info.date_from_sauna,info.date_to_sauna)
+            // adding guest into avaiable room
+    var guestRoom = new roomModule.guestRoomClass(info.room_number)
+   roomModule.addGuestToRoom(guestRoom.room_number,guestRoom,guestRoom.username)
+     }
+     else (console.log(`Room ${info.room_number} is ocupated`))
+
+
+     var guestSauna = new guestSaunaClass(info.date_from_sauna,info.date_to_sauna)
         var guestBooking = new guestBookingClass(info.check_in_date,info.check_out_date,info.price_per_night)
         var guestRestaurant= new guestRestaurantClass(info.date_from_restaurant,info.date_to_restaurant)
         var guestPool= new guestPoolClass (info.date_from_pool,info.date_to_pool) 
@@ -177,21 +150,19 @@ class guestRoomClass {
         var guestCinema= new guestCinemaClass (info.date_from_cinema,info.date_to_cinema)
         var guestReciept = new guestRecieptClass();
     
-    // console.log(guestRoom)
-   
-    var sqlGuest = `INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password) 
-    VALUES("${newguest.first_name}","${newguest.last_name}","${newguest.date_of_birth}","${newguest.gender}","${newguest.country}","${newguest.city}","${newguest.prefered_language}","${newguest.phone_number}","${newguest.email}","${newguest.document_for_indefication}","${newguest.number_of_document_for_indefication}","${newguest.username}","${newguest.password}")`
+
+
+    var bookingFK =  `SELECT booking_id FROM  booking ORDER BY booking_id DESC LIMIT 1;`
     
-    
+ 
  var total_price_for_room = Math.ceil((new Date(info.check_out_date) - new Date(info.check_in_date) )/(3600*24*1000)*guestBooking.price_per_night);
  
 var sqlBooking = `INSERT INTO booking (room_number,username,check_in_date,check_out_date,total_price_for_room)
     VALUES (${guestRoom.room_number}, "${newguest.username}", "${guestBooking.check_in_date}","${guestBooking.check_out_date}",${total_price_for_room})`
     
-    var sqlRoom = `UPDATE room   
-    SET room_status = "Ocupated", username = "${newguest.username}", booking_id = ${guestBooking.bookingid} 
-    WHERE room_number = ${guestRoom.room_number}`
+
     
+
     var updateRoom = `UPDATE room SET reciept_id = ${guestReciept.recieptid} WHERE room_number = ${guestRoom.room_number}`
     var updateBooking = `UPDATE booking SET reciept_id = ${guestReciept.recieptid} WHERE booking_id = ${guestBooking.bookingid}`
     var updateSauna = `UPDATE sauna SET reciept_id = ${guestReciept.recieptid} WHERE sauna_id = ${guestSauna.saunaid}`
@@ -201,10 +172,7 @@ var sqlBooking = `INSERT INTO booking (room_number,username,check_in_date,check_
     var updatePool = `UPDATE pool SET reciept_id = ${guestReciept.recieptid} WHERE pool_id = ${guestPool.poolid}`
     
 
-    db.query(sqlGuest, newguest, function (err, data) {
-        if (err) throw err;
-        else console.log(" new guest added")
-    })
+
 
     db.query(sqlBooking, guestBooking, function (err, data) {
         if (err) throw err;
@@ -212,11 +180,8 @@ var sqlBooking = `INSERT INTO booking (room_number,username,check_in_date,check_
             console.log(" new guest is booked")
         }     
     })
-   
-    db.query(sqlRoom,guestRoom, function(err, data){
-        if (err) throw err;
-        else console.log("Guest is added to room")
-    })
+ 
+ 
     let total_price_cinema = 0
     if (info.date_from_cinema != "" && info.date_to_cinema != "") {
 
@@ -234,7 +199,7 @@ var sqlBooking = `INSERT INTO booking (room_number,username,check_in_date,check_
 
         total_price_gym = (new Date(guestGym.date_to_gym) - new Date(guestGym.date_from_gym) )/(1000*24*3600)*guestGym.price_per_day_gym;
         var sqlGym = `INSERT INTO gym(booking_id,room_number,username,date_from_gym,date_to_gym,price_per_day_gym,total_price_gym)
-        VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestGym.date_from_gym}", "${guestGym.date_to_gym}",${guestGym.price_per_day_restaurant},${total_price_gym})`
+        VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestGym.date_from_gym}", "${guestGym.date_to_gym}",${guestGym.price_per_day_gym},${total_price_gym})`
         
     
         db.query(sqlGym, guestGym, function (err, data) {
@@ -246,7 +211,7 @@ var sqlBooking = `INSERT INTO booking (room_number,username,check_in_date,check_
     if (info.date_from_pool != "" && info.date_to_pool != "") {
          total_price_pool=(new Date(guestPool.date_to_pool) - new Date(guestPool.date_from_pool) )/(1000*24*3600)*guestPool.price_per_day_pool
  var sqlPool = `INSERT INTO pool(booking_id,room_number,username,date_from_pool,date_to_pool,price_per_day_pool,total_price_pool)
-    VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestPool.date_from_pool}", "${guestPool.date_to_pool}",${guestPool.price_per_day_restaurant},${total_price_pool})`
+    VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestPool.date_from_pool}", "${guestPool.date_to_pool}",${guestPool.price_per_day_pool},${total_price_pool})`
    
         db.query(sqlPool, guestPool, function (err, data) {
             if (err) throw err;
