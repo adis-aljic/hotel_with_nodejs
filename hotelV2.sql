@@ -1,7 +1,7 @@
--- drop database hotel_node;
+ drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
-
+  select * from restaurant;
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
@@ -92,7 +92,8 @@ price_per_day_sauna INT,
 total_price_sauna INT,
 date_from_sauna DATE ,
 date_to_sauna DATE ,
-reciept_id INT
+reciept_id INT,
+FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
 );
 CREATE TABLE restaurant (
 restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -108,7 +109,9 @@ ON UPDATE CASCADE,
 price_per_day_restaurant INT,
 date_from_restaurant DATE ,
 date_to_restaurant DATE ,
-total_price_restaurant INT
+total_price_restaurant INT,
+reciept_id INT,
+FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
 );
 CREATE TABLE gym (
 gym_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -124,7 +127,9 @@ ON UPDATE CASCADE,
 price_per_day_gym INT,
 date_from_gym DATE ,
 date_to_gym DATE ,
-total_price_gym INT
+total_price_gym INT,
+reciept_id INT,
+FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
 );
 CREATE TABLE cinema (
 cinema_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -140,7 +145,9 @@ ON UPDATE CASCADE,
 price_per_day_cinema INT ,
 date_from_cinema DATE ,
 date_to_cinema DATE ,
-total_price_cinema INT
+total_price_cinema INT,
+reciept_id INT,
+FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
 );
 CREATE TABLE pool (
 pool_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -156,7 +163,9 @@ ON UPDATE CASCADE,
 price_per_day_pool INT ,
 date_from_pool DATE ,
 date_to_pool DATE ,
-total_price_pool INT
+total_price_pool INT,
+reciept_id INT,
+FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id)
 );
 SELECT * FROM room;
 CREATE TABLE reciept (
@@ -208,8 +217,8 @@ VALUES (302,"Apartment",50,"Avaiable");
 -- VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
 -- INSERT INTO reciept (guest_id, room_number,pool_id,reciept_status) 
 -- VALUES(1,1,1,"active");
-select * from restaurant;
-
+select * from reciept
+;
 -- UPDATE booking 
 -- updating total price for room
 -- SET total_price_for_room = datediff(check_out_date, check_in_date) * (SELECT price_per_night FROM room WHERE room_number = 1) WHERE booking_id = 1;
@@ -242,12 +251,12 @@ timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
 
 -- ako je manji checkout date od curr date staviti da je curr date chekcout date
-SELECT * FROM sauna;
+SELECT * FROM guest;
 -- UPDATE booking SET reciept_id =1 WHERE guest_id =1; 
 
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
 -- INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
 -- VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test1");
-select * from guest;
+select * from booking;
 select guest_id from guest order by guest_id desc limit 1;
 
