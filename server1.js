@@ -178,7 +178,7 @@ class guestRoomClass {
     var guestGym= new guestGymClass (info.date_from_restaurant,info.date_to_restaurant)
     var guestCinema= new guestCinemaClass (info.date_from_restaurant,info.date_to_restaurant)
     var guestReciept = new guestRecieptClass();
-    console.log(guestReciept)
+    console.log(guestReciept.recieptid)
     // console.log(guestRoom)
    
     var sqlGuest = `INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password) 
@@ -222,7 +222,7 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
     let total_price_cinema = 0
     if (info.date_from_cinema != "" && info.date_to_cinema != "") {
 
-        total_price_cinema = (new Date(guestCinema.date_to_cinema) - new Date(guestCinema.date_from_cinema) )*guestCinema.price_per_day_cinema;
+        total_price_cinema = (new Date(guestCinema.date_to_cinema) - new Date(guestCinema.date_from_cinema) )/(1000*24*3600)*guestCinema.price_per_day_cinema;
         var sqlCinema = `INSERT INTO cinema(booking_id,room_number,guest_id,date_from_cinema,date_to_cinema,price_per_day_cinema,total_price_cinema)
         VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},${newguest.guestid}, "${guestCinema.date_from_cinema}", "${guestCinema.date_to_cinema}",${guestCinema.price_per_day_cinema},${total_price_cinema})`
        
@@ -234,7 +234,7 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
     let total_price_gym = 0
     if (info.date_from_gym != "" && info.date_to_gym != "") {
 
-        total_price_gym = (new Date(guestGym.date_to_gym) - new Date(guestGym.date_from_gym) )*guestGym.price_per_day_gym;
+        total_price_gym = (new Date(guestGym.date_to_gym) - new Date(guestGym.date_from_gym) )/(1000*24*3600)*guestGym.price_per_day_gym;
         var sqlGym = `INSERT INTO gym(booking_id,room_number,guest_id,date_from_gym,date_to_gym,price_per_day_gym,total_price_gym)
         VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},${newguest.guestid}, "${guestGym.date_from_gym}", "${guestGym.date_to_gym}",${guestGym.price_per_day_restaurant},${total_price_gym})`
         
@@ -246,7 +246,7 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
     }
     let total_price_pool = 0
     if (info.date_from_pool != "" && info.date_to_pool != "") {
-         total_price_pool=(new Date(guestPool.date_to_pool) - new Date(guestPool.date_from_pool) )*guestRestaurant.price_per_day_pool
+         total_price_pool=(new Date(guestPool.date_to_pool) - new Date(guestPool.date_from_pool) )/(1000*24*3600)*guestPool.price_per_day_pool
  var sqlPool = `INSERT INTO pool(booking_id,room_number,guest_id,date_from_pool,date_to_pool,price_per_day_pool,total_price_pool)
     VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},${newguest.guestid}, "${guestPool.date_from_pool}", "${guestPool.date_to_pool}",${guestPool.price_per_day_restaurant},${total_price_pool})`
    
@@ -271,9 +271,9 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
     let total_price_sauna = 0
     if (info.date_from_sauna != "" && info.date_to_sauna != "") {
 
-         total_price_sauna = (new Date(guestSauna.date_to_sauna) - new Date(guestSauna.date_from_sauna) )*guestSauna.price_per_day_sauna
+         total_price_sauna = (new Date(guestSauna.date_to_sauna) - new Date(guestSauna.date_from_sauna) )/(1000*24*3600)*guestSauna.price_per_day_sauna
         var sqlSauna = `INSERT INTO sauna(booking_id,room_number,guest_id,date_from_sauna,date_to_sauna,price_per_day_sauna,total_price_sauna)
-        VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},${newguest.guestid}, "${guestSauna.date_from_sauna}", "${guestSauna.date_to_sauna}",${guestSauna.price_per_day_restaurant},${total_price_sauna})`
+        VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},${newguest.guestid}, "${guestSauna.date_from_sauna}", "${guestSauna.date_to_sauna}",${guestSauna.price_per_day_sauna},${total_price_sauna})`
     
         
         db.query(sqlSauna, guestSauna, function (err, data) {
@@ -284,8 +284,8 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
     
     var total_price_for_booking = total_price_for_room + total_price_cinema + total_price_gym + total_price_pool + total_price_restaurant +total_price_sauna;
 
-    var  sqlReciept = ` INSERT INTO reciept(reciept_id,room_number, total_price_for_booking)
-    VALUES (${newguest.guestid},${guestRoom.room_number},${total_price_for_booking})`
+    var  sqlReciept = ` INSERT INTO reciept(room_number, total_price_for_booking)
+    VALUES (${guestRoom.room_number},${total_price_for_booking})`
     // ,sauna_id, restaurant_id, gym_id, cinema_id, pool_id
     // ${guestSauna.saunaid},${guestRestaurant.restaurantid},${guestGym.gymid},${guestCinema.cinemaid},${guestPool.poolid}
     db.query(sqlReciept, guestReciept, function(err,data){
@@ -323,7 +323,7 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
                                 if (err) throw err;
                                 console.log("Reciept added to pool")
                             })
-                            
+                           
                         })
                             app.post("/adminemployee", urlencodedParser, function (req, res) {
 
@@ -336,7 +336,9 @@ var sqlBooking = `INSERT INTO booking (room_number,guest_id,check_in_date,check_
         if (err) throw err;
         else console.log(" new employee added")
     })
+
 })
+
 
 var nodemailer = require('nodemailer');
 const { generateKeyPairSync } = require("crypto");
