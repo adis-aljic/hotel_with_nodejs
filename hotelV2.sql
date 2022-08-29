@@ -1,7 +1,10 @@
- -- drop database hotel_node;
+-- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
- -- select * from booking;
+
+  
+   
+    select room_status from room where room_number = 101;
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
