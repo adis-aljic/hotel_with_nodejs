@@ -161,6 +161,23 @@ const addCinemaFKtoReciept = (username)=> {
         }
     })
 }
+const addTotalPriceForBooking = (username)=> {
+    var sql = `SELECT (sauna.total_price_sauna +  gym.total_price_gym +restaurant.total_price_restaurant  + cinema.total_price_cinema +pool.total_price_pool + booking.total_price_for_room) AS total_price 
+    FROM booking
+    INNER JOIN sauna ON booking.username = sauna.username
+    INNER JOIN cinema ON booking.username = cinema.username
+    INNER JOIN restaurant ON booking.username = restaurant.username
+    INNER JOIN gym ON booking.username = gym.username
+    INNER JOIN pool ON booking.username = pool.username
+    WHERE booking.username = ${username}
+    ;`
+    db.query(sql, function(err,data){
+        if(err) throw err
+        else {
+            db.query(`UPDATE reciept SET total_price_for_booking = ${data[0].total_price} WHERE username = "${username}"`)
+        }
+    })
+}
 
 module.exports = {
     guestRecieptClass,
@@ -170,5 +187,6 @@ module.exports = {
     addCinemaFKtoReciept,
     addGymFKtoReciept,
     addPoolFKtoReciept,
-    addRestaurantFKtoReciept
+    addRestaurantFKtoReciept,
+    addTotalPriceForBooking
 }

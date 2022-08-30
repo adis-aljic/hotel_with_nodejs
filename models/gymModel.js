@@ -19,7 +19,7 @@ class guestGymClass {
 
 
 
-const addGymToGuest = (guestGym, date_from_gym, date_to_gym, price_per_day_gym, room_number, username,) => {
+const addGymToGuest = (guestGym, date_from_gym  , date_to_gym, price_per_day_gym, room_number, username,) => {
 
     var total_price_gym = (new Date(date_to_gym) - new Date(date_from_gym)) / (1000 * 24 * 3600) * price_per_day_gym
     var sqlGym = `INSERT INTO gym (room_number,username,date_from_gym,date_to_gym,price_per_day_gym,total_price_gym)

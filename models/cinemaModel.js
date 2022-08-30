@@ -9,8 +9,8 @@ class guestCinemaClass {
     date_to_cinema;
     date_from_cinema;
     constructor(date_to_cinema,date_from_cinema){
-        this.date_to_cinema=  date_to_cinema,
         this.date_from_cinema= date_from_cinema,
+        this.date_to_cinema=  date_to_cinema,
         this.price_per_day_cinema = 10
         
     }

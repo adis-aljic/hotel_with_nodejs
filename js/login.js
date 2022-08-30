@@ -1,11 +1,11 @@
 function login() {
+const user_passModels = require("../models/user_passModel")
+
+
     var uname = document.getElementById("email").value;
     var pwd = document.getElementById("pwd1").value;
-  
-    if (uname == "admin"  && pwd == "123456" ) {
-        window.location = "/adminguest";
-    }
-    else if (uname == "guest" && pwd == "123456" ) {
+  if(user_passModels.checkUser(uname,pwd))
+{
         window.location = "/guest";
     }
 

@@ -14,6 +14,7 @@ const poolModule = require("./models/poolModel")
 const cinemaModule = require("./models/cinemaModel")
 const gymModule = require("./models/gymModel")
 const recieptModule = require("./models/recieptModel")
+const userPassModule = require("./models/user_passModel")
 
 const db = mysql.createConnection(con)
 db.connect((err) => {
@@ -82,13 +83,23 @@ app.get("/findbooking", function (req, res) {
         var guestSauna = new saunaModule.guestSaunaClass(info.date_from_sauna,info.date_to_sauna)
         saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna,guestSauna.date_to_sauna,guestSauna.price_per_day_sauna,guestRoom.room_number,newguest.username)
     }
+    else {
+        var guestSauna = new saunaModule.guestSaunaClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
+        saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna,guestSauna.date_to_sauna,guestSauna.price_per_day_sauna,guestRoom.room_number,newguest.username)
+
+
+    }
     // creating restaurant for guest
     if(info.date_to_restaurant != "" && info.date_from_restaurant != "") {
-
         var guestRestaurant = new restaurantModule.guestRestaurantClass(info.date_from_restaurant,info.date_to_restaurant)
         restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant,guestRestaurant.date_to_restaurant,guestRestaurant.price_per_day_restaurant,guestRoom.room_number,newguest.username)
     }
-    
+    else {
+        
+        
+                var guestRestaurant = new restaurantModule.guestRestaurantClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
+                restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant,guestRestaurant.date_to_restaurant,guestRestaurant.price_per_day_restaurant,guestRoom.room_number,newguest.username)
+}    
     // // creating pool for guest
     
     if(info.date_to_pool != "" && info.date_from_pool != "") {
@@ -96,21 +107,34 @@ app.get("/findbooking", function (req, res) {
         var guestPool = new poolModule.guestPoolClass(info.date_from_pool,info.date_to_pool)
         poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool,guestPool.date_to_pool,guestPool.price_per_day_pool,guestRoom.room_number,newguest.username)
     }
-    
+    else {
+      var guestPool = new poolModule.guestPoolClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
+      poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool,guestPool.date_to_pool,guestPool.price_per_day_pool,guestRoom.room_number,newguest.username)
+
+  }  
     // creating cinema for guest
     
     if(info.date_to_cinema != "" && info.date_from_cinema != "") {
-
         var guestCinema = new cinemaModule.guestCinemaClass(info.date_from_cinema,info.date_to_cinema)
         cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema,guestCinema.date_to_cinema,guestCinema.price_per_day_cinema,guestRoom.room_number,newguest.username)
     }
-    
+    else {
+        
+                var guestCinema = new cinemaModule.guestCinemaClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
+                cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema,guestCinema.date_to_cinema,guestCinema.price_per_day_cinema,guestRoom.room_number,newguest.username)
+
+    }
     
     // creating gym for guest
     
     if(info.date_to_gym != "" && info.date_from_gym != "") {
 
         var guestGym = new gymModule.guestGymClass(info.date_from_gym,info.date_to_gym)
+        gymModule.addGymToGuest(guestGym, guestGym.date_from_gym,guestGym.date_to_gym,guestGym.price_per_day_gym,guestRoom.room_number,newguest.username)
+    }
+    else{
+        
+        var guestGym = new gymModule.guestGymClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
         gymModule.addGymToGuest(guestGym, guestGym.date_from_gym,guestGym.date_to_gym,guestGym.price_per_day_gym,guestRoom.room_number,newguest.username)
     }
     // add reciept
@@ -142,178 +166,8 @@ app.get("/findbooking", function (req, res) {
         recieptModule.addSaunaFKtoReciept(newguest.username)
     }
    
-
-    
-    // console.log("111111111111")
-// console.log(guestRoom.lastID)
-// }
-//      else (console.log(`Room ${info.room_number} is ocupated`))
-
-
-
-
-
-
-
-    //  var guestSauna = new guestSaunaClass(info.date_from_sauna,info.date_to_sauna)
-    //     var guestRestaurant= new guestRestaurantClass(info.date_from_restaurant,info.date_to_restaurant)
-    //     var guestPool= new guestPoolClass (info.date_from_pool,info.date_to_pool) 
-    //     var guestGym= new guestGymClass (info.date_from_gym,info.date_to_gym)
-    //     var guestCinema= new guestCinemaClass (info.date_from_cinema,info.date_to_cinema)
-    //     var guestReciept = new guestRecieptClass();
-    
-
-
-    // var bookingFK =  `SELECT booking_id FROM  booking ORDER BY booking_id DESC LIMIT 1;`
-    
- 
-
-    
-
-    // var updateRoom = `UPDATE room SET reciept_id = ${guestReciept.recieptid} WHERE room_number = ${guestRoom.room_number}`
-    // var updateBooking = `UPDATE booking SET reciept_id = ${guestReciept.recieptid} WHERE booking_id = ${guestBooking.bookingid}`
-    // var updateSauna = `UPDATE sauna SET reciept_id = ${guestReciept.recieptid} WHERE sauna_id = ${guestSauna.saunaid}`
-    // var updateRestaurant = `UPDATE restaurant SET reciept_id = ${guestReciept.recieptid} WHERE restaurant_id = ${guestRestaurant.restaurantid}`
-    // var updateCinema = `UPDATE cinema SET reciept_id = ${guestReciept.recieptid} WHERE cinema_id = ${guestCinema.cinemaid}`
-    // var updateGym = `UPDATE gym SET reciept_id = ${guestReciept.recieptid} WHERE gym_id = ${guestGym.gymid}`
-    // var updatePool = `UPDATE pool SET reciept_id = ${guestReciept.recieptid} WHERE pool_id = ${guestPool.poolid}`
-    
-
-
-
-  
- 
- 
-//     let total_price_cinema = 0
-//     if (info.date_from_cinema != "" && info.date_to_cinema != "") {
-
-//         total_price_cinema = (new Date(guestCinema.date_to_cinema) - new Date(guestCinema.date_from_cinema) )/(1000*24*3600)*guestCinema.price_per_day_cinema;
-//         var sqlCinema = `INSERT INTO cinema(booking_id,room_number,username,date_from_cinema,date_to_cinema,price_per_day_cinema,total_price_cinema)
-//         VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestCinema.date_from_cinema}", "${guestCinema.date_to_cinema}",${guestCinema.price_per_day_cinema},${total_price_cinema})`
-       
-//         db.query(sqlCinema, guestCinema, function (err, data) {
-//             if (err) throw err;
-//             else console.log(" new guest added cinema")
-//         })
-//     }
-//     let total_price_gym = 0
-//     if (info.date_from_gym != "" && info.date_to_gym != "") {
-
-//         total_price_gym = (new Date(guestGym.date_to_gym) - new Date(guestGym.date_from_gym) )/(1000*24*3600)*guestGym.price_per_day_gym;
-//         var sqlGym = `INSERT INTO gym(booking_id,room_number,username,date_from_gym,date_to_gym,price_per_day_gym,total_price_gym)
-//         VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestGym.date_from_gym}", "${guestGym.date_to_gym}",${guestGym.price_per_day_gym},${total_price_gym})`
-        
-    
-//         db.query(sqlGym, guestGym, function (err, data) {
-//             if (err) throw err;
-//             else console.log(" new guest added gym")
-//         })
-//     }
-//     let total_price_pool = 0
-//     if (info.date_from_pool != "" && info.date_to_pool != "") {
-//          total_price_pool=(new Date(guestPool.date_to_pool) - new Date(guestPool.date_from_pool) )/(1000*24*3600)*guestPool.price_per_day_pool
-//  var sqlPool = `INSERT INTO pool(booking_id,room_number,username,date_from_pool,date_to_pool,price_per_day_pool,total_price_pool)
-//     VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestPool.date_from_pool}", "${guestPool.date_to_pool}",${guestPool.price_per_day_pool},${total_price_pool})`
-   
-//         db.query(sqlPool, guestPool, function (err, data) {
-//             if (err) throw err;
-//             else console.log(" new guest added pool")
-//         })
-//     }
-//     let total_price_restaurant = 0
-//     if (info.date_from_restaurant != "" && info.date_to_restaurant != "") {
-
-//         total_price_restaurant =(new Date(info.date_to_restaurant) - new Date(info.date_from_restaurant) )/(1000*24*3600)*guestRestaurant.price_per_day_restaurant
-       
-//         var sqlRestaurant = `INSERT INTO restaurant(booking_id,room_number,username,date_from_restaurant,date_to_restaurant,price_per_day_restaurant,total_price_restaurant)
-//         VALUES(${guestBooking.bookingid}, ${guestRoom.room_number},"${newguest.username}", "${guestRestaurant.date_from_restaurant}", "${guestRestaurant.date_to_restaurant}",${guestRestaurant.price_per_day_restaurant},${total_price_restaurant})`
-//        console.log(total_price_restaurant)
-//         db.query(sqlRestaurant, guestRestaurant, function (err, data) {
-//             if (err) throw err; 
-//             else console.log(" new guest added restaurant")
-//         })
-//     }
-//     let total_price_sauna = 0
-//     if (info.date_from_sauna != "" && info.date_to_sauna != "") {
-
-//     }
-    
-    // var total_price_for_booking = total_price_for_room + total_price_cinema + total_price_gym + total_price_pool + total_price_restaurant +total_price_sauna;
-
-    // var  sqlReciept = ` INSERT INTO reciept(username,room_number, total_price_for_booking)
-    // VALUES ("${newguest.username}",${guestRoom.room_number},${total_price_for_booking})`
-   
-    // db.query(sqlReciept, guestReciept, function(err,data){
-    //         if (err) throw err;
-    //         else console.log(`Reciept for ${newguest.first_name} ${newguest.last_name} with username ${newguest.username} is created`);
-            
-    //     })
-            
-    // db.query(updateRoom, function(err, data){
-    //     if (err) throw err;
-    //     console.log("Reciept added to room")
-    // })
-    // db.query(updateBooking, function(err, data){
-    //         if (err) throw err;
-    //         console.log("Reciept added to booking")
-    //     })
-        
-    //         db.query(updateRestaurant, function(err, data){
-    //                 if (err) throw err;
-    //                 console.log("Reciept added to restaurant")
-    //             })
-    //             db.query(updateCinema, function(err, data){
-    //                     if (err) throw err;
-    //                     console.log("Reciept added to cinema")
-    //                 })
-    //                 db.query(updateGym, function(err, data){
-    //                         if (err) throw err;
-    //                         console.log("Reciept added to gym")
-    //                     })
-    //                     db.query(updatePool, function(err, data){
-    //                             if (err) throw err;
-    //                             console.log("Reciept added to pool")
-    //                         })
-    //                     db.query(updateSauna, function(err, data){
-    //                             if (err) throw err;
-    //                             console.log("Reciept added to pool")
-    //                         })
+    recieptModule.addTotalPriceForBooking(newguest.username)
                             
-                        //     if (info.date_from_sauna != "" && info.date_to_sauna != "") {
-                        //     let updateRecieptSauna = `UPDATE reciept SET sauna_id = ${guestSauna.saunaid} WHERE reciept_id = ${guestReciept.recieptid}`
-                        //    db.query(updateRecieptSauna, function(err,data){
-                        //     if (err) throw err;
-                        //     else console.log("Reciept is updated");
-                        //          })
-                        // }
-                        //     if (info.date_from_sauna != "" && info.date_to_sauna != "") {
-                        //     let updateRecieptSauna = `UPDATE reciept SET sauna_id = ${guestSauna.saunaid} WHERE reciept_id = ${guestReciept.recieptid}`
-                        //    db.query(updateRecieptSauna, function(err,data){
-                        //     if (err) throw err;
-                        //     else console.log("Reciept is updated for sauna");
-                        //          })
-                        // }
-                        //     if (info.date_from_restaurant != "" && info.date_to_restaurant != "") {
-                        //     let updateRecieptRestaurant = `UPDATE reciept SET restaurant_id = ${guestRestaurant.restaurantid} WHERE reciept_id = ${guestReciept.recieptid}`
-                        //    db.query(updateRecieptRestaurant, function(err,data){
-                        //     if (err) throw err;
-                        //     else console.log("Reciept is updated for restaurant");
-                        //          })
-                        // }
-                        //     if (info.date_from_pool != "" && info.date_to_pool != "") {
-                        //     let updateRecieptPool = `UPDATE reciept SET pool_id = ${guestPool.poolid} WHERE reciept_id = ${guestReciept.recieptid}`
-                        //    db.query(updateRecieptPool, function(err,data){
-                        //     if (err) throw err;
-                        //     else console.log("Reciept is updated for pool");
-                        //          })
-                        // }
-                        //     if (info.date_from_cinema != "" && info.date_to_cinema != "") {
-                        //     let updateRecieptCinema = `UPDATE reciept SET cinema_id = ${guestCinema.cinemaid} WHERE reciept_id = ${guestReciept.recieptid}`
-                        //    db.query(updateRecieptCinema, function(err,data){
-                        //     if (err) throw err;
-                        //     else console.log("Reciept is updated");
-                        //          })
-                        // }
 
                         })
                     
@@ -331,12 +185,55 @@ app.get("/findbooking", function (req, res) {
 
 })
 
+        app.get("/guest/:username", function (req, res) {
+        //     let sqlInfo = `SELECT guest.first_name,guest.last_name, guest.username,guest.password,booking.room_number,booking.check_in_date,booking.check_out_date
+        //     FROM guest
+        //     INNER JOIN booking ON guest.username = booking.username
+        //     WHERE booking.username ="${req.params["username"]}";`
+        //     db.query(sqlInfo, function(err, result, next){
+        //         if (err) throw err
+        //         else {
+        //             let data = result[0]; 
+                   
+        //             res.render("guest", { first_name: data.first_name,last_name : data.last_name ,room_number: data.room_number, username: data.username, password: data.password, check_in_date:data.check_in_date,check_out_date :data.check_out_date  });
+        //         }
+        //     })
+            
+                  
+                    
+            let recieptSQL = `SELECT guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
+            cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
+            FROM booking 
+            INNER JOIN sauna ON booking.booking_id = sauna.booking_id
+            INNER JOIN restaurant ON booking.booking_id = restaurant.booking_id
+            INNER JOIN cinema ON booking.booking_id = cinema.booking_id
+            INNER JOIN gym ON booking.booking_id = gym.booking_id
+            INNER JOIN pool ON booking.booking_id = pool.booking_id
+            INNER JOIN reciept ON booking.booking_id = reciept.booking_id
+            INNER JOIN guest ON booking.booking_id = guest.booking_id
+            where booking.username = "${req.params["username"]}";
+            `
+            db.query(recieptSQL,function(err,data1){
+                console.log("aaaaaaa");
+                if (err) throw err
+                else {
+                    console.log(data1[0])
+                    let reciept = data1[0]
+                    res.render("guest", {first_name: reciept.first_name, room_number:reciept.room_number, last_name: reciept.last_name, username:reciept.username,password:reciept.password,check_in_date:reciept.check_in_date,check_out_date:reciept.check_out_date,total_price_for_room: reciept.total_price_for_room,total_price_sauna : reciept.total_price_sauna ,total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool:reciept.total_price_pool,total_price_for_booking :reciept.total_price_for_booking,reciept_status:reciept.reciept_status  });
+                    
+                }
+            })
+            
+        })
+
+
 
 var nodemailer = require('nodemailer');
 const { generateKeyPairSync } = require("crypto");
 const { isBuffer } = require("util");
 const { query } = require("express");
 const { user, password } = require("./databaseCon.js");
+const { nextTick } = require("process");
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -345,6 +242,8 @@ var transporter = nodemailer.createTransport({
         pass: 'yourpassword'
     }
 });
+
+
 app.post("/contact", urlencodedParser, function (req, res) {
 
     res.render("contact", { msg: req.body })
@@ -372,12 +271,7 @@ app.post("/contact", urlencodedParser, function (req, res) {
 
 
 
-app.get("/guest/:name", function (req, res) {
-    var data = { room_number: 29, typeofroom: "single bed", aditionalServices: ["pool", "restaurant", "gym"] }
 
-    res.render("guest", { person: req.params.name, room_number: data.room_number, typeofroom: data.typeofroom, aditionalServices: data.aditionalServices });
-
-})
 
 
 app.listen(3000);

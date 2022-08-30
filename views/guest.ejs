@@ -31,21 +31,63 @@
     <div class="guest_page">
         
         <div class="room_info">
-    <h1>Welcome  <%= person %> </h1>
-<br>
-Room number: <%= room_number %>
-<br>
-Type of room:  <%= typeofroom %>
-<br> 
-Aditional services: <% aditionalServices.forEach(function(item) { %>
-<li> <%= item %></li>
-<% }) %> 
-<br>
-Check in date:
-<br>
-Check out date:
-<br>
-</div>
+                <h1>Informatio about guest</h1>
+                <ul>
+                    <li>
+                 Name <%= first_name %> <%= last_name %>
+                    </li>
+                    <li>
+                 username <%= username %>
+                    </li>
+                    <li>
+                 password <%= password %>
+                    </li>
+                </ul>
+                <br>
+                <br>
+                <h1>Room information</h1>
+                <ul>
+                    <li>
+                     Room number   <%= room_number %>
+                    </li>
+                    <li>
+                    Check in date    <%= check_in_date %>
+                    </li>
+                    <li>
+                     Check out date   <%= check_out_date %>
+                    </li>
+                </ul>
+                <br>
+                <br>
+<h1>Reciept</h1>
+            <ul>
+                <li>
+               Room <%= total_price_for_room %> 
+                </li>
+                <li>
+               Sauna <%= total_price_sauna %> 
+                </li>
+                <li>
+               Restaurant <%= total_price_restaurant %> 
+                </li>
+                <li>
+               Cinema  <%= total_price_cinema %> 
+                </li>
+                <li>
+                Pool <%= total_price_pool %> 
+                </li>
+                <hr>
+                <li>
+
+                Ukupna cijena <%= total_price_for_booking %> 
+                </li>
+                <li>
+                    <hr>
+                Reciept status <%= reciept_status %> 
+                </li>
+
+                </ul>
+</p>
 <p> If you want to see reciept with services please click on the right side on reciept.</p>
 <br>
 <p>If you want to checkout before you checkout date you can do that with click on the right
@@ -56,7 +98,10 @@ Check out date:
 </p>
 <br>
 <p>
-    
+    <div>
+                   
+
+    </div>
     If you want to change room, have message for our stuff or aditional services please fill form and we will call you 
     as soon we prepare everthing.  <br>
     Please inside box bellow adress us with your request. 
@@ -73,7 +118,7 @@ Check out date:
 </div>
 
 <nav1>
-    <a href="#">RECIEPT</a>
+    <!-- <a href="#">RECIEPT</a> -->
     <a href="#">CHECKOUT</a>
     <div id="indicator"></div>
   </nav1>
