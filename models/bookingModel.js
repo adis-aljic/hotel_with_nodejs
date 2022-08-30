@@ -29,7 +29,55 @@ const createBooking = (guestBooking, check_in_date,check_out_date,price_per_nigh
 
 }
 
+
+const addForgeingKeysBooking = (username)=> {
+    var lastID =`SELECT booking_id FROM  booking ORDER BY booking_id DESC LIMIT 1;`
+    db.query(lastID,function(err,data){
+        if (err) throw err
+        else {
+    
+            var FK_booking = [
+            `UPDATE room
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE reciept
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE sauna
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE restaurant
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE cinema
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE gym
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE pool
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`,
+            `UPDATE guest
+            SET booking_id = ${data[0].booking_id}
+            WHERE username = "${username}";`]  
+            FK_booking.forEach(sqlQuery => {
+                
+                db.query(sqlQuery,function(err, data){
+                    if (err) throw err
+                    else console.log(`booking_id is updated in all tables`);
+                })
+            });
+
+        }
+    })
+
+    
+    
+    
+}
 module.exports = {
     guestBookingClass,
     createBooking,
+    addForgeingKeysBooking
 }

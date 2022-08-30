@@ -115,7 +115,33 @@ app.get("/findbooking", function (req, res) {
     }
     // add reciept
     // var guestReciept = new recieptModule.guestRecieptClass()
+    recieptModule.addRecieptToGuest(guestRoom.room_number,newguest.username)
+   
+        // updating fk
 
+    recieptModule.addForgeingKeysReciept(newguest.username)
+    bookingModule.addForgeingKeysBooking(newguest.username)
+   
+    if(info.date_to_gym != "" && info.date_from_gym != "") {
+        recieptModule.addGymFKtoReciept(newguest.username)
+    }
+   
+    if(info.date_from_cinema != "" && info.date_from_cinema != "") {
+        recieptModule.addCinemaFKtoReciept(newguest.username)
+    }
+
+    if(info.date_to_pool != "" && info.date_from_pool != "") {
+        recieptModule.addPoolFKtoReciept(newguest.username)
+    }
+    
+    if(info.date_to_restaurant != "" && info.date_from_restaurant != "") {
+        recieptModule.addRestaurantFKtoReciept(newguest.username)
+    }
+  
+    if(info.date_to_sauna != "" && info.date_from_sauna != "") {
+        recieptModule.addSaunaFKtoReciept(newguest.username)
+    }
+   
 
     
     // console.log("111111111111")

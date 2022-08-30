@@ -1,10 +1,12 @@
--- drop database hotel_node;
+ drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
 
   
    
-    select room_status from room where room_number = 101;
+
+     
+-- select * from reciept;
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
@@ -189,6 +191,8 @@ FOREIGN KEY (pool_id) REFERENCES pool (pool_id)ON DELETE CASCADE
 ON UPDATE CASCADE,
 total_price_for_booking INT,
 reciept_status ENUM ("active","paid") DEFAULT "active",
+booking_id INT,
+FOREIGN KEY(booking_id) REFERENCES booking(booking_id) ON UPDATE CASCADE ON DELETE CASCADE,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 select * from booking;
