@@ -26,23 +26,22 @@ db.query(`UPDATE guest SET isLoged = "Online" WHERE username = "${user_pass.user
                 }
                 else {
                     console.log("Wrong username or password");
-                  return res.redirect("/login")
                 }
             }
         }
     })
 }
 const checkEmployee = (res, username, password) => {
-    const sqlEmployees = `SELECT username, password,first_name,last_name,job_title FROM employees;`
+    const sqlEmployees = `SELECT username, password FROM employees;`
     db.query(sqlEmployees, function (err, data) {
         if (err) throw err
         else {
-            console.log(data);
+            console.log("data");
             for (let i = 0; i < data.length; i++) {
                 const user_pass = data[i];
                 if (username == user_pass.username && password == user_pass.password) {
 
-                    res.render(`./adminGuest`, { username: user_pass.username, first_name: user_pass.first_name, last_name: user_pass.last_name, job_title: user_pass.job_title })
+                  return  res.redirect(`./adminGuest` )
 
                 }
             }
@@ -50,21 +49,22 @@ const checkEmployee = (res, username, password) => {
     })
 }
 
-    function offline (){
-        db.query(`UPDATE guest SET isLoged = "Offline" WHERE username = "${user_pass.username}"`,function(err,data){
-                if (err) throw err
-                else {
+      
+    
+    
+function offline (){
+    console.log("bb");
+    app.get("/login", function(res,req){
+    db.query(`UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params.username}"`,function(err,data){
+            if (err) throw err
+            else {
 
-                    console.log(`User ${user_pass.username} is loged`);
-                    app.get("/login", function(res,req){
-                        console.log("Your session is finished");
-                    })
+                 console.log(`User ${req.params.username} is loged out`);
+                    console.log("Your session is finished");
                 }
             })
-    }
-                
-    
-    
+        })
+}
 
 // console.log(checkUser(78945,92855))
 module.exports = {

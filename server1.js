@@ -219,21 +219,13 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             var password = data.password;
             console.log(username);
             console.log(password + "555555555") ;
-           if(user_passModul.checkUser(res,username,password)){
-                // console.log(`Welcome ${username}`)
-                // app.get(`/guest/${username}`, function(res,req){
-                //     setTimeout(user_passModul.offline(), 2000);
-
-                // })
-            } 
-            else if(user_passModul.checkEmployee(res,username,password)){
-                console.log(`Welcome employee ${username}`)
-                app.get(`/adminGuest`, function(res,req){
-                })
+            if(user_passModul.checkEmployee(res,username,password)){
+               console.log(`Welcome employee ${username}`)
             }
-        
-             
-           
+     else    if(user_passModul.checkUser(res,username,password)){
+                console.log(`Welcome ${username}`)    
+            } 
+            // else return res.redirect("/")
         })
         
         app.post("/findbooking", urlencodedParser, function(req,res){

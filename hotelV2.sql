@@ -1,9 +1,7 @@
 -- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
-select * from employees;
-SELECT username, password FROM guest;
-select * from guest where username = "ada";
+select * from guest;
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
@@ -192,7 +190,7 @@ booking_id INT,
 FOREIGN KEY(booking_id) REFERENCES booking(booking_id) ON UPDATE CASCADE ON DELETE CASCADE,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-select * from booking;
+select * from reciept;
 ALTER TABLE guest ADD FOREIGN KEY (booking_id) REFERENCES booking(booking_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE guest ADD FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
