@@ -218,23 +218,21 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             var username = data.username;
             var password = data.password;
             console.log(username);
-            console.log(password);
+            console.log(password + "555555555") ;
            if(user_passModul.checkUser(res,username,password)){
-                console.log(`Welcome ${username}`)
-                app.get(`/guest/${username}`, function(res,req){
-                    // res.redirect (`/guest/${username}`)
-                })
+                // console.log(`Welcome ${username}`)
+                // app.get(`/guest/${username}`, function(res,req){
+                //     setTimeout(user_passModul.offline(), 2000);
+
+                // })
             } 
-           else if(user_passModul.checkEmployee(res,username,password)){
+            else if(user_passModul.checkEmployee(res,username,password)){
                 console.log(`Welcome employee ${username}`)
                 app.get(`/adminGuest`, function(res,req){
-                    // res.redirect (`./adminGuest`)
                 })
             }
         
-                else{
-                    console.log("Wrong password or username")
-                }
+             
            
         })
         
@@ -289,7 +287,7 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                 if (err) throw err
                 else {
                     db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout}";
-                    UPDATE booking SET check_out_date = ${new Date().toISOString().slice(0,10)}`,function(err,data){
+                    UPDATE booking SET check_out_date = "${new Date().toISOString().slice(0,10)}"`,function(err,data){
 
                         console.log(`Guest with username ${checkout} is checkout`)
 
