@@ -2,7 +2,7 @@ bugs:
 reciept_Status kad check check out . >>>> checkout date promjeniti ako je potrebno preko newdate 
 kad nisu sve usluge uzete pada ?
 napravit da se mjenja islogged 
-
+ubacit logout button ..on klik da menja islogged
 
 server preko express sa app
 server preko http var server = http.createServer

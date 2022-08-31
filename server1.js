@@ -277,6 +277,8 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                 }
             })
         })
+
+        // check-out for guest by admin 
         
         app.post("/findbooked",urlencodedParser ,function(req,res){
             const checkout = req.body.checkout;
