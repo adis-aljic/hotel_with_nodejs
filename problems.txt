@@ -1,6 +1,6 @@
 bugs:
-reciept_Status kad check check out . >>>> checkout date promjeniti ako je potrebno preko newdate 
-kad nisu sve usluge uzete pada ?
+. >>>> checkout date promjeniti ako je potrebno preko newdate 
+kad nisu sve usluge uzete pada ? nekada ?
 napravit da se mjenja islogged 
 ubacit logout button ..on klik da menja islogged
 

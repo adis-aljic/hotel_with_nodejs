@@ -284,13 +284,17 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             const checkout = req.body.checkout;
             var sql1 = `UPDATE guest SET status_guest ="Inactive" WHERE username = "${checkout}";
              UPDATE room SET room_status = "Avaiable", username = NULL, reciept_id = NULL WHERE username = "${checkout}";
-             UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout};`
+            `
             db.query(sql1, function(err,data){
                 if (err) throw err
                 else {
+                    db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout}";`,function(err,data){
 
-                    console.log(`Guest with username ${checkout} is checkout`)
-                    res.render("./findbooking")
+                        console.log(`Guest with username ${checkout} is checkout`)
+
+                        res.render("./findbooking")
+                    })
+
                 }
             })
         })  
