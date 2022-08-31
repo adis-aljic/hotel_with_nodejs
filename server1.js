@@ -242,7 +242,7 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             const booking = req.body;
             console.log(booking.search);
             db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
-            booking.check_in_date, booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
+            booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
 
              FROM booking 
@@ -257,15 +257,22 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             ;`,function(err,data){
                 if (err) throw err
                 else {
-                    res.render(`findbooking`, {total_price : data[0].total_price_for_booking, username:data[0].username, room_number:data[0].room_number,  booking_id : data[0].booking_id,
-                        check_in_date : data[0].check_in_date,
-                        check_out_date : data[0].check_out_date})
-                    // app.get(`/findbooking`, function(req,res) {
-
-                    //     console.log(data[0]);
-                      
-                       
-                    // })
+                    const book = data[0]
+                    res.render(`findbooking` , {
+                        totalprice:book.total_price_for_booking,
+                        username : book.username,
+                        check_in_date : book.check_in_date,
+                        check_out_date : book.check_out_date,
+                        booking_id : book.booking_id,
+                        total_price_cinema : book.total_price_cinema,
+                        total_price_gym : book.total_price_gym,
+                        total_price_pool : book.total_price_pool,
+                        total_price_restaurant : book.total_price_restaurant,
+                        total_price_sauna : book.total_price_sauna,
+                        room_number : book.room_number,
+                        first_name : book.first_name,
+                        last_name : book.last_name
+                    })
                 }
             })
         })

@@ -40,24 +40,28 @@
  <!--  napraviti funkciju koja u bazi updatuje da je gost checkoutovan -->
  <!-- when clicked on booking, automaticly change date to checkout date and status room to avaiable -->
  <!-- on submit send req to databse to change data for booking, room etc-->
- 
- 
- <p>  ID  : <%= booking_id %></p>
- <p>  username  : <%= username %></p>
- <p> Broj sobe : <%= room_number %></p>
- <p>  Check in date  : <%= check_in_date %></p>
- <p>  Check out date  : <%= check_out_date %></p>
- <p>  total price  : <%= total_price %></p>
-</div>
-</div>
 
-      <script>
-        function submitForm() {
-          let input = document.querySelector('#search_booking');
-            document.getElementById("#search_booking").innerHTML = input.value
-          return false;
-        }
-      </script>
+  
+ 
+ <p>  username  : <%= username %></p>
+ <p>  room number  : <%= room_number %></p>
+ <p>  first name  : <%= first_name %></p>
+ <p>  last name  : <%= last_name %></p>
+ <p>   check in date  : <%= check_in_date %></p>
+ <p>   check out date  : <%= check_out_date %></p>
+ <p>   booking id  : <%= booking_id %></p>
+ <p>   sauna price  : <%= total_price_sauna %></p>
+ <p>   restaurant price  : <%= total_price_restaurant %></p>
+ <p>    cinema price  : <%= total_price_cinema %></p>
+ <p>    pool price  : <%= total_price_pool %></p>
+ <p>    gym  : <%= total_price_gym %></p>
+ <p>  total price  : <%= totalprice %></p>
+</div>
+</div>
+<div class="checkoutbtn">
+  <button onclick="checkout()"></button>     
+
+</div>
      <%- include ("./partials/nav1.ejs") %>
 
 
