@@ -30,24 +30,27 @@
     <%- include ("./partials/nav.ejs") %>
 
 
-   
     <div class="findb">
-            <h1>Find booking</h1>
-
-<form class="search" onsubmit="submitForm()">
+      <h1>Find booking</h1>
+      
+<form class="search" action="./findbooking" method="post">
   <input type="text" placeholder="Search.." name="search" id="search_booking">
   <button type="submit" id="search_booking"><i class="fa fa-search"></i></button>
-  <button type="submit" onclick="checkout_guest()" id="submit_checkout"> Checkout guest</button>
 </form> 
  <!--  napraviti funkciju koja u bazi updatuje da je gost checkoutovan -->
-<p id="search_booking"></p>
-        </div>
-        <!-- when clicked on booking, automaticly change date to checkout date and status room to avaiable -->
-        <!-- on submit send req to databse to change data for booking, room etc-->
+ <!-- when clicked on booking, automaticly change date to checkout date and status room to avaiable -->
+ <!-- on submit send req to databse to change data for booking, room etc-->
+ 
+ 
+ <p>  ID  : <%= booking_id %></p>
+ <p>  username  : <%= username %></p>
+ <p> Broj sobe : <%= room_number %></p>
+ <p>  Check in date  : <%= check_in_date %></p>
+ <p>  Check out date  : <%= check_out_date %></p>
+ <p>  total price  : <%= total_price %></p>
+</div>
+</div>
 
-   
-   </div>
-      
       <script>
         function submitForm() {
           let input = document.querySelector('#search_booking');

@@ -2,8 +2,8 @@ const user_passModul = require("../models/user_passModel")
 
 
 function login(){
-    var uname = document.getElementById("email").value;
-    var pwd = document.getElementById("pwd1").value;
+    var uname = document.getElementById("email").innerHTML;
+    var pwd = document.getElementById("pwd1").innerHTML;
     console.log(uname,pwd);
     console.log("/guest" + uname);
     // window.location = "/guest" + uname;

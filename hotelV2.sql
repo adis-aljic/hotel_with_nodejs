@@ -1,7 +1,7 @@
 -- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
-select * from guest;
+select * from employees;
 SELECT username, password FROM guest;
 select * from guest where username = "ada";
 -- creating tables for guest and employees
@@ -256,8 +256,6 @@ SELECT * FROM reciept;
 -- UPDATE booking SET reciept_id =1 WHERE username =1; 
 
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
--- INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)
--- VALUES ("Jane","Doe","1989-9-19","M","BIH", "Tuzla","Bosnian","061556555","jane@gmail.com","Passport number","55556","admin","test1");
-select * from booking;
+select username from guest;
 select username from guest order by username desc limit 1;
 

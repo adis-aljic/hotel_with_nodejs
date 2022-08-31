@@ -11,6 +11,6 @@ problem sa inputom pass i username i kako hash integirati
 
 ne radi / or /home ruta 
 
-
+problem kad se udje na employee..ne moze ejs js
 
 ne radi for each

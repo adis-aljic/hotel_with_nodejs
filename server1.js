@@ -211,40 +211,81 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             })
             
         })
+        // resredirect(`http://localhost:3000/guest/${username}`)
 
         app.post("/login", urlencodedParser, function (req, res) {
             const data = req.body
-            var username = parseInt(data.username);
-            var password = parseInt (data.password);
+            var username = data.username;
+            var password = data.password;
             console.log(username);
             console.log(password);
-           if(user_passModul.checkUser(username,password)){
+           if(user_passModul.checkUser(res,username,password)){
                 console.log(`Welcome ${username}`)
-               res.redirect(`http://localhost:3000/guest/${username}`)
+                app.get(`/guest/${username}`, function(res,req){
+                    // res.redirect (`/guest/${username}`)
+                })
             } 
+           else if(user_passModul.checkEmployee(res,username,password)){
+                console.log(`Welcome employee ${username}`)
+                app.get(`/adminGuest`, function(res,req){
+                    // res.redirect (`./adminGuest`)
+                })
+            }
         
                 else{
                     console.log("Wrong password or username")
                 }
            
         })
-var nodemailer = require('nodemailer');
-const { generateKeyPairSync } = require("crypto");
-const { isBuffer } = require("util");
-const { query } = require("express");
-const { user, password } = require("./databaseCon.js");
-const { nextTick } = require("process");
+        
+        app.post("/findbooking", urlencodedParser, function(req,res){
+            const booking = req.body;
+            console.log(booking.search);
+            db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
+            booking.check_in_date, booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
+            restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'adis@gmail.com',
-        pass: 'yourpassword'
-    }
-});
+             FROM booking 
+             INNER JOIN guest ON guest.username = booking.username
+             INNER JOIN sauna ON sauna.username = booking.username
+             INNER JOIN restaurant ON restaurant.username = booking.username
+             INNER JOIN cinema ON cinema.username = booking.username
+             INNER JOIN gym ON gym.username = booking.username
+             INNER JOIN pool ON pool.username = booking.username
+             INNER JOIN reciept ON reciept.username = booking.username
+             WHERE booking.username = "${booking.search}"
+            ;`,function(err,data){
+                if (err) throw err
+                else {
+                    res.render(`findbooking`, {total_price : data[0].total_price_for_booking, username:data[0].username, room_number:data[0].room_number,  booking_id : data[0].booking_id,
+                        check_in_date : data[0].check_in_date,
+                        check_out_date : data[0].check_out_date})
+                    // app.get(`/findbooking`, function(req,res) {
 
+                    //     console.log(data[0]);
+                      
+                       
+                    // })
+                }
+            })
+        })
 
-app.post("/contact", urlencodedParser, function (req, res) {
+        var nodemailer = require('nodemailer');
+        const { generateKeyPairSync } = require("crypto");
+        const { isBuffer } = require("util");
+        const { query } = require("express");
+        const { user, password } = require("./databaseCon.js");
+        const { nextTick } = require("process");
+        const { addAbortSignal } = require("stream");
+        
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'adis@gmail.com',
+                pass: 'yourpassword'
+            }
+        });
+        app.post("/contact", urlencodedParser, function (req, res) {
 
     res.render("contact", { msg: req.body })
     const msg = req.body;
