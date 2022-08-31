@@ -95,7 +95,7 @@ const addRestaurantFKtoReciept = (username)=> {
     db.query(lastIDRestaurant,function(err,data){
         if (err) throw err
         else {
-    
+    console.log(data[0]);
             var FK_reciept_restaurant = 
             `UPDATE reciept
             SET restaurant_id = ${data[0].restaurant_id}
@@ -169,7 +169,7 @@ const addTotalPriceForBooking = (username)=> {
     INNER JOIN restaurant ON booking.username = restaurant.username
     INNER JOIN gym ON booking.username = gym.username
     INNER JOIN pool ON booking.username = pool.username
-    WHERE booking.username = ${username}
+    WHERE booking.username = "${username}"
     ;`
     db.query(sql, function(err,data){
         if(err) throw err

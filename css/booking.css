@@ -8,6 +8,15 @@ form {
     margin-top: 3rem;
     /* width: 5rem; */
 }
+.pict{
+    display: flex;
+    flex-direction: column;
+    padding: 1.7rem;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 3rem;
+    /* width: 5rem; */
+}
 label{
     font-size: 20px;
 }

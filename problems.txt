@@ -1,3 +1,9 @@
+bugs:
+reciept_Status kad check check out 
+kad nisu sve usluge uzete pada ?
+napravit da se mjenja logovanje u tabeli
+
+
 server preko express sa app
 server preko http var server = http.createServer
 

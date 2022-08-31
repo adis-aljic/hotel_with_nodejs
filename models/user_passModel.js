@@ -6,19 +6,22 @@ const db = mysql.createConnection(con);
 
 
 const checkUser = (res,username, password) => {
-    const sqlGuest = `SELECT username, password FROM guest;`
+    const sqlGuest = `SELECT username, password,status_guest FROM guest;`
     db.query(sqlGuest, function(err,data){
      if (err) throw err
      else {
        
         for (let i = 0; i < data.length; i++) {
             const user_pass = data[i];
-                if(username == user_pass.username && password == user_pass.password) {
-                    console.log(user_pass.username + "        baza un");
-                    console.log(username + "       unos ");
+                if(username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
+                   
                     // window.location = `/guest/${username}`
                     res.redirect (`/guest/${username}`)
 
+                }
+                else {
+                    console.log("Wrong username or password");
+                    res.redirect("/login")
                 }
         }
     }
@@ -34,9 +37,7 @@ const checkEmployee = (res,username, password) => {
             console.log(data[i]);
             const user_pass = data[i];
             if(username == user_pass.username && password == user_pass.password) {
-                 
-                    console.log(user_pass.username + "        baza un");
-                    console.log(username + "       unos ");
+
                     res.render (`./adminGuest`, {username: user_pass.username, first_name:user_pass.first_name, last_name :user_pass.last_name , job_title:user_pass.job_title})
 
                 }
