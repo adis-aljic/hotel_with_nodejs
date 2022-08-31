@@ -1,8 +1,7 @@
 bugs:
-. >>>> checkout date promjeniti ako je potrebno preko newdate 
 kad nisu sve usluge uzete pada ? nekada ?
 napravit da se mjenja islogged 
-ubacit logout button ..on klik da menja islogged
+bus dates check in and out date da ne moze biti out manje od in
 
 server preko express sa app
 server preko http var server = http.createServer

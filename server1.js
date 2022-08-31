@@ -288,7 +288,8 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             db.query(sql1, function(err,data){
                 if (err) throw err
                 else {
-                    db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout}";`,function(err,data){
+                    db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout}";
+                    UPDATE booking SET check_out_date = ${new Date().toISOString().slice(0,10)}`,function(err,data){
 
                         console.log(`Guest with username ${checkout} is checkout`)
 

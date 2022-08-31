@@ -8,9 +8,9 @@ const db = mysql.createConnection(con)
 class guestGymClass {
     date_to_gym;
     date_from_gym
-    constructor(date_to_gym,date_from_gym){
-        this.date_to_gym=  date_to_gym,
+    constructor(date_from_gym,date_to_gym){
         this.date_from_gym= date_from_gym,
+        this.date_to_gym=  date_to_gym,
         this.price_per_day_gym = 10       
     }
 }
