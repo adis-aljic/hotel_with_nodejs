@@ -1,7 +1,7 @@
 bugs:
-reciept_Status kad check check out 
+reciept_Status kad check check out . >>>> checkout date promjeniti ako je potrebno preko newdate 
 kad nisu sve usluge uzete pada ?
-napravit da se mjenja logovanje u tabeli
+napravit da se mjenja islogged 
 
 
 server preko express sa app
