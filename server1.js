@@ -240,7 +240,7 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
         
         app.post("/findbooking", urlencodedParser, function(req,res){
             const booking = req.body;
-            console.log(booking.search);
+            console.log(req.body);
             db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
             booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
@@ -258,7 +258,8 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                 if (err) throw err
                 else {
                     const book = data[0]
-                    res.render(`findbooking` , {
+                    console.log(booking);
+                    res.render(`findbooked` , {
                         totalprice:book.total_price_for_booking,
                         username : book.username,
                         check_in_date : book.check_in_date,
@@ -276,6 +277,21 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                 }
             })
         })
+        
+        app.post("/findbooked",urlencodedParser ,function(req,res){
+            const checkout = req.body.checkout;
+            var sql1 = `UPDATE guest SET status_guest ="Inactive" WHERE username = "${checkout}";
+             UPDATE room SET room_status = "Avaiable", username = NULL, reciept_id = NULL WHERE username = "${checkout}";`
+            var sql3 = `UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout};`
+            db.query(sql1,sql3, function(err,data){
+                if (err) throw err
+                else {
+
+                    console.log(`Guest with username ${checkout} is checkout`)
+                    res.render("./findbooking")
+                }
+            })
+        })  
 
         var nodemailer = require('nodemailer');
         const { generateKeyPairSync } = require("crypto");
