@@ -1,21 +1,24 @@
-function login() {
-const user_passModels = require("../models/user_passModel")
+const user_passModul = require("../models/user_passModel")
 
 
+function login(){
     var uname = document.getElementById("email").value;
     var pwd = document.getElementById("pwd1").value;
-  if(user_passModels.checkUser(uname,pwd))
+    console.log(uname,pwd);
+    console.log("/guest" + uname);
+    // window.location = "/guest" + uname;
+  if(checkUser(uname,pwd))
 {
-        window.location = "/guest";
+        console.log("aaaaaa");
     }
 
   
         else{
-            alert("admin-employee page(admin,123456),  guest page (guest,123456)")
+            alert("Wrong username or password")
         }
 }
 
 function clearFunc() {
     document.getElementById("email").value = "";
     document.getElementById("pwd1").value = "";
-}	
+}	    

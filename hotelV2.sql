@@ -1,23 +1,9 @@
 -- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
-
-  SELECT (sauna.total_price_sauna +  gym.total_price_gym +restaurant.total_price_restaurant  + cinema.total_price_cinema +pool.total_price_pool + booking.total_price_for_room) AS total_price 
-    FROM booking
-    INNER JOIN sauna ON booking.username = sauna.username
-    INNER JOIN cinema ON booking.username = cinema.username
-    INNER JOIN restaurant ON booking.username = restaurant.username
-    INNER JOIN gym ON booking.username = gym.username
-    INNER JOIN pool ON booking.username = pool.username
-	WHERE booking.username =  78945
-    ;
-   select * from booking;
-select (sauna.total_price_sauna + booking.total_price_for_room) as total_price 
-from booking
-inner join sauna on booking.username = sauna.username
-where booking.username = 78945;
-     
- select * from reciept;
+select * from guest;
+SELECT username, password FROM guest;
+select * from guest where username = "ada";
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
@@ -120,7 +106,7 @@ username VARCHAR(10),
 FOREIGN KEY (username) REFERENCES guest(username)ON DELETE CASCADE
 ON UPDATE CASCADE,
 price_per_day_restaurant INT,
-date_from_restaurant DATE ,
+date_from_restaurant DATE DEFAULT NULL,
 date_to_restaurant DATE ,
 total_price_restaurant INT DEFAULT 0,
 reciept_id INT

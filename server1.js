@@ -14,7 +14,8 @@ const poolModule = require("./models/poolModel")
 const cinemaModule = require("./models/cinemaModel")
 const gymModule = require("./models/gymModel")
 const recieptModule = require("./models/recieptModel")
-const userPassModule = require("./models/user_passModel")
+const user_passModul = require("./models/user_passModel")
+
 
 const db = mysql.createConnection(con)
 db.connect((err) => {
@@ -168,10 +169,9 @@ app.get("/findbooking", function (req, res) {
    
     recieptModule.addTotalPriceForBooking(newguest.username)
                             
+})
 
-                        })
-                    
-                        app.post("/adminemployee", urlencodedParser, function (req, res) {
+app.post("/adminemployee", urlencodedParser, function (req, res) {
 
     res.render("newemployee", { infoAdmin: req.body })
     const infoAdmin = req.body;
@@ -186,22 +186,8 @@ app.get("/findbooking", function (req, res) {
 })
 
         app.get("/guest/:username", function (req, res) {
-        //     let sqlInfo = `SELECT guest.first_name,guest.last_name, guest.username,guest.password,booking.room_number,booking.check_in_date,booking.check_out_date
-        //     FROM guest
-        //     INNER JOIN booking ON guest.username = booking.username
-        //     WHERE booking.username ="${req.params["username"]}";`
-        //     db.query(sqlInfo, function(err, result, next){
-        //         if (err) throw err
-        //         else {
-        //             let data = result[0]; 
-                   
-        //             res.render("guest", { first_name: data.first_name,last_name : data.last_name ,room_number: data.room_number, username: data.username, password: data.password, check_in_date:data.check_in_date,check_out_date :data.check_out_date  });
-        //         }
-        //     })
-            
-                  
-                    
-            let recieptSQL = `SELECT guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
+                
+            let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
             cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
             FROM booking 
             INNER JOIN sauna ON booking.booking_id = sauna.booking_id
@@ -226,8 +212,22 @@ app.get("/findbooking", function (req, res) {
             
         })
 
-
-
+        app.post("/login", urlencodedParser, function (req, res) {
+            const data = req.body
+            var username = parseInt(data.username);
+            var password = parseInt (data.password);
+            console.log(username);
+            console.log(password);
+           if(user_passModul.checkUser(username,password)){
+                console.log(`Welcome ${username}`)
+               res.redirect(`http://localhost:3000/guest/${username}`)
+            } 
+        
+                else{
+                    console.log("Wrong password or username")
+                }
+           
+        })
 var nodemailer = require('nodemailer');
 const { generateKeyPairSync } = require("crypto");
 const { isBuffer } = require("util");
@@ -267,9 +267,6 @@ app.post("/contact", urlencodedParser, function (req, res) {
         }
     });
 })
-
-
-
 
 
 

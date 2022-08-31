@@ -9,40 +9,49 @@
 
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/login.css">
-    <script src="../js/login.js"></script>
+    <!-- <script src="../js/login.js" defer></script> -->
 </head>
 <body>
     <%- include ("./partials/nav.ejs") %>
 
-      <section class="position">
+      <!-- <section class="position">
 
           <div class="center">
               <h1>Login page</h1>
-              <form>
+              <form  action="./login" method="post">
                   <div class="forms">
                       
                       <div class="inputbox">
-                        <input type="text" required="required" id="email" class="tb">
+                        <input type="text" required="required" name="username"  class="tb" >
                         <span>Email</span>
                     </div>
                     <div class="inputbox">
-                        <input type="text" required="required" id="pwd1" class="tb">
+                        <input type="text" required="required" name="password"  class="tb">
                         <span>Password</span>
                     </div>
               </div>
     <div class="btn">
         <div class="inputbox">
-            <input class="button" type="button" value="Submit" onclick="login()">
+            <button class="button" type="submit" value="Submit" >
         </div>
         <div class="inputbox">
-            <input class="button" type="button" value="Reset" onclick="clearFunc()">
+            <input class="button" type="button" value="Reset" >
         </div>
     </div>
             </form>
           </div>
-        </div>
+        </div> -->
+    <!-- </section> -->
+    <section>
+
+        <form action="/login" method="post">
+            <label for="user">username</label>
+            <input type="text" name="username">
+            <label for="pass">password</label>
+            <input type="text" name="password">
+            <button type="submit">send</button>
+        </form>
     </section>
- 
 
 
 </body>
