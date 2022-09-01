@@ -215,16 +215,18 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
 
         app.post("/login", urlencodedParser, function (req, res) {
             const data = req.body
-            var username = data.username;
-            var password = data.password;
-            console.log(username);
-            console.log(password + "555555555") ;
-            if(user_passModul.checkEmployee(res,username,password)){
-               console.log(`Welcome employee ${username}`)
-            }
-     else    if(user_passModul.checkUser(res,username,password)){
-                console.log(`Welcome ${username}`)    
-            } 
+            // var username = data.username;
+            // var password = data.password;
+            console.log(data);
+            // console.log(password + "555555555") ;
+            user_passModul.checkEmployee(res,data.username_employees,data.password_employees)
+            // if(user_passModul.checkEmployee(res,username,password)){
+            //    console.log(`Welcome employee ${username}`)
+            // }
+    user_passModul.checkUser(res,app,data.username_guest,data.password_guest)
+    //  else    if(user_passModul.checkUser(res,username,password)){
+                // console.log(`Welcome ${username}`)    
+            // } 
             // else return res.redirect("/")
         })
         

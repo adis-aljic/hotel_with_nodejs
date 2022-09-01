@@ -43,12 +43,20 @@
         </div> -->
     <!-- </section> -->
     <section>
-
+<h1>login for user</h1>
         <form action="/login" method="post">
             <label for="user">username</label>
-            <input type="text" name="username">
+            <input type="text" name="username_guest">
             <label for="pass">password</label>
-            <input type="text" name="password">
+            <input type="text" name="password_guest">
+            <button type="submit">send</button>
+        </form>
+        <h2>login for employees</h2>
+        <form action="/login" method="post">
+            <label for="user">username</label>
+            <input type="text" name="username_employees">
+            <label for="pass">password</label>
+            <input type="text" name="password_employees">
             <button type="submit">send</button>
         </form>
     </section>

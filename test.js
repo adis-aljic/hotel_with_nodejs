@@ -16,7 +16,5 @@ function offline (){
             })
         })
 }
-exports.module = {
-    offline
-}
+
          

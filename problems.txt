@@ -10,34 +10,10 @@ slanje podataka preko readStream i writeStream
 
 xamp i apachee problemi
 
-kako napraviti da se mjenja url za dinamicko ubacivanje na stranicu
 
 problem sa inputom pass i username i kako hash integirati
 
 ne radi / or /home ruta 
 
-SELECT (ifnull(sauna.total_price_sauna,0) +  ifnull(gym.total_price_gym,0) + ifnull(restaurant.total_price_restaurant,0)  + ifnull(cinema.total_price_cinema,0) + ifnull(pool.total_price_pool,0) + ifnull(booking.total_price_for_room,0)) AS total_price 
-    FROM booking
-    INNER JOIN sauna ON booking.username = sauna.username
-    INNER JOIN cinema ON booking.username = cinema.username
-    INNER JOIN restaurant ON booking.username = restaurant.username
-    INNER JOIN gym ON booking.username = gym.username
-    INNER JOIN pool ON booking.username = pool.username
-		where booking.username = 78945
-    ;
-
-
-    const total_price_sauna = book.total_price_sauna
-                    const total_price_cinema = book.total_price_cinema
-                    const total_price_restaurant = book.total_price_restaurant
-                    const total_price_gym = book.total_price_gym
-                    const total_price_pool = book.total_price_pool
-                    const username = book.username
-                    const first_name = book.first_name
-                    const last_name = book.last_name
-                    const check_in_date = book.check_in_date
-                    const check_out_date = book.check_out_date
-                    const booking_id = book.booking_id
-osdubrave@
 
 ne radi for each
