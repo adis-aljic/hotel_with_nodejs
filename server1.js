@@ -17,6 +17,7 @@ const recieptModule = require("./models/recieptModel")
 const user_passModul = require("./models/user_passModel")
 
 
+
 const db = mysql.createConnection(con)
 db.connect((err) => {
     if (err) throw err
@@ -254,8 +255,8 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                     res.render(`findbooked` , {
                         totalprice:book.total_price_for_booking,
                         username : book.username,
-                        check_in_date : book.check_in_date,
-                        check_out_date : book.check_out_date,
+                        check_in_date : book.check_in_date.toISOString().slice(0,10),
+                        check_out_date : book.check_out_date.toISOString().slice(0,10),
                         booking_id : book.booking_id,
                         total_price_cinema : book.total_price_cinema,
                         total_price_gym : book.total_price_gym,
@@ -275,7 +276,7 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
         app.post("/findbooked",urlencodedParser ,function(req,res){
             const checkout = req.body.checkout;
             var sql1 = `UPDATE guest SET status_guest ="Inactive" WHERE username = "${checkout}";
-             UPDATE room SET room_status = "Avaiable", username = NULL, reciept_id = NULL WHERE username = "${checkout}";
+             UPDATE room SET room_status = "Avaiable", booking = NULL, username = NULL, reciept_id = NULL WHERE username = "${checkout}";
             `
             db.query(sql1, function(err,data){
                 if (err) throw err
@@ -291,6 +292,8 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                 }
             })
         })  
+
+   
 
         var nodemailer = require('nodemailer');
         const { generateKeyPairSync } = require("crypto");

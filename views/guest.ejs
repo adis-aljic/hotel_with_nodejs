@@ -21,7 +21,9 @@
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/guest.css">
     <link rel="stylesheet" href="../css/admin_guest.css">
-
+    <script>
+        const offModule = require ("../models/user_passModel")
+    </script>
 </head>
 
 <body>
@@ -91,10 +93,11 @@
 
 <nav1>
     <!-- <a href="#">RECIEPT</a> -->
-    <a href="#">CHECKOUT</a>
-    <a href="/">Logout</a>
-    <div id="indicator"></div>
+    <!-- <a href="#">CHECKOUT</a> -->
+        <button onclick="offModule.offline()" >Logout</button>
+        <div id="indicator"></div>
   </nav1>
+  
 </body>
 
 </html>

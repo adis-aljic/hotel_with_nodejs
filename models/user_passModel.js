@@ -1,10 +1,10 @@
 
-const e = require("express");
+const express = require("express");
 const { appendFile } = require("fs");
 const mysql = require("mysql2")
 const con = require("../databaseCon");
 const db = mysql.createConnection(con);
-
+const app = express();
 
 const checkUser = (res, app, username, password) => {
     const sqlGuest = `SELECT username, password,status_guest, isLoged FROM guest;`
@@ -26,8 +26,7 @@ const checkUser = (res, app, username, password) => {
 
                 }
                 else {
-                    app.get("/login",function(res,req){
-                        res.render("/login")
+                  app.get("/login",function(res,req){
                     })
                 }
 
@@ -59,16 +58,17 @@ const checkEmployee = (res, username, password) => {
 
 function offline() {
     console.log("bb");
-    app.get("/login", function (res, req) {
+    // app.get("/login", function (res, req) {
+        // console.log(`User ${req.params.username} is loged out`);
         db.query(`UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params.username}"`, function (err, data) {
             if (err) throw err
             else {
 
-                console.log(`User ${req.params.username} is loged out`);
+                // console.log(`User ${req.params.username} is loged out`);
                 console.log("Your session is finished");
             }
         })
-    })
+    // })
 }
 
 // console.log(checkUser(78945,92855))

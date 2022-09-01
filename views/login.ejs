@@ -12,38 +12,87 @@
     <!-- <script src="../js/login.js" defer></script> -->
 </head>
 <body>
-    <%- include ("./partials/nav.ejs") %>
-
-      <!-- <section class="position">
-
-          <div class="center">
-              <h1>Login page</h1>
-              <form  action="./login" method="post">
-                  <div class="forms">
-                      
-                      <div class="inputbox">
-                        <input type="text" required="required" name="username"  class="tb" >
-                        <span>Email</span>
-                    </div>
-                    <div class="inputbox">
-                        <input type="text" required="required" name="password"  class="tb">
-                        <span>Password</span>
-                    </div>
-              </div>
-    <div class="btn">
-        <div class="inputbox">
-            <button class="button" type="submit" value="Submit" >
-        </div>
-        <div class="inputbox">
-            <input class="button" type="button" value="Reset" >
-        </div>
+    <div>
+        
+        <%- include ("./partials/nav.ejs") %>
     </div>
-            </form>
-          </div>
-        </div> -->
-    <!-- </section> -->
-    <section>
-<h1>login for user</h1>
+    <div class="all1">
+        <div class="all">
+            <form method="post" action="/login" id="login-form" class="login-form" autocomplete="on" role="main">
+                <h1>Guest Log in</h1>
+                <h1 class="a11y-hidden">Login Form</h1>
+                <div>
+                    <label class="label-email">
+                        <input type="text" class="text" name="username_guest" placeholder="Username" tabindex="1" required />
+                        <span class="required">Guest Username</span>
+                </label>
+            </div>
+          
+        </label>
+        <div>
+          <label class="label-password">
+              <input type="text" class="text" name="password_guest" placeholder="Password" tabindex="2" required />
+              <span class="required">Password</span>
+            </label>
+        </div>
+        <input type="submit" value="Log In" />
+        <div class="email">
+            <a href="/contact">Forgot password?</a>
+        </div>
+        <figure aria-hidden="true">
+            <div class="person-body"></div>
+            <div class="neck skin"></div>
+            <div class="head skin">
+                <div class="eyes"></div>
+                <div class="mouth"></div>
+            </div>
+            <div class="hair"></div>
+            <div class="ears"></div>
+            <div class="shirt-1"></div>
+            <div class="shirt-2"></div>
+        </figure>
+    </form>
+</div>
+<div class="all">
+    <form method="post" action="/login" id="login-form" class="login-form" autocomplete="on" role="main">
+                <h1>Employees Log in</h1>
+                <h1 class="a11y-hidden">Login Form</h1>
+                <div>
+                    <label class="label-email">
+                        <input type="text" class="text" name="username_employees" placeholder="Username" tabindex="1" required />
+                        <span class="required">Employee Username</span>
+                </label>
+            </div>
+          
+        </label>
+        <div>
+          <label class="label-password">
+              <input type="text" class="text" name="password_employees" placeholder="Password" tabindex="2" required />
+              <span class="required">Password</span>
+            </label>
+        </div>
+        <input type="submit" value="Log In" />
+        <div class="email">
+            <a href="/contact">Forgot password?</a>
+        </div>
+        <figure aria-hidden="true">
+            <div class="person-body"></div>
+            <div class="neck skin"></div>
+            <div class="head skin">
+                <div class="eyes"></div>
+                <div class="mouth"></div>
+            </div>
+            <div class="hair"></div>
+            <div class="ears"></div>
+            <div class="shirt-1"></div>
+            <div class="shirt-2"></div>
+        </figure>
+    </form>
+</div>
+    
+</div>
+    
+    <!-- <h1>login for user</h1>
         <form action="/login" method="post">
             <label for="user">username</label>
             <input type="text" name="username_guest">
@@ -59,7 +108,7 @@
             <input type="text" name="password_employees">
             <button type="submit">send</button>
         </form>
-    </section>
+    </section> -->
 
 
 </body>

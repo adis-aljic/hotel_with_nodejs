@@ -22,7 +22,7 @@ job_title VARCHAR(40) NOT NULL,
 date_for_hiring TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 status_for_employee ENUM ("Active","Fired","On leave") DEFAULT "Active",
 username VARCHAR(10) UNIQUE NOT NULL,
-password VARCHAR(10) UNIQUE NOT NULL
+password VARCHAR(50) UNIQUE NOT NULL
 );
 CREATE TABLE guest(
 first_name VARCHAR(40) NOT NULL,
@@ -32,7 +32,7 @@ gender ENUM ("M","F","O"),
 country VARCHAR(40),
 city VARCHAR(40),
 username VARCHAR(10) PRIMARY KEY,
-password VARCHAR(10) UNIQUE NOT NULL,
+password VARCHAR(50) UNIQUE NOT NULL,
 isLoged ENUM ("online","offline") DEFAULT "offline",
 prefered_language ENUM ("Bosnian","English") DEFAULT "Bosnian",
 phone_number VARCHAR(15) UNIQUE NOT NULL,
@@ -250,10 +250,12 @@ alter table gym add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
 alter table pool add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
 alter table sauna add FOREIGN KEY (reciept_id) REFERENCES reciept(reciept_id);
 -- ako je manji checkout date od curr date staviti da je curr date chekcout date
-SELECT * FROM reciept;
+SELECT * FROM guest;
 -- UPDATE booking SET reciept_id =1 WHERE username =1; 
 
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
-select username from guest;
+select * from employees;
 select username from guest order by username desc limit 1;
 
+-- INSERT INTO employees (first_name,last_name,username,password,phone_number,email,document_for_indefication,number_of_document_for_indefication,job_title)
+-- VALUES ("Adis","Aljic","admin","admin","125469","aaa@bb.com","Passport number","77777","Manager");
