@@ -19,6 +19,7 @@
     <title>Imaginery hotel</title>
     <script src="../js/user_pass.js" defer></script>
 
+    <link rel="stylesheet" href="../css/findbooked.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/admin_guest.css">
@@ -30,37 +31,66 @@
     <!-- <%- include ("./partials/nav2.ejs") %> -->
 
 
-    <div class="findb">
-      <h1>Find booking</h1>
+    <!-- <div class="findb"> -->
+      <!-- <h1>Find booking</h1> -->
       
-<form class="search, checkoutbtn" action="./findbooked" method="post">
-  
 
-
-  <input type="text" id="checkout" name="checkout"></input>
-    <label for="checkout">Checkout guest</label>
-    <button type="submit">Submit</button>
-  
-</form> 
  <!--  napraviti funkciju koja u bazi updatuje da je gost checkoutovan -->
  <!-- when clicked on booking, automaticly change date to checkout date and status room to avaiable -->
  <!-- on submit send req to databse to change data for booking, room etc-->
+<div class="container">
 
-  
- 
- <p>  username  : <%= username %></p>
- <p>  room number  : <%= room_number %></p>
- <p>  first name  : <%= first_name %></p>
- <p>  last name  : <%= last_name %></p>
- <p>   check in date  : <%= check_in_date %></p>
- <p>   check out date  : <%= check_out_date %></p>
- <p>   booking id  : <%= booking_id %></p>
- <p>   sauna price  : <%= total_price_sauna %></p>
- <p>   restaurant price  : <%= total_price_restaurant %></p>
+  <div class="container1">
+    
+    <h1>Information about booking</h1>
+    <p>  username  : <%= username %></p>
+    <p>  room number  : <%= room_number %></p>
+    <p>  first name  : <%= first_name %></p>
+  <p>  last name  : <%= last_name %></p>
+  <p>   check in date  : <%= check_in_date %></p>
+  <p>   check out date  : <%= check_out_date %></p>
+  <p>   booking id  : <%= booking_id %></p>
+  <p>   sauna price  : <%= total_price_sauna %></p>
+  <p>   restaurant price  : <%= total_price_restaurant %></p>
  <p>    cinema price  : <%= total_price_cinema %></p>
  <p>    pool price  : <%= total_price_pool %></p>
  <p>    gym  : <%= total_price_gym %></p>
  <p>  total price  : <%= totalprice %></p>
+ 
+</div>  
+<div>
+  
+  <form  action="./findbooked" method="post">
+    <h1>Check out guest</h1>
+    <label for="check_out_date">Change check out date</label>
+    <input type="date" name="check_out_date" id="check_out_date">
+    <br>
+    <label for="check_out_date_sauna">Change check out date for Sauna</label>
+    <input type="date" name="check_out_date_sauna" id="check_out_date_sauna">
+    <br>
+    
+    <label for="check_out_date_cinema">Change check out date for cinema</label>
+    <input type="date" name="check_out_date_cinema" id="check_out_date_cinema">
+    <br>
+
+    <label for="check_out_date_pool">Change check out date for pool</label>
+    <input type="date" name="check_out_date_pool" id="check_out_date_pool">
+    <br>
+    
+  <label for="check_out_date_gym">Change check out date for gym</label>
+  <input type="date" name="check_out_date_gym" id="check_out_date_gym">
+  <br>
+
+  <label for="check_out_date_restaurant">Change check out date for restaurant</label>
+  <input type="date" name="check_out_date_restaurant" id="check_out_date_restaurant">
+  <br>
+  
+  <label for="checkout">Enter username</label>
+  <input type="text" placeholder="insert username" id="checkout" name="checkout"></input>
+  <br>
+  <button type="submit">Submit</button>
+  
+</form> 
 </div>
 </div>
 
