@@ -41,20 +41,25 @@
 <div class="container">
 
   <div class="container1">
-    
     <h1>Information about booking</h1>
+    <br>
     <p>  username  : <%= username %></p>
     <p>  room number  : <%= room_number %></p>
     <p>  first name  : <%= first_name %></p>
   <p>  last name  : <%= last_name %></p>
+  <br>
   <p>   check in date  : <%= check_in_date %></p>
   <p>   check out date  : <%= check_out_date %></p>
   <p>   booking id  : <%= booking_id %></p>
+  <br>
+   <span><hr></span>
+   <h3>Reciept</h3>
   <p>   sauna price  : <%= total_price_sauna %></p>
   <p>   restaurant price  : <%= total_price_restaurant %></p>
  <p>    cinema price  : <%= total_price_cinema %></p>
  <p>    pool price  : <%= total_price_pool %></p>
  <p>    gym  : <%= total_price_gym %></p>
+  <span style="width: 50%;"><hr></span>
  <p>  total price  : <%= totalprice %></p>
  
 </div>  
@@ -62,7 +67,7 @@
   
   <form  action="./findbooked" method="post">
     <h1>Check out guest</h1>
-    <label for="check_out_date">Change check out date</label>
+    <label for="check_out_date">Confirm check out date</label>
     <input type="date" name="check_out_date" id="check_out_date">
     <br>
     <label for="check_out_date_sauna">Change check out date for Sauna</label>

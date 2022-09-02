@@ -223,7 +223,7 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
                 else {
                     console.log(data1[0])
                     let reciept = data1[0]
-                    res.render("guest", {first_name: reciept.first_name, room_number:reciept.room_number, last_name: reciept.last_name, username:reciept.username,password:reciept.password,check_in_date:reciept.check_in_date,check_out_date:reciept.check_out_date,total_price_for_room: reciept.total_price_for_room,total_price_sauna : reciept.total_price_sauna ,total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool:reciept.total_price_pool,total_price_for_booking :reciept.total_price_for_booking,reciept_status:reciept.reciept_status  });
+                    res.render("guest", {first_name: reciept.first_name, room_number:reciept.room_number, last_name: reciept.last_name, username:reciept.username,password:reciept.password,check_in_date:reciept.check_in_date.toISOString().slice(0,10),check_out_date:reciept.check_out_date.toISOString().slice(0,10),total_price_for_room: reciept.total_price_for_room,total_price_sauna : reciept.total_price_sauna ,total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool:reciept.total_price_pool,total_price_for_booking :reciept.total_price_for_booking,reciept_status:reciept.reciept_status  });
                     
                 }
             })

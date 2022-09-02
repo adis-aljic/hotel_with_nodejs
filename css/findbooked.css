@@ -3,13 +3,25 @@
     flex-direction: column;
     justify-items: center;
     margin: auto;
+    padding-top: 8rem;
 }
 .container1{
     display: flex;
     flex-direction: column;
     width: fit-content;
     justify-items: center;
+    justify-content: center;
     padding-top: 5rem;
+    /* background-color: aqua; */
+    border: 1px solid black;
+    padding: 3rem;
+    border-radius: 20px;
+    padding-top: 2rem;
+
+}
+
+p{
+   margin: 0.1em;
 }
 /* .container2{ */
     /* display: flex; */
