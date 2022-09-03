@@ -35,8 +35,8 @@ app.get("/", function (req, res) {
 app.get("/contact", function (req, res) {
     res.render("contact")
 })
-app.get("/pictures", function (req, res) {
-    res.render("pictures")
+app.get("/adminlogin", function (req, res) {
+    res.render("adminlogin")
 })
 app.get("/login", function (req, res) {
     res.render("login")
@@ -77,7 +77,7 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
         // bcrypt.hash(password, salt, function(err, hash) {
             // console.log(hash);
             var newguest = new guestModule.newguestClass(info.first_name, info.last_name, info.date_of_birth, info.country, info.city, info.phone_number, info.email, info.gender, info.prefered_language, info.username, info.password, info.document_for_indefication, info.number_of_document_for_indefication)
-            guestModule.addGuestSQL(newguest, newguest.first_name, newguest.last_name, newguest.date_of_birth, newguest.gender, newguest.country, newguest.city, newguest.prefered_language, newguest.phone_number, newguest.email, newguest.document_for_indefication, newguest.number_of_document_for_indefication, newguest.username, newguest.password)
+            guestModule.addGuestSQL(newguest, newguest.first_name, newguest.last_name, newguest.date_of_birth, newguest.gender, newguest.country, newguest.city, newguest.prefered_language, newguest.phone_number, newguest.email, newguest.document_for_indefication, newguest.document_for_indefication + " "+ newguest.number_of_document_for_indefication , newguest.username, newguest.password)
 
         // adding guest into avaiable room
         var guestRoom = new roomModule.guestRoomClass(info.room_number)
@@ -225,9 +225,10 @@ app.get("/guest/:username", function (req, res) {
             where booking.username = "${req.params["username"]}";
             `
     db.query(recieptSQL, function (err, data1) {
-        console.log("aaaaaaa");
+        console.log("isticatava gosta");
         if (err) throw err
         else {
+            console.log(data1);
             console.log(data1[0])
             let reciept = data1[0]
             res.render("guest", { first_name: reciept.first_name, room_number: reciept.room_number, last_name: reciept.last_name, username: reciept.username, password: reciept.password, check_in_date: reciept.check_in_date.toISOString().slice(0, 10), check_out_date: reciept.check_out_date.toISOString().slice(0, 10), total_price_for_room: reciept.total_price_for_room, total_price_sauna: reciept.total_price_sauna, total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool: reciept.total_price_pool, total_price_for_booking: reciept.total_price_for_booking, reciept_status: reciept.reciept_status });
@@ -246,7 +247,7 @@ app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body
     // var username = data.username;
     // var password = data.password;
-    console.log(data);
+    // console.log(data);
     // console.log(password + "555555555") ;
     // user_passModul.checkEmployee(res,data.username_employees,data.password_employees)
     // if(user_passModul.checkEmployee(res,username,password)){
@@ -257,13 +258,20 @@ app.post("/login", urlencodedParser, function (req, res) {
     // const salt = 10;
     // bcrypt.hash(data.password_guest, salt, function(err, hash) {
         // console.log(hash);
-    user_passModul.checkUser(res, data.username_guest, data.password_guest, data.username_employees, data.password_employees)
+    user_passModul.checkUser(res, data.username_guest, data.password_guest)
     
 // })
     //  else    if(user_passModul.checkUser(res,username,password)){
     // console.log(`Welcome ${username}`)    
     // } 
     // else return res.redirect("/")
+})
+app.post("/adminlogin", urlencodedParser, function (req, res) {
+    const data = req.body
+    console.log("data for admin");
+    console.log(data);
+    user_passModul.checkEmployee(res, data.username_employees, data.password_employees)
+  
 })
 
 app.post("/findbooking", urlencodedParser, function (req, res) {

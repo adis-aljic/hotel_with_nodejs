@@ -174,6 +174,7 @@ const addTotalPriceForBooking = (username)=> {
     db.query(sql, function(err,data){
         if(err) throw err
         else {
+          
             db.query(`UPDATE reciept SET total_price_for_booking = ${data[0].total_price} WHERE username = "${username}"`)
         }
     })

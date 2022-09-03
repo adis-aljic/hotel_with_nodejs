@@ -1,4 +1,4 @@
--- drop database hotel_node;
+--	 drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
 select * from guest;
@@ -43,8 +43,17 @@ booking_id INT,
 reciept_id INT,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
+-- delete  from guest where username = "test";
+select * from employees;
+SELECT username, password  FROM employees;
+ALTER TABLE guest
+MODIFY COLUMN password VARCHAR(70);
+ALTER TABLE employees
+MODIFY COLUMN password VARCHAR(70);
+ALTER TABLE guest
+MODIFY COLUMN number_of_document_for_indefication VARCHAR(70);
+ALTER TABLE employees	
+MODIFY COLUMN number_of_document_for_indefication VARCHAR(70);
 CREATE TABLE room (
 room_number INT PRIMARY KEY,
 type_of_room ENUM("Single bed", "Twin bed", "Apartment"),
@@ -212,7 +221,7 @@ VALUES (302,"Apartment",50,"Avaiable");
 -- VALUES (1,1,1,10,current_date(),adddate(current_date(),5),datediff(date_to_pool,date_from_pool)*price_per_day_pool);
 -- INSERT INTO reciept (username, room_number,pool_id,reciept_status) 
 -- VALUES(1,1,1,"active");
-select * from reciept
+select * from guest
 ;
 -- UPDATE booking 
 -- updating total price for room

@@ -17,21 +17,22 @@
         <%- include ("./partials/nav.ejs") %>
     </div>
     <div class="all1">
-        <div class="all">
-            <form method="post" action="/login" id="login-form" class="login-form" autocomplete="on" role="main">
-                <h1>Guest Log in</h1>
+      
+<div class="all">
+    <form method="post" action="/adminlogin" id="login-form" class="login-form" autocomplete="on" role="main">
+                <h1>Employees Log in</h1>
                 <h1 class="a11y-hidden">Login Form</h1>
                 <div>
                     <label class="label-email">
-                        <input type="text" class="text" name="username_guest" placeholder="Username" tabindex="1" required />
-                        <span class="required">Guest Username</span>
+                        <input type="text" class="text" name="username_employees" placeholder="Username" tabindex="1" required />
+                        <span class="required">Employee Username</span>
                 </label>
             </div>
           
         </label>
         <div>
           <label class="label-password">
-              <input type="text" class="text" name="password_guest" placeholder="Password" tabindex="2" required />
+              <input type="text" class="text" name="password_employees" placeholder="Password" tabindex="2" required />
               <span class="required">Password</span>
             </label>
         </div>
@@ -53,7 +54,6 @@
         </figure>
     </form>
 </div>
-
     
 </div>
     
