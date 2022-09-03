@@ -36,17 +36,16 @@ const db = mysql.createConnection(con)
 }
 
 const addGuestSQL= (newguest,first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password)=>{
-
     var sqlGuest = `INSERT INTO guest (first_name,last_name,date_of_birth,gender,country,city,prefered_language,phone_number,email,document_for_indefication,number_of_document_for_indefication,username,password) 
     VALUES("${first_name}","${last_name}","${date_of_birth}","${gender}","${country}","${city}","${prefered_language}","${phone_number}","${email}","${document_for_indefication}","${number_of_document_for_indefication}","${username}","${password}")`
-    
     db.query(sqlGuest, newguest, function (err, data) {
         if (err) throw err;
         else console.log(" new guest added")
-      })
-      
+      })      
   }
 
+
+  
 module.exports = {
     newguestClass,
     addGuestSQL   

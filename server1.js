@@ -16,6 +16,8 @@ const gymModule = require("./models/gymModel")
 const recieptModule = require("./models/recieptModel")
 const user_passModul = require("./models/user_passModel")
 const bcrypt = require ('bcrypt');
+var nodemailer = require('nodemailer');
+
 
 const db = mysql.createConnection(con)
 db.connect((err) => {
@@ -28,6 +30,8 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(express.static(__dirname));
 app.set("view engine", "ejs")
 
+
+// GET REQUESTS
 
 app.get("/", function (req, res) {
     res.render("index")
@@ -54,23 +58,38 @@ app.get("/findbooking", function (req, res) {
 app.get("/adminGuestWrongCheckIn", function (req, res) {
     res.render("adminGuestWrongCheckIn")
 })
+app.get("/loginWrongPass", function (req, res) {
+    res.render("loginWrongPass")
+})
+app.get("/guest/:username", function (req, res) {
+
+    let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
+            cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
+            FROM booking 
+            INNER JOIN sauna ON booking.booking_id = sauna.booking_id
+            INNER JOIN restaurant ON booking.booking_id = restaurant.booking_id
+            INNER JOIN cinema ON booking.booking_id = cinema.booking_id
+            INNER JOIN gym ON booking.booking_id = gym.booking_id
+            INNER JOIN pool ON booking.booking_id = pool.booking_id
+            INNER JOIN reciept ON booking.booking_id = reciept.booking_id
+            INNER JOIN guest ON booking.booking_id = guest.booking_id
+            where booking.username = "${req.params["username"]}";
+            `
+    db.query(recieptSQL, function (err, data1) {
+        if (err) throw err
+        else {
+            let reciept = data1[0]
+            res.render("guest", { first_name: reciept.first_name, room_number: reciept.room_number, last_name: reciept.last_name, username: reciept.username, password: reciept.password, check_in_date: reciept.check_in_date.toISOString().slice(0, 10), check_out_date: reciept.check_out_date.toISOString().slice(0, 10), total_price_for_room: reciept.total_price_for_room, total_price_sauna: reciept.total_price_sauna, total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool: reciept.total_price_pool, total_price_for_booking: reciept.total_price_for_booking, reciept_status: reciept.reciept_status });
+        }
+    })
+})
+
+// POST REQUESTS
+
+// adding new guest
 app.post("/adminguest", urlencodedParser, function (req, res) {
-
-
     res.render("newguest", { info: req.body })
-
-
-
-
-
-
     const info = req.body;
-    // console.log(info)
-    // console.log(roomModule.returnRoomStatus(parseInt(info.room_number)) )
-    // if (roomModule.returnRoomStatus(parseInt(info.room_number)) == "Avaiable") {
-    // adding guest 
- 
-    
     if (info.check_in_date < info.check_out_date) {
         // const salt = 10;
         // const password = info.password;
@@ -87,46 +106,40 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
         var guestBooking = new bookingModule.guestBookingClass(info.check_in_date, info.check_out_date, info.price_per_night)
         bookingModule.createBooking(guestBooking, guestBooking.check_in_date, guestBooking.check_out_date, guestBooking.price_per_night, guestRoom.room_number, newguest.username)
 
+        // creating sauna for guest
         if (info.date_to_sauna != "" && info.date_from_sauna != "" && info.date_to_sauna > info.date_from_sauna) {
-
-            // creating sauna for guest
             var guestSauna = new saunaModule.guestSaunaClass(info.date_from_sauna, info.date_to_sauna)
             saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna, guestSauna.date_to_sauna, guestSauna.price_per_day_sauna, guestRoom.room_number, newguest.username)
         }
         else {
-            console.log("Date is wrong or it is empty sauna");
-
+            console.log("Date is wrong or sauna is empty ");
             var guestSauna = new saunaModule.guestSaunaClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
             saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna, guestSauna.date_to_sauna, guestSauna.price_per_day_sauna, guestRoom.room_number, newguest.username)
-
-
         }
+
         // creating restaurant for guest
         if (info.date_to_restaurant != "" && info.date_from_restaurant != "" && info.date_to_restaurant > info.date_from_restaurant) {
             var guestRestaurant = new restaurantModule.guestRestaurantClass(info.date_from_restaurant, info.date_to_restaurant)
             restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant, guestRestaurant.date_to_restaurant, guestRestaurant.price_per_day_restaurant, guestRoom.room_number, newguest.username)
         }
         else {
-            console.log("Date is wrong or it is empty restaurant");
-
-
+            console.log("Date is wrong or restaurant is empty ");
             var guestRestaurant = new restaurantModule.guestRestaurantClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
             restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant, guestRestaurant.date_to_restaurant, guestRestaurant.price_per_day_restaurant, guestRoom.room_number, newguest.username)
         }
+
         // // creating pool for guest
 
         if (info.date_to_pool != "" && info.date_from_pool != "" && info.date_to_pool > info.date_from_pool) {
-
             var guestPool = new poolModule.guestPoolClass(info.date_from_pool, info.date_to_pool)
             poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool, guestPool.date_to_pool, guestPool.price_per_day_pool, guestRoom.room_number, newguest.username)
         }
         else {
-            console.log("Date is wrong or it is empty pool");
-
+            console.log("Date is wrong or pool is empty ");
             var guestPool = new poolModule.guestPoolClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
             poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool, guestPool.date_to_pool, guestPool.price_per_day_pool, guestRoom.room_number, newguest.username)
-
         }
+
         // creating cinema for guest
 
         if (info.date_to_cinema != "" && info.date_from_cinema != "" && info.date_to_cinema > info.date_from_cinema) {
@@ -134,26 +147,23 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
             cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema, guestCinema.date_to_cinema, guestCinema.price_per_day_cinema, guestRoom.room_number, newguest.username)
         }
         else {
-            console.log("Date is wrong or it is empty cinema");
-
+            console.log("Date is wrong or cinema is empty ");
             var guestCinema = new cinemaModule.guestCinemaClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
             cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema, guestCinema.date_to_cinema, guestCinema.price_per_day_cinema, guestRoom.room_number, newguest.username)
-
         }
 
         // creating gym for guest
-
         if (info.date_to_gym != "" && info.date_from_gym != "" && info.date_to_gym > info.date_from_gym) {
-
             var guestGym = new gymModule.guestGymClass(info.date_from_gym, info.date_to_gym)
             gymModule.addGymToGuest(guestGym, guestGym.date_from_gym, guestGym.date_to_gym, guestGym.price_per_day_gym, guestRoom.room_number, newguest.username)
         }
         else {
-            console.log("Date is wrong or it is empty gym");
-
+            console.log("Date is wrong or gym is empty ");
             var guestGym = new gymModule.guestGymClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
             gymModule.addGymToGuest(guestGym, guestGym.date_from_gym, guestGym.date_to_gym, guestGym.price_per_day_gym, guestRoom.room_number, newguest.username)
         }
+
+
         // add reciept
         // var guestReciept = new recieptModule.guestRecieptClass()
         recieptModule.addRecieptToGuest(guestRoom.room_number, newguest.username)
@@ -183,65 +193,30 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
             recieptModule.addSaunaFKtoReciept(newguest.username)
         }
         recieptModule.addTotalPriceForBooking(newguest.username)
-    // });
 
     }
     else {
         // ne ulazi na pravu stranicu ???
-        console.log("Check in date in after check out date");
+        console.log("Check in date is after check out date");
         res.redirect("adminGuestWrongCheckIn")
     }
-
-
-
 })
 
-app.post("/adminemployee", urlencodedParser, function (req, res) {
 
+// adding new employee
+app.post("/adminemployee", urlencodedParser, function (req, res) {
     res.render("newemployee", { infoAdmin: req.body })
     const infoAdmin = req.body;
     console.log(infoAdmin)
     var sql = `INSERT INTO employees   SET ?`
-
     db.query(sql, infoAdmin, function (err, data) {
         if (err) throw err;
         else console.log(" new employee added")
     })
-
 })
 
-app.get("/guest/:username", function (req, res) {
-
-    let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
-            cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
-            FROM booking 
-            INNER JOIN sauna ON booking.booking_id = sauna.booking_id
-            INNER JOIN restaurant ON booking.booking_id = restaurant.booking_id
-            INNER JOIN cinema ON booking.booking_id = cinema.booking_id
-            INNER JOIN gym ON booking.booking_id = gym.booking_id
-            INNER JOIN pool ON booking.booking_id = pool.booking_id
-            INNER JOIN reciept ON booking.booking_id = reciept.booking_id
-            INNER JOIN guest ON booking.booking_id = guest.booking_id
-            where booking.username = "${req.params["username"]}";
-            `
-    db.query(recieptSQL, function (err, data1) {
-        console.log("isticatava gosta");
-        if (err) throw err
-        else {
-            console.log(data1);
-            console.log(data1[0])
-            let reciept = data1[0]
-            res.render("guest", { first_name: reciept.first_name, room_number: reciept.room_number, last_name: reciept.last_name, username: reciept.username, password: reciept.password, check_in_date: reciept.check_in_date.toISOString().slice(0, 10), check_out_date: reciept.check_out_date.toISOString().slice(0, 10), total_price_for_room: reciept.total_price_for_room, total_price_sauna: reciept.total_price_sauna, total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool: reciept.total_price_pool, total_price_for_booking: reciept.total_price_for_booking, reciept_status: reciept.reciept_status });
-
-        }
-    })
-
-})
-// resredirect(`http://localhost:3000/guest/${username}`)
-
-app.get("/loginWrongPass", function (req, res) {
-    res.render("loginWrongPass")
-})
+// login page for guests
+// problem with hashing
 
 app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body
@@ -266,21 +241,21 @@ app.post("/login", urlencodedParser, function (req, res) {
     // } 
     // else return res.redirect("/")
 })
+
+// login for admin page
 app.post("/adminlogin", urlencodedParser, function (req, res) {
     const data = req.body
-    console.log("data for admin");
-    console.log(data);
     user_passModul.checkEmployee(res, data.username_employees, data.password_employees)
   
 })
 
+// finding booking using username
 app.post("/findbooking", urlencodedParser, function (req, res) {
     const booking = req.body;
     console.log(req.body);
     db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
             booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
-
              FROM booking 
              INNER JOIN guest ON guest.username = booking.username
              INNER JOIN sauna ON sauna.username = booking.username
@@ -289,8 +264,8 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
              INNER JOIN gym ON gym.username = booking.username
              INNER JOIN pool ON pool.username = booking.username
              INNER JOIN reciept ON reciept.username = booking.username
-             WHERE booking.username = "${booking.search}"
-            ;`, function (err, data) {
+             WHERE booking.username = "${booking.search}";`
+             , function (err, data) {
         if (err) throw err
         else {
             const book = data[0]
@@ -314,7 +289,7 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
     })
 })
 
-// check-out for guest by admin 
+// check-out or changing additional services for guest by admin 
 
 app.post("/findbooked", urlencodedParser, function (req, res) {
     console.log(req.body);
@@ -338,33 +313,26 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
         else {
             db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${username}";
                     UPDATE booking SET check_out_date = "${new Date().toISOString().slice(0, 10)}"`, function (err, data) {
-
-                console.log(`Guest with username ${username} is checkout`)
-
+                console.log(`Guest with username ${username} are checkout`)
                 res.render("./findbooking")
             })
-
         }
     })
     }
     let sql1 = ``;
     if (early_checkout_cinema != "") {
-
          sql1 += `UPDATE cinema SET date_to_cinema ="${early_checkout_cinema}"
                 , total_price_cinema = datediff("${early_checkout_cinema}",date_from_cinema)*price_per_day_cinema
                 WHERE username = "${username}";
-                `
-        
+                `      
     }
     if (early_checkout_gym != "") {
-
         sql1 += `UPDATE gym SET date_to_gym ="${early_checkout_gym}"
                 , total_price_gym = datediff("${early_checkout_gym}",date_from_gym)*price_per_day_gym
                 WHERE username = "${username}";
                 `
     }
     if (early_checkout_pool != "") {
-
         sql1 += `UPDATE pool SET date_to_pool ="${early_checkout_pool}" 
                 , total_price_pool = datediff("${early_checkout_pool}",date_from_pool)*price_per_day_pool
                 WHERE username = "${username}";
@@ -374,11 +342,9 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
         sql1 += `UPDATE restaurant SET date_to_restaurant ="${early_checkout_restaurant}"
                 , total_price_restaurant = datediff("${early_checkout_restaurant}",date_from_restaurant)*price_per_day_restaurant
                 WHERE username = "${username}";
-
      `
     }
     if (early_checkout_sauna != "") {
-
         sql1 += `UPDATE sauna SET date_to_sauna ="${early_checkout_sauna}" 
                 , total_price_sauna = datediff("${early_checkout_sauna}",date_from_sauna)*price_per_day_sauna
                 WHERE username = "${username}";
@@ -388,25 +354,16 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
         db.query(sql1, function (err, data) {
             if (err) throw err
             else {
-                console.log(sql1);
                 console.log(`Guest with username ${username} has changed aditional services`)
-
                 res.render("./findbooking")
-
             }
         })
     }
 })
 
 
-
-var nodemailer = require('nodemailer');
-const { generateKeyPairSync } = require("crypto");
-const { isBuffer } = require("util");
-const { query } = require("express");
-const { user, password } = require("./databaseCon.js");
-const { nextTick } = require("process");
-const { addAbortSignal } = require("stream");
+// sending email from contact page 
+// test?
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -416,7 +373,6 @@ var transporter = nodemailer.createTransport({
     }
 });
 app.post("/contact", urlencodedParser, function (req, res) {
-
     res.render("contact", { msg: req.body })
     const msg = req.body;
     console.log(msg)

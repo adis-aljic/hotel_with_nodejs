@@ -26,7 +26,6 @@ const addCinemaToGuest = (guestCinema, date_from_cinema, date_to_cinema, price_p
     var sqlCinema = `INSERT INTO cinema (room_number,username,date_from_cinema,date_to_cinema,price_per_day_cinema,total_price_cinema)
         VALUES( ${room_number},"${username}", "${date_from_cinema}", "${date_to_cinema}",${price_per_day_cinema},${total_price_cinema});`
 
-
     db.query(sqlCinema, guestCinema, function (err, data) {
         if (err) throw err;
     })

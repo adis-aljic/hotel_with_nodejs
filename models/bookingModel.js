@@ -21,8 +21,7 @@ const createBooking = (guestBooking, check_in_date,check_out_date,price_per_nigh
         db.query(sqlBooking, guestBooking, function (err, data) {
             if (err) throw err;
             else {                    
-                console.log(" new guest is booked")
-                 
+                console.log(`New guest with username ${username }is booked`)                 
             }     
         })
 
@@ -35,7 +34,6 @@ const addForgeingKeysBooking = (username)=> {
     db.query(lastID,function(err,data){
         if (err) throw err
         else {
-    
             var FK_booking = [
             `UPDATE room
             SET booking_id = ${data[0].booking_id}
@@ -70,12 +68,10 @@ const addForgeingKeysBooking = (username)=> {
             });
 
         }
-    })
-
-    
-    
-    
+    })   
 }
+
+
 module.exports = {
     guestBookingClass,
     createBooking,

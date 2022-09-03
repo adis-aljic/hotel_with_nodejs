@@ -2,6 +2,8 @@ const mysql = require("mysql2")
 const con = require("../databaseCon");
 const db = mysql.createConnection(con)
 
+
+
 class guestRoomClass {
     room_number;
     room_status;
@@ -21,24 +23,23 @@ const addGuestToRoom = (room_number,room_status, guestRoom, username) => {
         if (err) throw err;
         else {
             console.log("Guest is added to room  " + room_number)
-
-                
         }
     })
-
 }
+
+
+
 const returnRoomStatus = (room_number) => {
     db.query(`SELECT room_status FROM room WHERE room_number = ${room_number} ;`, function (err, data) {
         if (err) throw err;
-
         else {
-            console.log(data[0].room_status)
             return data[0].room_status
-
-
         }
     })
 }
+
+
+
 module.exports = {
     guestRoomClass,
     addGuestToRoom,
