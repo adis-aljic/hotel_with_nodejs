@@ -15,8 +15,7 @@ const cinemaModule = require("./models/cinemaModel")
 const gymModule = require("./models/gymModel")
 const recieptModule = require("./models/recieptModel")
 const user_passModul = require("./models/user_passModel")
-
-
+const bcrypt = require ('bcrypt');
 
 const db = mysql.createConnection(con)
 db.connect((err) => {
@@ -70,10 +69,15 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
     // console.log(roomModule.returnRoomStatus(parseInt(info.room_number)) )
     // if (roomModule.returnRoomStatus(parseInt(info.room_number)) == "Avaiable") {
     // adding guest 
+ 
+    
     if (info.check_in_date < info.check_out_date) {
-
-        var newguest = new guestModule.newguestClass(info.first_name, info.last_name, info.date_of_birth, info.country, info.city, info.phone_number, info.email, info.gender, info.prefered_language, info.username, info.password, info.document_for_indefication, info.number_of_document_for_indefication)
-        guestModule.addGuestSQL(newguest, newguest.first_name, newguest.last_name, newguest.date_of_birth, newguest.gender, newguest.country, newguest.city, newguest.prefered_language, newguest.phone_number, newguest.email, newguest.document_for_indefication, newguest.number_of_document_for_indefication, newguest.username, newguest.password)
+        // const salt = 10;
+        // const password = info.password;
+        // bcrypt.hash(password, salt, function(err, hash) {
+            // console.log(hash);
+            var newguest = new guestModule.newguestClass(info.first_name, info.last_name, info.date_of_birth, info.country, info.city, info.phone_number, info.email, info.gender, info.prefered_language, info.username, info.password, info.document_for_indefication, info.number_of_document_for_indefication)
+            guestModule.addGuestSQL(newguest, newguest.first_name, newguest.last_name, newguest.date_of_birth, newguest.gender, newguest.country, newguest.city, newguest.prefered_language, newguest.phone_number, newguest.email, newguest.document_for_indefication, newguest.number_of_document_for_indefication, newguest.username, newguest.password)
 
         // adding guest into avaiable room
         var guestRoom = new roomModule.guestRoomClass(info.room_number)
@@ -179,6 +183,7 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
             recieptModule.addSaunaFKtoReciept(newguest.username)
         }
         recieptModule.addTotalPriceForBooking(newguest.username)
+    // });
 
     }
     else {
@@ -241,13 +246,20 @@ app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body
     // var username = data.username;
     // var password = data.password;
-    // console.log(data);
+    console.log(data);
     // console.log(password + "555555555") ;
     // user_passModul.checkEmployee(res,data.username_employees,data.password_employees)
     // if(user_passModul.checkEmployee(res,username,password)){
     //    console.log(`Welcome employee ${username}`)
     // }
+    // $2b$10$qx8tELxbzIyJISl2pkzs8ew2Btk2bw4j64TwUyyfvAEgLkWA6RoM.
+
+    // const salt = 10;
+    // bcrypt.hash(data.password_guest, salt, function(err, hash) {
+        // console.log(hash);
     user_passModul.checkUser(res, data.username_guest, data.password_guest, data.username_employees, data.password_employees)
+    
+// })
     //  else    if(user_passModul.checkUser(res,username,password)){
     // console.log(`Welcome ${username}`)    
     // } 
@@ -298,7 +310,7 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
 
 app.post("/findbooked", urlencodedParser, function (req, res) {
     console.log(req.body);
-    const username = req.body.username;
+    const username = req.body.checkout;
     const early_checkout = req.body.check_out_date;
     const early_checkout_sauna = req.body.check_out_date_sauna;
     const early_checkout_gym = req.body.check_out_date_gym;
@@ -368,7 +380,7 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
         db.query(sql1, function (err, data) {
             if (err) throw err
             else {
-
+                console.log(sql1);
                 console.log(`Guest with username ${username} has changed aditional services`)
 
                 res.render("./findbooking")

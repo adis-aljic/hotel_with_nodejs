@@ -6,6 +6,7 @@ const { addListener } = require("process");
 const con = require("../databaseCon");
 const db = mysql.createConnection(con);
 const app = express();
+// const bcrypt = require("bcrypt")
 
 const checkUser = (res, username, password,username_emp, password_emp) => {
     const sqlQ = `SELECT username, password,status_guest, isLoged FROM guest;
@@ -15,30 +16,29 @@ const checkUser = (res, username, password,username_emp, password_emp) => {
         if (err) throw err
         else {
 
-                console.log(data);
-                console.log("data1");
             for (let i = 0; i < data.length; i++) {
                 const user_pass = data[0][i];
                 const user_passEmp = data[1][i]
-                console.log(user_passEmp);
+                // const salt = 10;
+                console.log(user_pass);
                 if (username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
                     setOnline(username);
-                            console.log(`User ${user_pass.username} is loged`);
-
+                        console.log(`User ${user_pass.username} is loged`);
                           return   res.redirect(`/guest/${username}`)
          
-                }
+                } 
+            
                 else if(username_emp == user_passEmp.username && password_emp == user_passEmp.password){
                         console.log(`Welcome employee ${username_emp}`);
                      return   res.redirect(`/adminGuest`)
                 }
-                else {
+                // else if(i == data.length-1) {
                
-                    console.log("wrong pass");
-                return      res.redirect("/loginWrongPass")
+                //     console.log("wrong pass");
+                // return      res.redirect("/loginWrongPass")
        
-                }
-
+                // }
+            
             }
         }
     })
