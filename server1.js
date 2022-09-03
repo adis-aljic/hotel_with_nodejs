@@ -52,141 +52,143 @@ app.get("/adminemployee", function (req, res) {
 app.get("/findbooking", function (req, res) {
     res.render("findbooking")
 })
-    
-    app.post("/adminguest", urlencodedParser, function (req, res) {
-    
+app.get("/adminGuestWrongCheckIn", function (req, res) {
+    res.render("adminGuestWrongCheckIn")
+})
+app.post("/adminguest", urlencodedParser, function (req, res) {
+
 
     res.render("newguest", { info: req.body })
-  
-  
-  
- 
-   
- 
+
+
+
+
+
+
     const info = req.body;
     // console.log(info)
-// console.log(roomModule.returnRoomStatus(parseInt(info.room_number)) )
-// if (roomModule.returnRoomStatus(parseInt(info.room_number)) == "Avaiable") {
-            // adding guest 
-            if (info.check_in_date < info.check_out_date) {
+    // console.log(roomModule.returnRoomStatus(parseInt(info.room_number)) )
+    // if (roomModule.returnRoomStatus(parseInt(info.room_number)) == "Avaiable") {
+    // adding guest 
+    if (info.check_in_date < info.check_out_date) {
 
-                var newguest = new guestModule.newguestClass(info.first_name,info.last_name,info.date_of_birth,info.country,info.city,info.phone_number,info.email,info.gender,info.prefered_language,info.username,info.password,info.document_for_indefication,info.number_of_document_for_indefication)       
-                guestModule.addGuestSQL(newguest,newguest.first_name,newguest.last_name,newguest.date_of_birth,newguest.gender,newguest.country,newguest.city,newguest.prefered_language,newguest.phone_number,newguest.email,newguest.document_for_indefication,newguest.number_of_document_for_indefication,newguest.username, newguest.password)
-                
-            // adding guest into avaiable room
-    var guestRoom = new roomModule.guestRoomClass(info.room_number)
-   roomModule.addGuestToRoom(guestRoom.room_number,guestRoom.room_status,guestRoom,newguest.username)
-   
-                // creating booking for guest
-   var guestBooking = new bookingModule.guestBookingClass( info.check_in_date,info.check_out_date,info.price_per_night)
-    bookingModule.createBooking(guestBooking,guestBooking.check_in_date,guestBooking.check_out_date,guestBooking.price_per_night,guestRoom.room_number,newguest.username)    
+        var newguest = new guestModule.newguestClass(info.first_name, info.last_name, info.date_of_birth, info.country, info.city, info.phone_number, info.email, info.gender, info.prefered_language, info.username, info.password, info.document_for_indefication, info.number_of_document_for_indefication)
+        guestModule.addGuestSQL(newguest, newguest.first_name, newguest.last_name, newguest.date_of_birth, newguest.gender, newguest.country, newguest.city, newguest.prefered_language, newguest.phone_number, newguest.email, newguest.document_for_indefication, newguest.number_of_document_for_indefication, newguest.username, newguest.password)
 
-    if(info.date_to_sauna != "" && info.date_from_sauna != "" && info.date_to_sauna > info.date_from_sauna) {
+        // adding guest into avaiable room
+        var guestRoom = new roomModule.guestRoomClass(info.room_number)
+        roomModule.addGuestToRoom(guestRoom.room_number, guestRoom.room_status, guestRoom, newguest.username)
 
-        // creating sauna for guest
-        var guestSauna = new saunaModule.guestSaunaClass(info.date_from_sauna,info.date_to_sauna)
-        saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna,guestSauna.date_to_sauna,guestSauna.price_per_day_sauna,guestRoom.room_number,newguest.username)
+        // creating booking for guest
+        var guestBooking = new bookingModule.guestBookingClass(info.check_in_date, info.check_out_date, info.price_per_night)
+        bookingModule.createBooking(guestBooking, guestBooking.check_in_date, guestBooking.check_out_date, guestBooking.price_per_night, guestRoom.room_number, newguest.username)
+
+        if (info.date_to_sauna != "" && info.date_from_sauna != "" && info.date_to_sauna > info.date_from_sauna) {
+
+            // creating sauna for guest
+            var guestSauna = new saunaModule.guestSaunaClass(info.date_from_sauna, info.date_to_sauna)
+            saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna, guestSauna.date_to_sauna, guestSauna.price_per_day_sauna, guestRoom.room_number, newguest.username)
+        }
+        else {
+            console.log("Date is wrong or it is empty sauna");
+
+            var guestSauna = new saunaModule.guestSaunaClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
+            saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna, guestSauna.date_to_sauna, guestSauna.price_per_day_sauna, guestRoom.room_number, newguest.username)
+
+
+        }
+        // creating restaurant for guest
+        if (info.date_to_restaurant != "" && info.date_from_restaurant != "" && info.date_to_restaurant > info.date_from_restaurant) {
+            var guestRestaurant = new restaurantModule.guestRestaurantClass(info.date_from_restaurant, info.date_to_restaurant)
+            restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant, guestRestaurant.date_to_restaurant, guestRestaurant.price_per_day_restaurant, guestRoom.room_number, newguest.username)
+        }
+        else {
+            console.log("Date is wrong or it is empty restaurant");
+
+
+            var guestRestaurant = new restaurantModule.guestRestaurantClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
+            restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant, guestRestaurant.date_to_restaurant, guestRestaurant.price_per_day_restaurant, guestRoom.room_number, newguest.username)
+        }
+        // // creating pool for guest
+
+        if (info.date_to_pool != "" && info.date_from_pool != "" && info.date_to_pool > info.date_from_pool) {
+
+            var guestPool = new poolModule.guestPoolClass(info.date_from_pool, info.date_to_pool)
+            poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool, guestPool.date_to_pool, guestPool.price_per_day_pool, guestRoom.room_number, newguest.username)
+        }
+        else {
+            console.log("Date is wrong or it is empty pool");
+
+            var guestPool = new poolModule.guestPoolClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
+            poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool, guestPool.date_to_pool, guestPool.price_per_day_pool, guestRoom.room_number, newguest.username)
+
+        }
+        // creating cinema for guest
+
+        if (info.date_to_cinema != "" && info.date_from_cinema != "" && info.date_to_cinema > info.date_from_cinema) {
+            var guestCinema = new cinemaModule.guestCinemaClass(info.date_from_cinema, info.date_to_cinema)
+            cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema, guestCinema.date_to_cinema, guestCinema.price_per_day_cinema, guestRoom.room_number, newguest.username)
+        }
+        else {
+            console.log("Date is wrong or it is empty cinema");
+
+            var guestCinema = new cinemaModule.guestCinemaClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
+            cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema, guestCinema.date_to_cinema, guestCinema.price_per_day_cinema, guestRoom.room_number, newguest.username)
+
+        }
+
+        // creating gym for guest
+
+        if (info.date_to_gym != "" && info.date_from_gym != "" && info.date_to_gym > info.date_from_gym) {
+
+            var guestGym = new gymModule.guestGymClass(info.date_from_gym, info.date_to_gym)
+            gymModule.addGymToGuest(guestGym, guestGym.date_from_gym, guestGym.date_to_gym, guestGym.price_per_day_gym, guestRoom.room_number, newguest.username)
+        }
+        else {
+            console.log("Date is wrong or it is empty gym");
+
+            var guestGym = new gymModule.guestGymClass(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
+            gymModule.addGymToGuest(guestGym, guestGym.date_from_gym, guestGym.date_to_gym, guestGym.price_per_day_gym, guestRoom.room_number, newguest.username)
+        }
+        // add reciept
+        // var guestReciept = new recieptModule.guestRecieptClass()
+        recieptModule.addRecieptToGuest(guestRoom.room_number, newguest.username)
+
+        // updating fk
+
+        recieptModule.addForgeingKeysReciept(newguest.username)
+        bookingModule.addForgeingKeysBooking(newguest.username)
+
+        if (info.date_to_gym != "" && info.date_from_gym != "" && info.date_to_gym > info.date_from_gym) {
+            recieptModule.addGymFKtoReciept(newguest.username)
+        }
+
+        if (info.date_from_cinema != "" && info.date_from_cinema != "" && info.date_to_cinema > info.date_from_cinema) {
+            recieptModule.addCinemaFKtoReciept(newguest.username)
+        }
+
+        if (info.date_to_pool != "" && info.date_from_pool != "" && info.date_to_pool > info.date_from_pool) {
+            recieptModule.addPoolFKtoReciept(newguest.username)
+        }
+
+        if (info.date_to_restaurant != "" && info.date_from_restaurant != "" && info.date_to_restaurant > info.date_from_restaurant) {
+            recieptModule.addRestaurantFKtoReciept(newguest.username)
+        }
+
+        if (info.date_to_sauna != "" && info.date_from_sauna != "" && info.date_to_sauna > info.date_from_sauna) {
+            recieptModule.addSaunaFKtoReciept(newguest.username)
+        }
+        recieptModule.addTotalPriceForBooking(newguest.username)
+
     }
     else {
-        console.log("Date is wrong or it is empty sauna");
+        // ne ulazi na pravu stranicu ???
+        console.log("Check in date in after check out date");
+        res.redirect("adminGuestWrongCheckIn")
+    }
 
-        var guestSauna = new saunaModule.guestSaunaClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
-        saunaModule.addSaunaToGuest(guestSauna, guestSauna.date_from_sauna,guestSauna.date_to_sauna,guestSauna.price_per_day_sauna,guestRoom.room_number,newguest.username)
-        
-        
-    }
-    // creating restaurant for guest
-    if(info.date_to_restaurant != "" && info.date_from_restaurant != "" && info.date_to_restaurant > info.date_from_restaurant) {
-        var guestRestaurant = new restaurantModule.guestRestaurantClass(info.date_from_restaurant,info.date_to_restaurant)
-        restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant,guestRestaurant.date_to_restaurant,guestRestaurant.price_per_day_restaurant,guestRoom.room_number,newguest.username)
-    }
-    else {
-        console.log("Date is wrong or it is empty restaurant");
 
-        
-        var guestRestaurant = new restaurantModule.guestRestaurantClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
-        restaurantModule.addRestaurantToGuest(guestRestaurant, guestRestaurant.date_from_restaurant,guestRestaurant.date_to_restaurant,guestRestaurant.price_per_day_restaurant,guestRoom.room_number,newguest.username)
-    }    
-    // // creating pool for guest
-    
-    if(info.date_to_pool != "" && info.date_from_pool != "" && info.date_to_pool > info.date_from_pool) {
-        
-        var guestPool = new poolModule.guestPoolClass(info.date_from_pool,info.date_to_pool)
-        poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool,guestPool.date_to_pool,guestPool.price_per_day_pool,guestRoom.room_number,newguest.username)
-    }
-    else {
-        console.log("Date is wrong or it is empty pool");
 
-        var guestPool = new poolModule.guestPoolClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
-        poolModule.addPoolToGuest(guestPool, guestPool.date_from_pool,guestPool.date_to_pool,guestPool.price_per_day_pool,guestRoom.room_number,newguest.username)
-
-  }  
-    // creating cinema for guest
-    
-    if(info.date_to_cinema != "" && info.date_from_cinema != "" && info.date_to_cinema> info.date_from_cinema) {
-        var guestCinema = new cinemaModule.guestCinemaClass(info.date_from_cinema,info.date_to_cinema)
-        cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema,guestCinema.date_to_cinema,guestCinema.price_per_day_cinema,guestRoom.room_number,newguest.username)
-    }
-    else {
-        console.log("Date is wrong or it is empty cinema");
-
-        var guestCinema = new cinemaModule.guestCinemaClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
-                cinemaModule.addCinemaToGuest(guestCinema, guestCinema.date_from_cinema,guestCinema.date_to_cinema,guestCinema.price_per_day_cinema,guestRoom.room_number,newguest.username)
-
-    }
-    
-    // creating gym for guest
-    
-    if(info.date_to_gym != "" && info.date_from_gym != "" && info.date_to_gym > info.date_from_gym) {
-
-        var guestGym = new gymModule.guestGymClass(info.date_from_gym,info.date_to_gym)
-        gymModule.addGymToGuest(guestGym, guestGym.date_from_gym,guestGym.date_to_gym,guestGym.price_per_day_gym,guestRoom.room_number,newguest.username)
-    }
-    else{
-         console.log("Date is wrong or it is empty gym");
-     
-        var guestGym = new gymModule.guestGymClass(new Date().toJSON().slice(0,10),new Date().toJSON().slice(0,10))
-        gymModule.addGymToGuest(guestGym, guestGym.date_from_gym,guestGym.date_to_gym,guestGym.price_per_day_gym,guestRoom.room_number,newguest.username)
-    }
-    // add reciept
-    // var guestReciept = new recieptModule.guestRecieptClass()
-    recieptModule.addRecieptToGuest(guestRoom.room_number,newguest.username)
-    
-    // updating fk
-    
-    recieptModule.addForgeingKeysReciept(newguest.username)
-    bookingModule.addForgeingKeysBooking(newguest.username)
-    
-    if(info.date_to_gym != "" && info.date_from_gym != "" && info.date_to_gym > info.date_from_gym) {
-        recieptModule.addGymFKtoReciept(newguest.username)
-    }
-    
-    if(info.date_from_cinema != "" && info.date_from_cinema != "" && info.date_to_cinema > info.date_from_cinema) {
-        recieptModule.addCinemaFKtoReciept(newguest.username)
-    }
-    
-    if(info.date_to_pool != "" && info.date_from_pool != ""  && info.date_to_pool > info.date_from_pool) {
-        recieptModule.addPoolFKtoReciept(newguest.username)
-    }
-    
-    if(info.date_to_restaurant != "" && info.date_from_restaurant != "" && info.date_to_restaurant > info.date_from_restaurant) {
-        recieptModule.addRestaurantFKtoReciept(newguest.username)
-    }
-  
-    if(info.date_to_sauna != "" && info.date_from_sauna != "" && info.date_to_sauna > info.date_from_sauna) {
-        recieptModule.addSaunaFKtoReciept(newguest.username)
-    }
-    recieptModule.addTotalPriceForBooking(newguest.username)
-    
-}
-else  {
-    // ne ulazi u adminguest ???
-    console.log("Check in date in after check out date");
-    app.get("./adminGuest",function(res,req){
-        res.render("adminGuest")
-    })
-} 
-    
 })
 
 app.post("/adminemployee", urlencodedParser, function (req, res) {
@@ -203,9 +205,9 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
 
 })
 
-        app.get("/guest/:username", function (req, res) {
-                
-            let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
+app.get("/guest/:username", function (req, res) {
+
+    let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
             cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
             FROM booking 
             INNER JOIN sauna ON booking.booking_id = sauna.booking_id
@@ -217,41 +219,45 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
             INNER JOIN guest ON booking.booking_id = guest.booking_id
             where booking.username = "${req.params["username"]}";
             `
-            db.query(recieptSQL,function(err,data1){
-                console.log("aaaaaaa");
-                if (err) throw err
-                else {
-                    console.log(data1[0])
-                    let reciept = data1[0]
-                    res.render("guest", {first_name: reciept.first_name, room_number:reciept.room_number, last_name: reciept.last_name, username:reciept.username,password:reciept.password,check_in_date:reciept.check_in_date.toISOString().slice(0,10),check_out_date:reciept.check_out_date.toISOString().slice(0,10),total_price_for_room: reciept.total_price_for_room,total_price_sauna : reciept.total_price_sauna ,total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool:reciept.total_price_pool,total_price_for_booking :reciept.total_price_for_booking,reciept_status:reciept.reciept_status  });
-                    
-                }
-            })
-            
-        })
-        // resredirect(`http://localhost:3000/guest/${username}`)
+    db.query(recieptSQL, function (err, data1) {
+        console.log("aaaaaaa");
+        if (err) throw err
+        else {
+            console.log(data1[0])
+            let reciept = data1[0]
+            res.render("guest", { first_name: reciept.first_name, room_number: reciept.room_number, last_name: reciept.last_name, username: reciept.username, password: reciept.password, check_in_date: reciept.check_in_date.toISOString().slice(0, 10), check_out_date: reciept.check_out_date.toISOString().slice(0, 10), total_price_for_room: reciept.total_price_for_room, total_price_sauna: reciept.total_price_sauna, total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool: reciept.total_price_pool, total_price_for_booking: reciept.total_price_for_booking, reciept_status: reciept.reciept_status });
 
-        app.post("/login", urlencodedParser, function (req, res) {
-            const data = req.body
-            // var username = data.username;
-            // var password = data.password;
-            console.log(data);
-            // console.log(password + "555555555") ;
-            user_passModul.checkEmployee(res,data.username_employees,data.password_employees)
-            // if(user_passModul.checkEmployee(res,username,password)){
-            //    console.log(`Welcome employee ${username}`)
-            // }
-    user_passModul.checkUser(res,app,data.username_guest,data.password_guest)
+        }
+    })
+
+})
+// resredirect(`http://localhost:3000/guest/${username}`)
+
+app.get("/loginWrongPass", function (req, res) {
+    res.render("loginWrongPass")
+})
+
+app.post("/login", urlencodedParser, function (req, res) {
+    const data = req.body
+    // var username = data.username;
+    // var password = data.password;
+    // console.log(data);
+    // console.log(password + "555555555") ;
+    // user_passModul.checkEmployee(res,data.username_employees,data.password_employees)
+    // if(user_passModul.checkEmployee(res,username,password)){
+    //    console.log(`Welcome employee ${username}`)
+    // }
+    user_passModul.checkUser(res, data.username_guest, data.password_guest, data.username_employees, data.password_employees)
     //  else    if(user_passModul.checkUser(res,username,password)){
-                // console.log(`Welcome ${username}`)    
-            // } 
-            // else return res.redirect("/")
-        })
-        
-        app.post("/findbooking", urlencodedParser, function(req,res){
-            const booking = req.body;
-            console.log(req.body);
-            db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
+    // console.log(`Welcome ${username}`)    
+    // } 
+    // else return res.redirect("/")
+})
+
+app.post("/findbooking", urlencodedParser, function (req, res) {
+    const booking = req.body;
+    console.log(req.body);
+    db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
             booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
 
@@ -264,120 +270,132 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
              INNER JOIN pool ON pool.username = booking.username
              INNER JOIN reciept ON reciept.username = booking.username
              WHERE booking.username = "${booking.search}"
-            ;`,function(err,data){
-                if (err) throw err
-                else {
-                    const book = data[0]
-                    console.log(book);
-                    res.render(`findbooked` , {
-                        totalprice:book.total_price_for_booking,
-                        username : book.username,
-                        check_in_date : book.check_in_date.toISOString().slice(0,10),
-                        check_out_date : book.check_out_date.toISOString().slice(0,10),
-                        booking_id : book.booking_id,
-                        total_price_cinema : book.total_price_cinema,
-                        total_price_gym : book.total_price_gym,
-                        total_price_pool : book.total_price_pool,
-                        total_price_restaurant : book.total_price_restaurant,
-                        total_price_sauna : book.total_price_sauna,
-                        room_number : book.room_number,
-                        first_name : book.first_name,
-                        last_name : book.last_name
-                    })
-                }
+            ;`, function (err, data) {
+        if (err) throw err
+        else {
+            const book = data[0]
+            console.log(book);
+            res.render(`findbooked`, {
+                totalprice: book.total_price_for_booking,
+                username: book.username,
+                check_in_date: book.check_in_date.toISOString().slice(0, 10),
+                check_out_date: book.check_out_date.toISOString().slice(0, 10),
+                booking_id: book.booking_id,
+                total_price_cinema: book.total_price_cinema,
+                total_price_gym: book.total_price_gym,
+                total_price_pool: book.total_price_pool,
+                total_price_restaurant: book.total_price_restaurant,
+                total_price_sauna: book.total_price_sauna,
+                room_number: book.room_number,
+                first_name: book.first_name,
+                last_name: book.last_name
             })
-        })
+        }
+    })
+})
 
-        // check-out for guest by admin 
-        
-        app.post("/findbooked",urlencodedParser ,function(req,res){
-            const checkout = req.body.checkout;
-            const early_checkout = req.body.check_out_date;
-            const early_checkout_sauna = req.body.check_out_date_sauna;
-            const early_checkout_gym = req.body.check_out_date_gym;
-            const early_checkout_cinema = req.body.check_out_date_cinema;
-            const early_checkout_restaurant = req.body.check_out_date_restaurant;
-            const early_checkout_pool = req.body.check_out_date_pool;
-         
-            if(early_checkout != "") {
+// check-out for guest by admin 
 
-                var sql1 = `UPDATE booking SET check_out_date ="${early_checkout}" WHERE username = "${checkout}";
-                UPDATE guest SET status_guest ="Inactive" WHERE username = "${checkout}";
-                UPDATE room SET room_status = "Avaiable", booking = NULL, username = NULL, reciept_id = NULL WHERE username = "${checkout}";
+app.post("/findbooked", urlencodedParser, function (req, res) {
+    console.log(req.body);
+    const username = req.body.username;
+    const early_checkout = req.body.check_out_date;
+    const early_checkout_sauna = req.body.check_out_date_sauna;
+    const early_checkout_gym = req.body.check_out_date_gym;
+    const early_checkout_cinema = req.body.check_out_date_cinema;
+    const early_checkout_restaurant = req.body.check_out_date_restaurant;
+    const early_checkout_pool = req.body.check_out_date_pool;
+
+    if (early_checkout != "") {
+
+        let sql1 = `UPDATE booking SET check_out_date ="${early_checkout}" WHERE username = "${username}";
+                UPDATE guest SET status_guest ="Inactive" WHERE username = "${username}";
+                UPDATE room SET room_status = "Avaiable", booking_id = NULL, username = NULL, reciept_id = NULL WHERE username = "${username}";
     
        `
-            }
-            if(early_checkout_cinema != "") {
+       db.query(sql1, function (err, data) {
+        if (err) throw err
+        else {
+            db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${username}";
+                    UPDATE booking SET check_out_date = "${new Date().toISOString().slice(0, 10)}"`, function (err, data) {
 
-                var sql1 = `UPDATE cinema SET date_to_cinema ="${early_checkout_cinema}"
-                , total_price_cinema = datediff(${early_checkout_cinema},date_from_cinema)*price_per_day_cinema
-                WHERE username = "${checkout}";
-       
-                `
-            }
-            if(early_checkout_gym != "") {
+                console.log(`Guest with username ${username} is checkout`)
 
-                var sql1 = `UPDATE gym SET date_to_gym ="${early_checkout_gym}"
-                , total_price_gym = datediff(${early_checkout_gym},date_from_gym)*price_per_day_gym
-                WHERE username = "${checkout}";
-                `
-            }
-            if(early_checkout_pool != "") {
+                res.render("./findbooking")
+            })
 
-                var sql1 = `UPDATE pool SET date_to_pool ="${early_checkout_pool}" 
-                , total_price_pool = datediff(${early_checkout_pool},date_from_pool)*price_per_day_pool
-                WHERE username = "${checkout}";
+        }
+    })
+    }
+    let sql1 = ``;
+    if (early_checkout_cinema != "") {
+
+         sql1 += `UPDATE cinema SET date_to_cinema ="${early_checkout_cinema}"
+                , total_price_cinema = datediff("${early_checkout_cinema}",date_from_cinema)*price_per_day_cinema
+                WHERE username = "${username}";
                 `
-            }
-            if(early_checkout_restaurant != "") {
-                var sql1 = `UPDATE restaurant SET date_to_restaurant ="${early_checkout_restaurant}"
-                , total_price_restaurant = datediff(${early_checkout_restaurant},date_from_restaurant)*price_per_day_restaurant
-                WHERE username = "${checkout}";
+        
+    }
+    if (early_checkout_gym != "") {
+
+        sql1 += `UPDATE gym SET date_to_gym ="${early_checkout_gym}"
+                , total_price_gym = datediff("${early_checkout_gym}",date_from_gym)*price_per_day_gym
+                WHERE username = "${username}";
+                `
+    }
+    if (early_checkout_pool != "") {
+
+        sql1 += `UPDATE pool SET date_to_pool ="${early_checkout_pool}" 
+                , total_price_pool = datediff("${early_checkout_pool}",date_from_pool)*price_per_day_pool
+                WHERE username = "${username}";
+                `
+    }
+    if (early_checkout_restaurant != "") {
+        sql1 += `UPDATE restaurant SET date_to_restaurant ="${early_checkout_restaurant}"
+                , total_price_restaurant = datediff("${early_checkout_restaurant}",date_from_restaurant)*price_per_day_restaurant
+                WHERE username = "${username}";
 
      `
-            }
-            if(early_checkout_sauna != "") {
+    }
+    if (early_checkout_sauna != "") {
 
-                var sql1 = `UPDATE sauna SET date_to_sauna ="${early_checkout_sauna}" 
-                , total_price_sauna = datediff(${early_checkout_sauna},date_from_sauna)*price_per_day_sauna
-                WHERE username = "${checkout}";
+        sql1 += `UPDATE sauna SET date_to_sauna ="${early_checkout_sauna}" 
+                , total_price_sauna = datediff("${early_checkout_sauna}",date_from_sauna)*price_per_day_sauna
+                WHERE username = "${username}";
                 `
+    }
+    if (early_checkout_sauna != "" || early_checkout_pool != "" || early_checkout_gym != "" || early_checkout_cinema != "" || early_checkout_restaurant != "") {
+        db.query(sql1, function (err, data) {
+            if (err) throw err
+            else {
+
+                console.log(`Guest with username ${username} has changed aditional services`)
+
+                res.render("./findbooking")
+
             }
-                db.query(sql1, function(err,data){
-                if (err) throw err
-                else {
-                    db.query(`UPDATE reciept SET reciept_status = "paid" WHERE username = "${checkout}";
-                    UPDATE booking SET check_out_date = "${new Date().toISOString().slice(0,10)}"`,function(err,data){
+        })
+    }
+})
 
-                        console.log(`Guest with username ${checkout} is checkout`)
 
-                        res.render("./findbooking")
-                    })
 
-                }
-            })
-            console.log(req.body);
-            // aa
-        })  
+var nodemailer = require('nodemailer');
+const { generateKeyPairSync } = require("crypto");
+const { isBuffer } = require("util");
+const { query } = require("express");
+const { user, password } = require("./databaseCon.js");
+const { nextTick } = require("process");
+const { addAbortSignal } = require("stream");
 
-   
-
-        var nodemailer = require('nodemailer');
-        const { generateKeyPairSync } = require("crypto");
-        const { isBuffer } = require("util");
-        const { query } = require("express");
-        const { user, password } = require("./databaseCon.js");
-        const { nextTick } = require("process");
-        const { addAbortSignal } = require("stream");
-        
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'adis@gmail.com',
-                pass: 'yourpassword'
-            }
-        });
-        app.post("/contact", urlencodedParser, function (req, res) {
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'adis@gmail.com',
+        pass: 'yourpassword'
+    }
+});
+app.post("/contact", urlencodedParser, function (req, res) {
 
     res.render("contact", { msg: req.body })
     const msg = req.body;
