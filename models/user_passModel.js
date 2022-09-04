@@ -14,6 +14,8 @@ const checkUser = (res, username, password,) => {
     db.query(sqlQ, function (err, data) {
         if (err) throw err
         else { 
+            console.log(username,password);
+            console.log(data);
             for (let i = 0; i < data.length; i++) {
                 // console.log(data[i]);
                 const user_pass = data[i];
@@ -26,18 +28,18 @@ const checkUser = (res, username, password,) => {
                 if (username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
                     setOnline(username);
                         console.log(`User ${user_pass.username} is loged`);
-                             res.redirect(`/guest/${username}`)
+                         return    res.redirect(`/guest/${username}`)
                 } 
                 // else if(username_emp == user_passEmp.username && password_emp == user_passEmp.password){
                 //         console.log(`Welcome employee ${username_emp}`);
                 //         res.redirect(`/adminGuest`)
                 // }
                 // else if(i == data.length-1) {
-                  else  {console.log("wrong pass");
-                return      res.redirect("/loginWrongPass")
-                }            
+                    
+                }
             }
-        }
+              console.log("wrong pass");
+                res.redirect("/loginWrongPass")
     })
 }
 
@@ -53,14 +55,14 @@ const checkEmployee = (res, username, password) => {
                 if (username == user_pass.username && password == user_pass.password ) {
                     setOnline(username);
                         console.log(`User ${user_pass.username} is logged`);
-                             res.redirect(`/adminguest`)
+                          return   res.redirect(`/adminguest`)
                 } 
-                  else{
-                      console.log("wrong pass for employee");
-                      return      res.redirect("/loginWrongPass")
-                    }  
+                  
+                
             }
         }
+        console.log("wrong pass for employee");
+              res.redirect("/loginWrongPass")
     })
 }
 

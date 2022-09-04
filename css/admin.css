@@ -9,10 +9,10 @@ form {
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    padding: 1.7rem;
+    padding: 2rem;
     border-radius: 10px;
     margin: auto;
-    margin-top: 3rem;
+    /* padding-top: 20 px; */
     /* width: 5rem; */
 }
 
@@ -32,6 +32,7 @@ list-style: none;
 h1,
 h2 {
     text-align: center;
+    font-size: 1em;
 }
 
 p {
@@ -47,7 +48,7 @@ p {
     display: flex;
     flex-direction: row;
     gap: 5rem;
-    padding-top: 2rem;
+    padding-top: 5rem;
     margin: auto;
 }
 

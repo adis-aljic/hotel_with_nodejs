@@ -19,6 +19,7 @@
     <title>Imaginery hotel</title>
     <script src="../js/user_pass.js" defer></script>
     <script src="../server1.js" defer></script>
+    <script src="../test.js" defer></script>
 
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/admin.css">
@@ -27,7 +28,7 @@
 
 </head>
 
-<body>
+<body window.onload="singlebed()">
 
     <!-- <%- include ("./partials/nav2.ejs") %> -->
 
@@ -36,8 +37,8 @@
 
             <div>
                  
-                <h1>Guest registration</h1>
                 <form action="./adminGuest" method="post">
+                    <h1>Guest registration</h1>
                     <label for="first_name">First Name</label>
                     <input type="text" id="first_name" name="first_name">
                     <label for="last_name">Last Name</label>
@@ -108,7 +109,7 @@
                     <hr>
                     <h1>Type of room</h1>
                     <label for="room_type">
-                        <input class="radio" type="radio" id="room_type" name="price_per_night" value="20">
+                        <input class="radio" type="radio" id="room_type"  name="price_per_night" value="20">
                         Single bed</label>
                         <label for="room_type">
                             <input class="radio" type="radio" id="room_type" name="price_per_night" value="40">
@@ -118,13 +119,10 @@
                                 Apartment</label>
                     <h1>Choose room number</h1>
                     <h2>Single bed</h2>
+                        <div id="101">
+                          
+                            </div>
 
-                    <label for="type_of_room">
-                        <input class="radio" type="radio" id="room_number" name="room_number" value="101">Room
-                        101</label>
-
-                    <label for="type_of_room">
-                        <input type="radio" id="room_number" value="102" name="room_number">Room 102</label>
                     
                         <h2>Twin bed</h2>
                     <label for="type_of_room">
@@ -195,6 +193,7 @@
 
 
             </div>
+        </div>
 
             <%- include ("./partials/nav1.ejs") %>
 
