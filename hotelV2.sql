@@ -1,7 +1,7 @@
---	 drop database hotel_node;
+-- drop database hotel_node;
 CREATE DATABASE hotel_node;
 USE hotel_node;
-select * from guest;
+-- select * from guest;
 -- creating tables for guest and employees
 -- username and pass are tied to room (one booking)
 -- additional guest in same room will be added via form but reciept and room are tied to first guest
@@ -44,7 +44,7 @@ reciept_id INT,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- delete  from guest where username = "test";
-select * from employees;
+-- select * from room	;
 SELECT username, password  FROM employees;
 ALTER TABLE guest
 MODIFY COLUMN password VARCHAR(70);
