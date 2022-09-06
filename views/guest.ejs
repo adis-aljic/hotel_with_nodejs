@@ -21,19 +21,13 @@
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/guest.css">
     <link rel="stylesheet" href="../css/admin_guest.css">
-    <script>
-        const offModule = require ("../models/user_passModel")
+    <script src="../models/user_passModel.js"></script>
     </script>
 </head>
 
 <body>
-    <!-- <%- include ("./partials/nav2.ejs") %> -->
 <div class="wholepage">
-    <div>
-        <!-- <a href="#infoguest">Information about guests</a>
-        <a href="#inforoom">Information about room</a>
-        <a href="inforeciept" >Information about reciept</a> -->
-    </div>
+ 
     <div class="guest_page">
         
         <div class="room_info"  id="infoguest">
@@ -108,16 +102,15 @@
                 <!-- creating form for requesting later check out date, or add services..
                 sending mail to hotel with pre filled up input for whom sending 
                 using rew.params for pre filled inputs.
-                .make drop down list with chocises..chckout date, sauna etc
+                .make drop down list with choices..checkout date, sauna etc
                 make username input req.params
                 make first last name req.params
                 mssg free to fill up
                 add services condition..check out date must be longer then current date -->
             </div>
 <nav1>
-    <!-- <a href="#">RECIEPT</a> -->
-    <!-- <a href="#">CHECKOUT</a> -->
-        <a href="/login" onclick="offModule.offline()" >Logout</a>
+   
+        <a href="/" onclick="offline(window.location.pathname)" >Logout</a>
         <div id="indicator"></div>
   </nav1>
   

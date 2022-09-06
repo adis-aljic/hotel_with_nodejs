@@ -1,7 +1,7 @@
 const express = require("express");
 const { appendFile } = require("fs");
 const mysql = require("mysql2");
-const { addListener } = require("process");
+const { addListener, off } = require("process");
 const con = require("../databaseCon");
 const db = mysql.createConnection(con);
 const app = express();
@@ -80,34 +80,27 @@ function setOnline(username) {
 
 // function for seting offline status when guest log out
 // not working
-function setOffline(username) {
-    let sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${username}"`
-    db.query(sql, function(err,data){
-        if (err) throw err
-        else console.log(` User ${username} is logged`);
-    })  // kak pokupit username
-}
 
 
 
-function offline() {
-    console.log("bb");
-    app.get("/login", function (res, req) {
-        console.log(`User ${req.params.username} is loged out`);
-        db.query(`UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params.username}"`, function (err, data) {
+
+function offline(username) {
+        console.log(`prije queerija`);
+       
+
+        db.query(`UPDATE guest SET isLoged = "Offline" WHERE username = "${username}"`, function (err, data) {
             if (err) throw err
             else {
-                console.log(`User ${req.params.username} is loged out`);
+                console.log(`User ${username} is loged out`);
                 console.log("Your session is finished");
             }
         })
-    })
+    
 }
-
+// offline()
 
 
 module.exports = {
     checkUser,
-    checkEmployee,
-    offline
+    checkEmployee
 }

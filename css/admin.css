@@ -9,11 +9,14 @@ form {
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
     margin: auto;
-    /* padding-top: 20 px; */
+    margin-right: 3em;
     /* width: 5rem; */
+    box-shadow: 7px 11px 27px -9px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 7px 11px 27px -9px rgba(0,0,0,0.75);
+    -moz-box-shadow: 7px 11px 27px -9px rgba(0,0,0,0.75);
 }
 
 #newemployee{

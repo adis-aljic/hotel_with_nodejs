@@ -17,9 +17,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta author="Adis Aljic">
     <title>Imaginery hotel</title>
-    <script src="../js/user_pass.js" defer></script>
-    <script src="../server1.js" defer></script>
-    <script src="../test.js" defer></script>
+    <script src="../js/user_pass.js" ></script>
+    <script src="../server1.js" ></script>
+    <script type="module" src="../test.js"></script>
 
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/admin.css">
@@ -28,7 +28,7 @@
 
 </head>
 
-<body window.onload="singlebed()">
+<body onload="singlebed()">
 
     <!-- <%- include ("./partials/nav2.ejs") %> -->
 
@@ -37,8 +37,8 @@
 
             <div>
                  
+                <h1 class="heading">Guest registration</h1>
                 <form action="./adminGuest" method="post">
-                    <h1>Guest registration</h1>
                     <label for="first_name">First Name</label>
                     <input type="text" id="first_name" name="first_name">
                     <label for="last_name">Last Name</label>
@@ -106,10 +106,23 @@
                             password</button>
                     </div>
                     <br>
+                    <br>
                     <hr>
+
+                    <h1 class="avaiablerooms">Avaiable rooms</h1>
+                    <div class="avaiablerooms">
+
+                        <% Object.keys(list).forEach(key => {
+                            %>
+                            <li> <%= list[key] %></li>
+                            <%   }); %>
+                        </div>
+                         <br>
+                         <br>
+                         <br>   
                     <h1>Type of room</h1>
                     <label for="room_type">
-                        <input class="radio" type="radio" id="room_type"  name="price_per_night" value="20">
+                        <input class="radio" id="1011" type="radio" id="room_type"  name="price_per_night" value="20">
                         Single bed</label>
                         <label for="room_type">
                             <input class="radio" type="radio" id="room_type" name="price_per_night" value="40">
@@ -119,10 +132,13 @@
                                 Apartment</label>
                     <h1>Choose room number</h1>
                     <h2>Single bed</h2>
-                        <div id="101">
+    
+                                <label for="type_of_room"> <input class="radio" type="radio" id="room_number" name="room_number" value="101">  <% Object.keys(list).forEach(key => {
+                                    if(list[key] = "Room 101") %>
+                                     <%= list[key] %>
+                               <%   }); %></label>
+                                <label for="type_of_room"> <input type="radio" id="room_number" value="102" name="room_number">Room 102</label>
                           
-                            </div>
-
                     
                         <h2>Twin bed</h2>
                     <label for="type_of_room">
@@ -196,6 +212,43 @@
         </div>
 
             <%- include ("./partials/nav1.ejs") %>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    function hi(){
+                        databaseCon.con()
+const db = mysql.createConnection(con)
+
+
+    console.log("aaaaaaaaaa");
+    var sql = `SELECT room_status FROM room`
+db.query(sql, function(err,data){
+    if (err) throw err
+    else{
+        const array =  [
+        `<label for="type_of_room"> <input class="radio" type="radio" id="room_number" name="room_number" value="101">Room101</label>`,
+        `<label for="type_of_room"> <input type="radio" id="room_number" value="102" name="room_number">Room 102</label>`
+    ]
+        let code = "";
+        for (let i = 0; i < array.length; i++) {
+            
+            console.log(data[i]);
+            if (data[i].room_status == "Avaiable") {
+                
+             code  += array[i] 
+            }
+        }
+        // document.getElementById("101").innerHTML = code;
+        var theDiv = document.getElementById("101");
+           var content = document.createTextNode(code);
+             theDiv.appendChild(content);
+    }
+
+})                    }
+                    hi();
+            
+                    $('body').on( 'load', function(){ window.hi(); } );
+                });
+            </script>
 
 </body>
 

@@ -1,11 +1,12 @@
-const mysql = require("mysql2")
-const con = require("./databaseCon");
+
+// const mysql = require("mysql2");
+// const { database } = require("./databaseCon");
+// const con = require("./databaseCon");
+databaseCon.con()
 const db = mysql.createConnection(con)
 
+window.singlebed =  function (){
 
-
-
-function singlebed(){
     console.log("aaaaaaaaaa");
     var sql = `SELECT room_status FROM room`
 db.query(sql, function(err,data){
@@ -24,7 +25,10 @@ db.query(sql, function(err,data){
              code  += array[i] 
             }
         }
-        document.getElementById("101").innerHTML = code;
+        // document.getElementById("101").innerHTML = code;
+        // var theDiv = document.getElementById("101");
+        //    var content = document.createTextNode(code);
+        //      theDiv.appendChild(content);
     }
 
 })

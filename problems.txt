@@ -1,7 +1,6 @@
 bugs:
 kad nisu sve usluge uzete pada ? nekada ?
 napravit da se mjenja islogged u offline kada se odluguje korisnik
-bus dates check in and out date da ne moze biti out manje od in - da posalje informaciuje useru ?? ne radi 
 
 server preko express sa app
 server preko http var server = http.createServer
@@ -10,11 +9,8 @@ slanje podataka preko readStream i writeStream
 
 xamp i apachee problemi
 
-
-kako hash integirati ? ash fje
-
-ne radi / or /home ruta 
+offline funkcija ??? db not defined
 
 
-ne radi for each
+
 

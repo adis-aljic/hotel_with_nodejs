@@ -46,7 +46,24 @@ app.get("/login", function (req, res) {
     res.render("login")
 })
 app.get("/adminguest", function (req, res) {
-    res.render("adminguest")
+    var sql = `SELECT room_status, room_number FROM room`
+    db.query(sql, function(err,data){
+        if (err) throw err
+        else{
+            var list = {}
+            data.forEach(element => {
+                if(element.room_status == "Avaiable") {
+                    list[`Room ${element.room_number}`] = `Room ${element.room_number}`;
+                }
+            console.log(list);    
+            });
+
+            res.render("adminguest", {list} )
+            }
+
+        
+    
+    })
 })
 app.get("/adminemployee", function (req, res) {
     res.render("adminemployee")
