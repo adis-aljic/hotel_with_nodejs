@@ -104,10 +104,20 @@ nav1 a:nth-child(3):hover ~ #indicator {
   left: 70%;
   background: linear-gradient(130deg, purple, palevioletred);
 }
+
 .avaiablerooms{
-  background-color:aqua;
+  background-color:whitesmoke;
   border-radius: 15px;
-padding: 1em 0 1em 1em;
+padding: 1em 1em 1em 1em;
+box-shadow: 7px 8px 11px -2px rgba(0,0,0,0.75);
+-webkit-box-shadow: 7px 8px 11px -2px rgba(0,0,0,0.75);
+-moz-box-shadow: 7px 8px 11px -2px rgba(0,0,0,0.75);
+font-size: large;
+}
+.avaiableroomsHeading{
+  background-color:wheat;
+  border-radius: 15px;
+padding: 0.3em 0 0.3em 0.3em;
 box-shadow: 7px 8px 11px -2px rgba(0,0,0,0.75);
 -webkit-box-shadow: 7px 8px 11px -2px rgba(0,0,0,0.75);
 -moz-box-shadow: 7px 8px 11px -2px rgba(0,0,0,0.75);
@@ -116,4 +126,12 @@ font-size: large;
 
 .heading{
   font-size: 2.8em;
+}
+
+.userpass{
+  border: 0.3rem solid azure;
+  width: 60%;
+}
+.position{
+  margin: auto;
 }

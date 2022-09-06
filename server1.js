@@ -54,9 +54,7 @@ app.get("/adminguest", function (req, res) {
             data.forEach(element => {
                 if(element.room_status == "Avaiable") {
                     list[`Room ${element.room_number}`] = `Room ${element.room_number}`;
-                }
-            console.log(list);    
-            });
+                }            });
 
             res.render("adminguest", {list} )
             }
