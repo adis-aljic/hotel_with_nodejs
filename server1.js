@@ -45,6 +45,24 @@ app.get("/adminlogin", function (req, res) {
 app.get("/login", function (req, res) {
     res.render("login")
 })
+app.get("/listbooked", function (req, res) {
+    var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password, guest.status_guest,
+     booking.check_in_date, booking.check_out_date, reciept.total_price_for_booking
+     FROM guest 
+     INNER JOIN booking
+     ON booking.username = guest.username
+     INNER JOIN reciept
+     ON reciept.username = guest.username
+    ;`
+    db.query(sql, function(err, data){
+        if (err) throw err
+        else  {
+            console.log(data);
+            res.render("listbooked", {data})
+        }
+    })
+})
+
 app.get("/adminguest", function (req, res) {
     var sql = `SELECT room_status, room_number FROM room`
     db.query(sql, function(err,data){
