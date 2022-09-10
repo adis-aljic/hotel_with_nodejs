@@ -43,3 +43,6 @@ opacity: 1;
     flex-direction: column;
     margin: auto;
 }
+.logoutbutton{
+    border-radius: 15px;
+}

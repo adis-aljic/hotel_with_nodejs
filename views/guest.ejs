@@ -25,7 +25,7 @@
     </script>
 </head>
 
-<body>
+<body onload="url()">
 <div class="wholepage">
  
     <div class="guest_page">
@@ -109,11 +109,27 @@
                 add services condition..check out date must be longer then current date -->
             </div>
 <nav1>
-   
-        <a href="/" onclick="offline(window.location.pathname)" >Logout</a>
-        <div id="indicator"></div>
+    <form action=""  method="post">
+        <button class="logoutbutton" type="submit" name="username" onclick = "value()"><a href="/login">Logout</a> </button>
+        <!-- <button class="logoutbutton"><a href="/"  >Logout</a></button> -->
+    </form>
+        <!-- <div id="indicator"></div> -->
   </nav1>
-  
+  <script>
+    const value = ()=>{
+        const temp = window.location.href.slice(window.location.href.lastIndexOf("/"))
+        console.log(temp);
+        return temp
+    }
+    const url = ()=>{
+        const form =  document.getElementsByTagName("form")[0]
+        const temp = "/guest" + window.location.href.slice(window.location.href.lastIndexOf("/"))
+        form.action = temp
+    }
+    url()
+    value()
+        </script>
+        
 </body>
 
 </html>

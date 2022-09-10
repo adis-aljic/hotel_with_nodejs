@@ -57,7 +57,7 @@ app.get("/listbooked", function (req, res) {
     db.query(sql, function(err, data){
         if (err) throw err
         else  {
-            console.log(data);
+            // console.log(data);
             res.render("listbooked", {data})
         }
     })
@@ -240,7 +240,7 @@ app.post("/adminguest", urlencodedParser, function (req, res) {
 app.post("/adminemployee", urlencodedParser, function (req, res) {
     res.render("newemployee", { infoAdmin: req.body })
     const infoAdmin = req.body;
-    console.log(infoAdmin)
+    // console.log(infoAdmin)
     var sql = `INSERT INTO employees (first_name, last_name, job_title, date_of_birth,country,city,phone_number,email,
         gender, languages, document_for_indefication,number_of_document_for_indefication,username,password ) 
         VALUES("${infoAdmin.first_name}","${infoAdmin.last_name}","${infoAdmin.job_title}","${infoAdmin.date_of_birth}",
@@ -289,7 +289,7 @@ app.post("/adminlogin", urlencodedParser, function (req, res) {
 // finding booking using username
 app.post("/findbooking", urlencodedParser, function (req, res) {
     const booking = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     db.query(`SELECT guest.first_name, guest.document_for_indefication,guest.number_of_document_for_indefication, guest.last_name, guest.username, guest.password, booking.room_number, 
             booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
@@ -306,7 +306,7 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
         if (err) throw err
         else {
             const book = data[0]
-            console.log(book);
+            // console.log(book);
             res.render(`findbooked`, {
                 totalprice: book.total_price_for_booking,
                 username: book.username,
@@ -332,7 +332,7 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
 // check-out or changing additional services for guest by admin 
 
 app.post("/findbooked", urlencodedParser, function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     const username = req.body.username;
     const new_checkout = req.body.new_check_out_date;
     const early_checkout = req.body.check_out_date;
@@ -417,7 +417,18 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
     }
 })
 
+app.post(`/guest/:username`, function(req,res){
+    console.log(req.params["username"]);
+    sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params["username"]}";`
+    db.query(sql, function(err,data){
+        if (err) throw err
+        else {
+            console.log(`User ${req.params["username"]} is offline`);
+        }
+    })
 
+
+})
 // sending email from contact page 
 // test?
 

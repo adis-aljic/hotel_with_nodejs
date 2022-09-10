@@ -14,8 +14,8 @@ const checkUser = (res, username, password,) => {
     db.query(sqlQ, function (err, data) {
         if (err) throw err
         else { 
-            console.log(username,password);
-            console.log(data);
+            // console.log(username,password);
+            // console.log(data);
             for (let i = 0; i < data.length; i++) {
                 // console.log(data[i]);
                 const user_pass = data[i];
