@@ -1,16 +1,18 @@
 .container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-items: center;
+    /* justify-items: space-between; */
     margin: auto;
     padding-top: 8rem;
+    gap: 5em;
 }
 .container1{
     display: flex;
     flex-direction: column;
     width: fit-content;
     justify-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding-top: 5rem;
     /* background-color: aqua; */
     border: 1px solid black;

@@ -290,7 +290,7 @@ app.post("/adminlogin", urlencodedParser, function (req, res) {
 app.post("/findbooking", urlencodedParser, function (req, res) {
     const booking = req.body;
     console.log(req.body);
-    db.query(`SELECT guest.first_name, guest.last_name, guest.username, guest.password, booking.room_number, 
+    db.query(`SELECT guest.first_name, guest.document_for_indefication,guest.number_of_document_for_indefication, guest.last_name, guest.username, guest.password, booking.room_number, 
             booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
              FROM booking 
@@ -310,6 +310,9 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
             res.render(`findbooked`, {
                 totalprice: book.total_price_for_booking,
                 username: book.username,
+                password: book.password,
+                document_for_indefication: book.document_for_indefication,
+                number_of_document_for_indefication: book.number_of_document_for_indefication.slice(book.number_of_document_for_indefication.lastIndexOf(" ")),
                 check_in_date: book.check_in_date.toISOString().slice(0, 10),
                 check_out_date: book.check_out_date.toISOString().slice(0, 10),
                 booking_id: book.booking_id,
@@ -330,13 +333,29 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
 
 app.post("/findbooked", urlencodedParser, function (req, res) {
     console.log(req.body);
-    const username = req.body.checkout;
+    const username = req.body.username;
+    const new_checkout = req.body.new_check_out_date;
     const early_checkout = req.body.check_out_date;
     const early_checkout_sauna = req.body.check_out_date_sauna;
     const early_checkout_gym = req.body.check_out_date_gym;
     const early_checkout_cinema = req.body.check_out_date_cinema;
     const early_checkout_restaurant = req.body.check_out_date_restaurant;
     const early_checkout_pool = req.body.check_out_date_pool;
+
+    if (new_checkout != "") {
+
+        let sql1 = `UPDATE booking SET check_out_date ="${new_checkout}" WHERE username = "${username}";
+    
+       `
+       db.query(sql1, function (err, data) {
+        if (err) throw err
+        else 
+            
+                res.render("./findbooking")
+            })
+        
+    
+    }
 
     if (early_checkout != "") {
 

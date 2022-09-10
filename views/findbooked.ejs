@@ -44,15 +44,19 @@
     <h1>Information about booking</h1>
     <br>
     <p>  username  : <%= username %></p>
+    <p>  password  : <%= password %></p>
     <p>  room number  : <%= room_number %></p>
     <p>  first name  : <%= first_name %></p>
   <p>  last name  : <%= last_name %></p>
+  <p>  document   : <%= document_for_indefication %></p>
+  <p>  document number  : <%= number_of_document_for_indefication %></p>
   <br>
   <p>   check in date  : <%= check_in_date %></p>
   <p>   check out date  : <%= check_out_date %></p>
-  <p>   booking id  : <%= booking_id %></p>
   <br>
    <span><hr></span>
+   <br>
+   
    <h3>Reciept</h3>
   <p>   sauna price  : <%= total_price_sauna %></p>
   <p>   restaurant price  : <%= total_price_restaurant %></p>
@@ -69,6 +73,10 @@
     <h1>Check out guest</h1>
     <label for="check_out_date">Confirm check out date</label>
     <input type="date" name="check_out_date" id="check_out_date">
+    <br>
+
+    <label for="new_check_out_date">Set another check out date</label>
+    <input type="date" name="new_check_out_date" id="new_check_out_date">
     <br>
     <label for="check_out_date_sauna">Change check out date for Sauna</label>
     <input type="date" name="check_out_date_sauna" id="check_out_date_sauna">
@@ -91,7 +99,7 @@
   <br>
   
   <label for="checkout">Enter username</label>
-  <input type="text" placeholder="insert username" id="checkout" name="checkout"></input>
+  <input type="text" placeholder="insert username" id="checkout" name="username"></input>
   <br>
   <button type="submit">Submit</button>
   
