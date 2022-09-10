@@ -4,7 +4,7 @@ const bodyParser = require("body-parser")
 const app = express();
 const mysql = require("mysql2")
 const con = require("./databaseCon.js");
-const { Console } = require("console");
+const { Console, info } = require("console");
 const guestModule = require("./models/guestModel")
 const roomModule = require("./models/roomModel")
 const bookingModule = require("./models/bookingModel")
@@ -241,7 +241,12 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
     res.render("newemployee", { infoAdmin: req.body })
     const infoAdmin = req.body;
     console.log(infoAdmin)
-    var sql = `INSERT INTO employees   SET ?`
+    var sql = `INSERT INTO employees (first_name, last_name, job_title, date_of_birth,country,city,phone_number,email,
+        gender, languages, document_for_indefication,number_of_document_for_indefication,username,password ) 
+        VALUES("${infoAdmin.first_name}","${infoAdmin.last_name}","${infoAdmin.job_title}","${infoAdmin.date_of_birth}",
+        "${infoAdmin.country}","${infoAdmin.city}","${infoAdmin.phone_number}","${infoAdmin.email}","${infoAdmin.gender}",
+        "${infoAdmin.languages.join(",")}","${infoAdmin.document_for_indefication}","${infoAdmin.document_for_indefication} ${infoAdmin.number_of_document_for_indefication}",
+    "${infoAdmin.username}","${infoAdmin.password}"       )`
     db.query(sql, infoAdmin, function (err, data) {
         if (err) throw err;
         else console.log(" new employee added")
@@ -249,7 +254,6 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
 })
 
 // login page for guests
-// problem with hashing
 
 app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body

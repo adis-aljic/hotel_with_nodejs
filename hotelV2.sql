@@ -24,6 +24,7 @@ status_for_employee ENUM ("Active","Fired","On leave") DEFAULT "Active",
 username VARCHAR(10) UNIQUE NOT NULL,
 password VARCHAR(50) UNIQUE NOT NULL
 );
+ALTER TABLE employees MODIFY languages VARCHAR(40) DEFAULT "Bosnian"; 
 CREATE TABLE guest(
 first_name VARCHAR(40) NOT NULL,
 last_name VARCHAR(40) NOT NULL,
