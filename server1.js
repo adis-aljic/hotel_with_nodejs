@@ -17,7 +17,17 @@ const recieptModule = require("./models/recieptModel")
 const user_passModul = require("./models/user_passModel")
 const bcrypt = require ('bcrypt');
 var nodemailer = require('nodemailer');
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
 
+const oneDay = 1000 * 60 * 60 * 24;
+
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
 
 const db = mysql.createConnection(con)
 db.connect((err) => {
@@ -29,6 +39,19 @@ db.connect((err) => {
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(express.static(__dirname));
 app.set("view engine", "ejs")
+
+app.use(cookieParser());
+
+// function for saving seasion into db
+function saveSession(){
+    db.query(`INSERT INTO sessions SET ?`, function(err,data){
+        if (err) throw err
+        else {
+            console.log(data);
+        }
+
+    })
+}
 
 
 // GET REQUESTS
@@ -257,26 +280,10 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
 
 app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body
-    // var username = data.username;
-    // var password = data.password;
-    // console.log(data);
-    // console.log(password + "555555555") ;
-    // user_passModul.checkEmployee(res,data.username_employees,data.password_employees)
-    // if(user_passModul.checkEmployee(res,username,password)){
-    //    console.log(`Welcome employee ${username}`)
-    // }
-    // $2b$10$qx8tELxbzIyJISl2pkzs8ew2Btk2bw4j64TwUyyfvAEgLkWA6RoM.
-
-    // const salt = 10;
-    // bcrypt.hash(data.password_guest, salt, function(err, hash) {
-        // console.log(hash);
+    
     user_passModul.checkUser(res, data.username_guest, data.password_guest)
     
-// })
-    //  else    if(user_passModul.checkUser(res,username,password)){
-    // console.log(`Welcome ${username}`)    
-    // } 
-    // else return res.redirect("/")
+
 })
 
 // login for admin page

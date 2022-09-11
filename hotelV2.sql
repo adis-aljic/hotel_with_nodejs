@@ -26,6 +26,7 @@ password VARCHAR(50) UNIQUE NOT NULL
 );
 ALTER TABLE employees MODIFY languages VARCHAR(40) DEFAULT "Bosnian";
 select isLoged from guest where username = "more";
+select * from guest;
 CREATE TABLE guest(
 first_name VARCHAR(40) NOT NULL,
 last_name VARCHAR(40) NOT NULL,
@@ -268,5 +269,11 @@ alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Act
 select * from employees;
 select username from guest order by username desc limit 1;
 
+CREATE TABLE sessions (
+session_id INT PRIMARY KEY AUTO_INCREMENT,
+session_username INT NOT NULL,
+session_password INT NOT NULL
+);
+select * from sessions;
 -- INSERT INTO employees (first_name,last_name,username,password,phone_number,email,document_for_indefication,number_of_document_for_indefication,job_title)
 -- VALUES ("Adis","Aljic","admin","admin","125469","aaa@bb.com","Passport number","77777","Manager");
