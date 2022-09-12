@@ -45,4 +45,22 @@ opacity: 1;
 }
 .logoutbutton{
     border-radius: 15px;
+    margin-right: 10rem;
+    margin-top: 3rem;
+    height: 3em;
+    width: 6em;
+    cursor: pointer;
+
+}
+li{
+    text-decoration: none;
+}
+
+.guest_timer{
+
+border-radius: 20px;
+border: 1px solid black;
+text-align: center;
+padding: 5% 5% 5% 5% ;
+margin-top: 5%;
 }

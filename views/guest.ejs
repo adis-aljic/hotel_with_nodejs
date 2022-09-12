@@ -22,25 +22,30 @@
     <link rel="stylesheet" href="../css/guest.css">
     <link rel="stylesheet" href="../css/admin_guest.css">
     <script src="../models/user_passModel.js"></script>
+    <script src="../js/timer.js"></script>
     </script>
 </head>
 
 <body onload="url()">
 <div class="wholepage">
- 
+ <div class="guest_timer">
+
+     <h1>Hello  <%= first_name %> <%= last_name %>, welcome to our hotel. </h1>
+     <p>Your session will last 3 minutes. </p>
+     <p>Timer : <b> <span id="timer"></span> </b></p>
+    </div>
     <div class="guest_page">
-        
         <div class="room_info"  id="infoguest">
-                <h1>Informatio about guest</h1>
+                <h1>Information about guest</h1>
                 <ul>
                     <li>
-                 Name <%= first_name %> <%= last_name %>
+                 Name: <%= first_name %> <%= last_name %>
                     </li>
                     <li>
-                 username <%= username %>
+                 Username: <%= username %>
                     </li>
                     <li>
-                 password <%= password %>
+                 Password: <%= password %>
                     </li>
                 </ul>
             </div>
@@ -50,13 +55,13 @@
                 <h1>Room information</h1>
                 <ul>
                     <li>
-                     Room number   <%= room_number %>
+                     Room number:   <%= room_number %>
                     </li>
                     <li>
-                    Check in date    <%= check_in_date %>
+                    Check in date:    <%= check_in_date %>
                     </li>
                     <li>
-                     Check out date   <%= check_out_date %>
+                     Check out date:   <%= check_out_date %>
                     </li>
                 </ul>
             </div>
@@ -108,13 +113,13 @@
                 mssg free to fill up
                 add services condition..check out date must be longer then current date -->
             </div>
-<nav1>
+<!-- <nav1> -->
     <form action=""  method="post">
         <button class="logoutbutton"  type="submit"  name="username" value="true">Logout </button>
         <!-- <button class="logoutbutton"><a href="/"  >Logout</a></button> -->
     </form>
         <!-- <div id="indicator"></div> -->
-  </nav1>
+  <!-- </nav1> -->
   <script>
     const value = ()=>{
         const temp = window.location.href.slice(window.location.href.lastIndexOf("/"))
@@ -127,6 +132,12 @@
         form.action = temp
         console.log(temp);
     }
+    // const logout_url=()=>{
+    //     setTimeout(() => {
+    //    window.location.href =  `${window.location.origin}`
+       
+    //     }, 300000);
+    // }
     url()
     value()
         </script>

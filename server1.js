@@ -151,10 +151,7 @@ app.get("/guest/:username", function (req, res) {
         })  
         }
     
-    
-    
-    
-    , 10000)
+    , 280000)
     let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
             cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
             FROM booking 
