@@ -19,6 +19,7 @@ const bcrypt = require ('bcrypt');
 var nodemailer = require('nodemailer');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
+const { get } = require("http");
 
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -138,7 +139,22 @@ app.get("/loginWrongPass", function (req, res) {
     res.render("loginWrongPass")
 })
 app.get("/guest/:username", function (req, res) {
+    setTimeout(() =>  {
 
+        sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params["username"]}";`
+        db.query(sql, function(err,data){
+            if (err) throw err
+            else {
+                console.log(`User ${req.params["username"]} is offline`);
+                // res.redirect("/login")
+            }
+        })  
+        }
+    
+    
+    
+    
+    , 10000)
     let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
             cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
             FROM booking 
@@ -491,8 +507,7 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
 })
 
 app.post(`/guest/:username`, function(req,res){
-
-    console.log("Aaaaaaaaaaa");
+   
     sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params["username"]}";`
     db.query(sql, function(err,data){
         if (err) throw err

@@ -26,7 +26,7 @@ const checkUser = (res,req, username, password,) => {
                 // console.log("username i pass");
                 // console.log(username + " i  " + password);
                 if (username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
-                    // setOnline(username);
+                    setOnline(username);
                     // session=req.session;
 
                     // console.log(req.body);
