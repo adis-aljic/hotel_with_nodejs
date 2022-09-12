@@ -1,0 +1,93 @@
+<!-- cijena sobe no noci i provjera je li slobondno u js i da zakljuca opciju
+            ako je zauzeta, skontat da li
+        moze da se kopira dio koda na klik butona ako ima vise gostiju
+    problem vise gostiju 
+            ako je inactive gost ne moze pristupiti sa sifrom, u js napraviti
+            napraiti da ispise sve sobe i ko je u njima u novoj stranici
+
+            racun ici na ispis samo kao i ispis checkout..
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta author="Adis Aljic">
+  <title>Imaginery hotel</title>
+  <script src="../js/user_pass.js" defer></script>
+
+  <link rel="stylesheet" href="../css/findbooked.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/admin_guest.css">
+  <link rel="stylesheet" href="../css/table.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+  <div>
+    <table class="styled-table">
+      <thead>
+        <tr>
+        
+              <th>
+                first Name
+        </th>
+              <th>
+                last Name
+        </th>
+              <th>
+                Username
+        </th>
+              <th>
+                Password
+        </th>
+              <th>
+                Guest status
+        </th>
+              <th>
+                check in date
+        </th>
+              <th>
+                check out date
+        </th>
+              <th>
+                total price
+        </th>
+     
+      </tr>
+    </thead>
+    
+    <tbody>
+      
+      <% for(let i = 0; i <data.length; i++){ %>
+      <tr>
+       <% Object.keys(data[i]).forEach(key=> {
+          %>
+          <td>
+              <%=data[i][key] %>
+            </td>
+              <% })
+            }
+             %>
+          </tr>
+          </tbody>
+    </table>
+    <hr>
+
+  </div>
+ 
+  <div>
+
+
+    <%- include ("./partials/nav1.ejs") %>
+
+
+</body>
+
+</html>

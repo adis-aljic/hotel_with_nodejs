@@ -23,7 +23,7 @@ const sessions = require('express-session');
 const oneDay = 1000 * 60 * 60 * 24;
 
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    secret: "thisismysecrctekey",
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false
@@ -36,27 +36,19 @@ db.connect((err) => {
         console.log("database is connected")
 })
 
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
+const urlencodedParser = bodyParser.urlencoded({ extended: true })
 app.use(express.static(__dirname));
 app.set("view engine", "ejs")
 
 app.use(cookieParser());
+app.use(bodyParser.json());      
 
-// function for saving seasion into db
-function saveSession(){
-    db.query(`INSERT INTO sessions SET ?`, function(err,data){
-        if (err) throw err
-        else {
-            console.log(data);
-        }
-
-    })
-}
 
 
 // GET REQUESTS
 
 app.get("/", function (req, res) {
+
     res.render("index")
 })
 app.get("/contact", function (req, res) {
@@ -65,25 +57,53 @@ app.get("/contact", function (req, res) {
 app.get("/adminlogin", function (req, res) {
     res.render("adminlogin")
 })
+var session;
 app.get("/login", function (req, res) {
-    res.render("login")
-})
-app.get("/listbooked", function (req, res) {
+
+       // je li treba provjerit ima li ovaj session ikako u bazi ??
+//sto se provjerava kad nije ni logovano ?app.use(express.json());
+
+        res.render(`login`)
+    });
+    
+    
+    app.get("/listbooked", function (req, res) {
+
     var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password, guest.status_guest,
-     booking.check_in_date, booking.check_out_date, reciept.total_price_for_booking
-     FROM guest 
-     INNER JOIN booking
-     ON booking.username = guest.username
-     INNER JOIN reciept
-     ON reciept.username = guest.username
-    ;`
-    db.query(sql, function(err, data){
-        if (err) throw err
-        else  {
-            // console.log(data);
-            res.render("listbooked", {data})
-        }
-    })
+    booking.check_in_date, booking.check_out_date, reciept.total_price_for_booking
+    FROM guest 
+    INNER JOIN booking
+    ON booking.username = guest.username
+    INNER JOIN reciept
+    ON reciept.username = guest.username WHERE guest.status_guest = "Active"
+   ;`
+   db.query(sql, function(err, data){
+       if (err) throw err
+       else  {
+           // console.log(data);
+           res.render("listbooked", {data})
+       }
+   })
+   })
+
+app.get("/listallbooked", function (req, res) {
+        var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password, guest.status_guest,
+        booking.check_in_date, booking.check_out_date, reciept.total_price_for_booking
+    FROM guest 
+    INNER JOIN booking
+    ON booking.username = guest.username
+    INNER JOIN reciept
+    ON reciept.username = guest.username
+   ;`
+   db.query(sql, function(err, data){
+       if (err) throw err
+       else  {
+           console.log(data);
+         res.render("listallbooked", {data})
+       }
+   })
+    
+ 
 })
 
 app.get("/adminguest", function (req, res) {
@@ -281,7 +301,7 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
 app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body
     
-    user_passModul.checkUser(res, data.username_guest, data.password_guest)
+    user_passModul.checkUser(res,req, data.username_guest, data.password_guest)
     
 
 })
@@ -289,29 +309,75 @@ app.post("/login", urlencodedParser, function (req, res) {
 // login for admin page
 app.post("/adminlogin", urlencodedParser, function (req, res) {
     const data = req.body
+    session=req.session;
+   session.username = data.username_employees
+   session.password = data.password_employees
+    console.log(session);
     user_passModul.checkEmployee(res, data.username_employees, data.password_employees)
   
 })
 
-// finding booking using username
+// finding booking using username or document id
 app.post("/findbooking", urlencodedParser, function (req, res) {
     const booking = req.body;
-    // console.log(req.body);
-    db.query(`SELECT guest.first_name, guest.document_for_indefication,guest.number_of_document_for_indefication, guest.last_name, guest.username, guest.password, booking.room_number, 
+    console.log(req.body);
+    
+    if(booking.find == "username" ) {
+       var input = booking.search;
+       var parametar = "username";}
+    else if(booking.find =="social_security" ){
+
+       var input = "Social security Number " + booking.search;
+        var parametar = "number_of_document_for_indefication";
+    } 
+    else if(booking.find =="passport" ){
+        var input ="Passport number " + booking.search;
+        var parametar = "number_of_document_for_indefication";
+
+    } 
+    else if(booking.find =="card_id" ){
+        var input ="ID Card Number " + booking.search;
+        var parametar = "number_of_document_for_indefication";
+
+    } 
+        
+    
+    const findbooking = (parametar,input) =>{
+        if(parametar == "username") {
+
+            return `SELECT guest.first_name, guest.document_for_indefication,guest.number_of_document_for_indefication, guest.last_name, guest.username, guest.password, booking.room_number, 
             booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
             restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
-             FROM booking 
-             INNER JOIN guest ON guest.username = booking.username
-             INNER JOIN sauna ON sauna.username = booking.username
-             INNER JOIN restaurant ON restaurant.username = booking.username
-             INNER JOIN cinema ON cinema.username = booking.username
-             INNER JOIN gym ON gym.username = booking.username
-             INNER JOIN pool ON pool.username = booking.username
-             INNER JOIN reciept ON reciept.username = booking.username
-             WHERE booking.username = "${booking.search}";`
-             , function (err, data) {
-        if (err) throw err
+            FROM booking 
+            INNER JOIN guest ON guest.username = booking.username
+            INNER JOIN sauna ON sauna.username = booking.username
+            INNER JOIN restaurant ON restaurant.username = booking.username
+            INNER JOIN cinema ON cinema.username = booking.username
+            INNER JOIN gym ON gym.username = booking.username
+            INNER JOIN pool ON pool.username = booking.username
+            INNER JOIN reciept ON reciept.username = booking.username
+            WHERE guest.${parametar} = "${input}";`
+        }
+        else if (parametar == "number_of_document_for_indefication"){
+            return `SELECT guest.first_name, guest.document_for_indefication,guest.number_of_document_for_indefication, guest.last_name, guest.username, guest.password, booking.room_number, 
+            booking.check_in_date, booking.booking_id ,booking.check_out_date,booking.total_price_for_room,sauna.total_price_sauna,gym.total_price_gym,
+            restaurant.total_price_restaurant, cinema.total_price_cinema,pool.total_price_pool,reciept.total_price_for_booking
+            FROM guest 
+            INNER JOIN booking ON booking.username = guest.username
+            INNER JOIN sauna ON sauna.username = guest.username
+            INNER JOIN restaurant ON restaurant.username = guest.username
+            INNER JOIN cinema ON cinema.username = guest.username
+            INNER JOIN gym ON gym.username = guest.username
+            INNER JOIN pool ON pool.username = guest.username
+            INNER JOIN reciept ON reciept.username = guest.username
+            WHERE guest.${parametar} = "${input}";`
+        }
+    }
+    db.query(findbooking(parametar,input), function (err, data) {
+        if (err) console.log("error");
+        // kada se pogresi unos pada server
         else {
+            
             const book = data[0]
             // console.log(book);
             res.render(`findbooked`, {

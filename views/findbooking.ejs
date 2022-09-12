@@ -31,18 +31,36 @@
 
 
     <div class="findb">
-      <h1> Find booking</h1>
       
       <form class="search" action="./findbooking" method="post">
         <div class="checkoutbtn">
-
-    <input type="text" placeholder="Search.." name="search" id="search_booking">
-    <button type="submit" id="search_booking"><i class="fa fa-search"></i></button>
-    <button type="button"><a class="listbooking" href="/listbooked"> List all booking</a></button>
+          <div class="findbooking1">
+            
+            <h1> Find booking</h1>
+            <br>
+            <input type="text" placeholder="Search.." name="search" id="search_booking">
+            <select name="find" id="find" >
+              <option  >Choose option</option>
+              <option value="username" >Username</option>
+              <option  value="passport">Passport</option>
+              <option  value="social_security">Social security number</option>
+              <option value="card_id" >Card id</option>
+            </select>
+    <div class="listbooking1">
     <br>
 
+    <span><hr><br></span>
 
+        <button type="button" class="findbtn"> <a href="/listallbooked">List all booking</a> </button>
+      <button type="button" class="findbtn"><a  href="/listbooked">List current booking</a> </button>
   </div>
+  <br>
+  
+  
+  <button type="submit" id="search_booking"><i class="fa fa-search"></i></button>
+</div>
+</div>
+</div>
 </form> 
 
   

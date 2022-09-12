@@ -9,7 +9,7 @@ const app = express();
 
 
 
-const checkUser = (res, username, password,) => {
+const checkUser = (res,req, username, password,) => {
     const sqlQ = `SELECT username, password,status_guest, isLoged FROM guest;`
     db.query(sqlQ, function (err, data) {
         if (err) throw err
@@ -27,6 +27,18 @@ const checkUser = (res, username, password,) => {
                 // console.log(username + " i  " + password);
                 if (username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
                     setOnline(username);
+                    session=req.session;
+                    console.log(req.body);
+                    session.session_username=req.body.username_guest;
+                    session.session_password=req.body.password_guest;
+                    db.query(`INSERT INTO sessions (session_username,session_password) VALUES("${session.session_username}","${session.session_password}");`, function(err,data){
+                        if (err) throw err
+                        else {
+                            console.log(data);
+                        }
+                
+                    })
+                    console.log(req.session)
                         console.log(`User ${user_pass.username} is loged`);
                          return    res.redirect(`/guest/${username}`)
                 } 

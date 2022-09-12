@@ -271,8 +271,8 @@ select username from guest order by username desc limit 1;
 
 CREATE TABLE sessions (
 session_id INT PRIMARY KEY AUTO_INCREMENT,
-session_username INT NOT NULL,
-session_password INT NOT NULL
+session_username VARCHAR(40) NOT NULL,
+session_password VARCHAR(40) NOT NULL
 );
 select * from sessions;
 -- INSERT INTO employees (first_name,last_name,username,password,phone_number,email,document_for_indefication,number_of_document_for_indefication,job_title)
