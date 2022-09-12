@@ -522,8 +522,9 @@ app.post(`/guest/:username`, function(req,res){
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'adis@gmail.com',
-        pass: 'yourpassword'
+        user: 'adisaljic2347@gmail.com',
+        pass: 'wireless@1',
+        secure: false
     }
 });
 app.post("/contact", urlencodedParser, function (req, res) {
@@ -531,8 +532,8 @@ app.post("/contact", urlencodedParser, function (req, res) {
     const msg = req.body;
     console.log(msg)
     var mailOptions = {
-        to: 'adis.@gmail.com',
-        from: 'email@gmail.com',
+        to: 'adisaljic2347@gmail.com',
+        from: msg.email,
         subject: msg.subject,
         text: `Email address: ${msg.email},
          phone number: ${msg.phone_number}, 
