@@ -518,14 +518,21 @@ app.post(`/guest/:username`, function(req,res){
 })
 // sending email from contact page 
 // test?
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail', 
+//     providerauth: {user: 'adisaljic2347@gmail.com'}, 
+//     pass: 'wireless@1',
+    
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'adisaljic2347@gmail.com',
         pass: 'wireless@1',
-        secure: false
+        secure: false,
+        port: 3000
     }
+    
 });
 app.post("/contact", urlencodedParser, function (req, res) {
     res.render("contact", { msg: req.body })
@@ -533,12 +540,12 @@ app.post("/contact", urlencodedParser, function (req, res) {
     console.log(msg)
     var mailOptions = {
         to: 'adisaljic2347@gmail.com',
-        from: msg.email,
+        from: `${msg.email}`,
         subject: msg.subject,
         text: `Email address: ${msg.email},
          phone number: ${msg.phone_number}, 
         name: ${msg.full_name},
-        messege: ${msg.message}`
+        message: ${msg.message}`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
