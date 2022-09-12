@@ -491,11 +491,13 @@ app.post("/findbooked", urlencodedParser, function (req, res) {
 })
 
 app.post(`/guest/:username`, function(req,res){
-    console.log(req.params["username"]);
+
+    console.log("Aaaaaaaaaaa");
     sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params["username"]}";`
     db.query(sql, function(err,data){
         if (err) throw err
         else {
+            res.redirect("/login")
             console.log(`User ${req.params["username"]} is offline`);
         }
     })

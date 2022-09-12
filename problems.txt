@@ -12,5 +12,6 @@ xamp i apachee problemi
 offline funkcija ??? db not defined
 
 
-
+da li router se koristi da odvojnimo server po stranicama 
+route da spojimo sve metode u jeddnu ?
 

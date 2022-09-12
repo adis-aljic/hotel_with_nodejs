@@ -110,7 +110,7 @@
             </div>
 <nav1>
     <form action=""  method="post">
-        <button class="logoutbutton" type="submit" name="username" onclick = "value()"><a href="/login">Logout</a> </button>
+        <button class="logoutbutton" type="submit"  name="username" value="true">Logout </button>
         <!-- <button class="logoutbutton"><a href="/"  >Logout</a></button> -->
     </form>
         <!-- <div id="indicator"></div> -->
@@ -125,6 +125,7 @@
         const form =  document.getElementsByTagName("form")[0]
         const temp = "/guest" + window.location.href.slice(window.location.href.lastIndexOf("/"))
         form.action = temp
+        console.log(temp);
     }
     url()
     value()
