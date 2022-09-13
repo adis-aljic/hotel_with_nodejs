@@ -46,6 +46,7 @@ booking_id INT,
 reciept_id INT,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+select * from guest;
 -- delete  from guest where username = "test";
 -- select * from room	;
 SELECT username, password  FROM employees;
@@ -85,7 +86,7 @@ check_out_date DATE NOT NULL,
 total_price_for_room INT NOT NULL DEFAULT 0,
 comment VARCHAR (4000)
 );
-select * from booking;
+select * from guest;
 alter table booking modify total_price_for_room INT;
 CREATE TABLE sauna (
 sauna_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -268,11 +269,11 @@ SELECT * FROM guest;
 alter table guest add column status_guest ENUM("Active","Inactive") DEFAULT "Active";
 select * from employees;
 select username from guest order by username desc limit 1;
-
+ -- drop table sessions;
 CREATE TABLE sessions (
 session_id INT PRIMARY KEY AUTO_INCREMENT,
 session_username VARCHAR(40) NOT NULL,
-session_password VARCHAR(40) NOT NULL
+id VARCHAR(100) NOT NULL
 );
 select * from sessions;
 -- INSERT INTO employees (first_name,last_name,username,password,phone_number,email,document_for_indefication,number_of_document_for_indefication,job_title)

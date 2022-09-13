@@ -18,26 +18,39 @@ const user_passModul = require("./models/user_passModel")
 const bcrypt = require ('bcrypt');
 var nodemailer = require('nodemailer');
 const cookieParser = require("cookie-parser");
-const sessions = require('express-session');
+const session = require('express-session');
 const { get } = require("http");
-
-const oneDay = 1000 * 60 * 60 * 24;
-
-app.use(sessions({
-    secret: "thisismysecrctekey",
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false
-}));
+const MySQLStore = require("express-mysql-session");
+const urlencodedParser = bodyParser.urlencoded({ extended: true })
+const mySqlStore = require("express-mysql-session")(session);
 
 const db = mysql.createConnection(con)
-db.connect((err) => {
+
+db.connect((err) => { 
     if (err) throw err
     else
-        console.log("database is connected")
+    console.log("database is connected")
 })
+// var sessoionStore = new MySQLStore({
+//     expiration: 10800000,
+//     createDatabaseTable: true,
+//     schema:{
+//         tableName: "Session",
+//         columnNames: {
+//             session_id: "session_id",
+//             expires: "expires",
+//             data: "data"
+//         }
+//     }
+// },sessoionStore)
+app.use(session({
+    secret: "thisismysecrctekey",
+    saveUninitialized:true,
+    cookie: { maxAge: 1000 * 60 * 4 },
+    resave: false,
+    // store : sessoionStore
+}));
 
-const urlencodedParser = bodyParser.urlencoded({ extended: true })
 app.use(express.static(__dirname));
 app.set("view engine", "ejs")
 
@@ -58,11 +71,9 @@ app.get("/contact", function (req, res) {
 app.get("/adminlogin", function (req, res) {
     res.render("adminlogin")
 })
-var session;
 app.get("/login", function (req, res) {
 
-       // je li treba provjerit ima li ovaj session ikako u bazi ??
-//sto se provjerava kad nije ni logovano ?app.use(express.json());
+
 
         res.render(`login`)
     });
@@ -139,22 +150,23 @@ app.get("/loginWrongPass", function (req, res) {
     res.render("loginWrongPass")
 })
 app.get("/guest/:username", function (req, res) {
-    setTimeout(() =>  {
 
-        sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params["username"]}";`
-        db.query(sql, function(err,data){
-            if (err) throw err
-            else {
-                console.log(`User ${req.params["username"]} is offline`);
-                // res.redirect("/login")
-            }
-        })  
+        setTimeout(() =>  {
+            
+            sql = `UPDATE guest SET isLoged = "Offline" WHERE username = "${req.params["username"]}";`
+            db.query(sql, function(err,data){
+                if (err) throw err
+                else {
+                    console.log(`User ${req.params["username"]} is offline`);
+                    // res.redirect("/login")
+                }
+            })  
         }
-    
-    , 280000)
-    let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
-            cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
-            FROM booking 
+        
+        , 280000)
+        let recieptSQL = `SELECT booking.room_number, guest.first_name, guest.last_name, guest.password, guest.username, booking.total_price_for_room, sauna.total_price_sauna, restaurant.total_price_restaurant,
+        cinema.total_price_cinema,guest.first_name,guest.last_name,booking.check_in_date,booking.check_out_date ,gym.total_price_gym, pool.total_price_pool, reciept.total_price_for_booking, reciept.reciept_status
+        FROM booking 
             INNER JOIN sauna ON booking.booking_id = sauna.booking_id
             INNER JOIN restaurant ON booking.booking_id = restaurant.booking_id
             INNER JOIN cinema ON booking.booking_id = cinema.booking_id
@@ -164,13 +176,14 @@ app.get("/guest/:username", function (req, res) {
             INNER JOIN guest ON booking.booking_id = guest.booking_id
             where booking.username = "${req.params["username"]}";
             `
-    db.query(recieptSQL, function (err, data1) {
-        if (err) throw err
-        else {
-            let reciept = data1[0]
-            res.render("guest", { first_name: reciept.first_name, room_number: reciept.room_number, last_name: reciept.last_name, username: reciept.username, password: reciept.password, check_in_date: reciept.check_in_date.toISOString().slice(0, 10), check_out_date: reciept.check_out_date.toISOString().slice(0, 10), total_price_for_room: reciept.total_price_for_room, total_price_sauna: reciept.total_price_sauna, total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool: reciept.total_price_pool, total_price_for_booking: reciept.total_price_for_booking, reciept_status: reciept.reciept_status });
-        }
-    })
+            db.query(recieptSQL, function (err, data1) {
+                if (err) throw err
+                else {
+                    let reciept = data1[0]
+                    res.render("guest", { first_name: reciept.first_name, room_number: reciept.room_number, last_name: reciept.last_name, username: reciept.username, password: reciept.password, check_in_date: reciept.check_in_date.toISOString().slice(0, 10), check_out_date: reciept.check_out_date.toISOString().slice(0, 10), total_price_for_room: reciept.total_price_for_room, total_price_sauna: reciept.total_price_sauna, total_price_restaurant: reciept.total_price_restaurant, total_price_cinema: reciept.total_price_cinema, total_price_gym: reciept.total_price_gym, total_price_pool: reciept.total_price_pool, total_price_for_booking: reciept.total_price_for_booking, reciept_status: reciept.reciept_status });
+                }
+            })
+    
 })
 
 // POST REQUESTS
@@ -178,7 +191,6 @@ app.get("/guest/:username", function (req, res) {
 // adding new guest
 app.post("/adminguest", urlencodedParser, function (req, res) {
     res.render("newguest", { info: req.body })
-    const info = req.body;
     if (info.check_in_date < info.check_out_date) {
         // const salt = 10;
         // const password = info.password;
@@ -314,19 +326,16 @@ app.post("/adminemployee", urlencodedParser, function (req, res) {
 app.post("/login", urlencodedParser, function (req, res) {
     const data = req.body
     
-    user_passModul.checkUser(res,req, data.username_guest, data.password_guest)
+    user_passModul.checkUser(session,res,req, data.username_guest, data.password_guest)
     
 
 })
 
 // login for admin page
 app.post("/adminlogin", urlencodedParser, function (req, res) {
-    const data = req.body
-    session=req.session;
-   session.username = data.username_employees
-   session.password = data.password_employees
-    console.log(session);
-    user_passModul.checkEmployee(res, data.username_employees, data.password_employees)
+
+   console.log(req.body);
+    user_passModul.checkEmployee(res, req.body.username_employees, req.body.password_employees)
   
 })
 
@@ -525,10 +534,13 @@ app.post(`/guest/:username`, function(req,res){
     
 
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'outlook365',
+    // service: 'gmail',
     auth: {
-        user: 'adisaljic2347@gmail.com',
-        pass: 'wireless@1',
+        user: 'adis.testing@outlook.com',
+        // user: 'adisaljic2347@gmail.com',
+        // pass: 'wireless@1',
+        pass: 'sifrazahotmail',
         secure: false,
         port: 3000
     }
@@ -539,8 +551,9 @@ app.post("/contact", urlencodedParser, function (req, res) {
     const msg = req.body;
     console.log(msg)
     var mailOptions = {
-        to: 'adisaljic2347@gmail.com',
-        from: `${msg.email}`,
+        // to: 'adisaljic2347@gmail.com',
+        to: 'adis.testing@outlook.com',
+        // from: `${msg.email}`,
         subject: msg.subject,
         text: `Email address: ${msg.email},
          phone number: ${msg.phone_number}, 

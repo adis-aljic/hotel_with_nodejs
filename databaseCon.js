@@ -3,7 +3,7 @@ const con = {
     user: "root",
     password: "wireless",
     database: "hotel_node",
-  multipleStatements: true
+  multipleStatements: true,
 }
 
 module.exports = con;   

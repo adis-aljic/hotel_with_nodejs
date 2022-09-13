@@ -9,45 +9,33 @@ const app = express();
 
 
 
-const checkUser = (res,req, username, password,) => {
+const checkUser = (session,res,req, username, password,) => {
     const sqlQ = `SELECT username, password,status_guest, isLoged FROM guest;`
     db.query(sqlQ, function (err, data) {
         if (err) throw err
-        else { 
+        else {  
             // console.log(username,password);
             // console.log(data);
             for (let i = 0; i < data.length; i++) {
                 // console.log(data[i]);
                 const user_pass = data[i];
-                // const user_passEmp = data[1][i];
-                // const salt = 10;
-                // console.log("user_pass");
-                // console.log(user_pass.username);
-                // console.log("username i pass");
-                // console.log(username + " i  " + password);
+         
                 if (username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
                     setOnline(username);
                     // session=req.session;
-
-                    // console.log(req.body);
-                    // session.session_username=req.body.username_guest;
-                    // session.session_password=req.body.password_guest;
-                    // db.query(`INSERT INTO sessions (session_username,session_password) VALUES("${session.session_username}","${session.session_password}");`, function(err,data){
-                    //     if (err) throw err
-                    //     else {
-                    //         console.log(data);
-                    //     }
+                    session.username = req.params
+                    if(session.username){
                 
-                    // })
-                    // console.log(req.session)
+                        db.query(`INSERT INTO sessions(session_username, id) VALUES ("${session.username.username}","${req.session.id}") ;`,function(err,data){
+                            if (err) throw err
+                            else console.log(data);
+                        })
+                    }
+                  
                         console.log(`User ${user_pass.username} is loged`);
                          return    res.redirect(`/guest/${username}`)
                 } 
-                // else if(username_emp == user_passEmp.username && password_emp == user_passEmp.password){
-                //         console.log(`Welcome employee ${username_emp}`);
-                //         res.redirect(`/adminGuest`)
-                // }
-                // else if(i == data.length-1) {
+   
                     
                 }
             }
