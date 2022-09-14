@@ -30,10 +30,10 @@ const checkUser = (session,res,req, username, password,) => {
                             if (err) throw err
                             else console.log(data);
                         })
-                    }
-                  
+                        
                         console.log(`User ${user_pass.username} is loged`);
-                         return    res.redirect(`/guest/${username}`)
+                        return    res.redirect(`/guest/${username}`)
+                    }
                 } 
    
                     
