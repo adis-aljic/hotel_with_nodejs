@@ -81,13 +81,16 @@ app.get("/login", function (req, res) {
     
     app.get("/listbooked", function (req, res) {
 
-    var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password, guest.status_guest,
+    var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password,room.room_number, guest.status_guest,
     booking.check_in_date, booking.check_out_date, reciept.total_price_for_booking
     FROM guest 
     INNER JOIN booking
     ON booking.username = guest.username
     INNER JOIN reciept
-    ON reciept.username = guest.username WHERE guest.status_guest = "Active"
+    ON reciept.username = guest.username 
+    INNER JOIN room 
+    ON room.username = guest.username
+    WHERE guest.status_guest = "Active"
    ;`
    db.query(sql, function(err, data){
        if (err) throw err
@@ -99,13 +102,14 @@ app.get("/login", function (req, res) {
    })
 
 app.get("/listallbooked", function (req, res) {
-        var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password, guest.status_guest,
+        var sql = `SELECT guest.first_name, guest.last_name, guest.username, guest.password,guest.status_guest,
         booking.check_in_date, booking.check_out_date, reciept.total_price_for_booking
     FROM guest 
     INNER JOIN booking
     ON booking.username = guest.username
     INNER JOIN reciept
     ON reciept.username = guest.username
+ 
    ;`
    db.query(sql, function(err, data){
        if (err) throw err
@@ -362,6 +366,7 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
         var parametar = "number_of_document_for_indefication";
 
     } 
+    // else if(booking.find = "choose") res.send("wrong input  ")
         
     
     const findbooking = (parametar,input) =>{
@@ -394,10 +399,12 @@ app.post("/findbooking", urlencodedParser, function (req, res) {
             INNER JOIN reciept ON reciept.username = guest.username
             WHERE guest.${parametar} = "${input}";`
         }
+
     }
     db.query(findbooking(parametar,input), function (err, data) {
-        if (err) console.log("error");
+        if (err){ console.log("error");
         // kada se pogresi unos pada server
+    }
         else {
             
             const book = data[0]
