@@ -23,24 +23,24 @@ const checkUser = (session,res,req, username, password,) => {
                 if (username == user_pass.username && password == user_pass.password && user_pass.status_guest == "Active") {
                     setOnline(username);
                     // session=req.session;
-                    session.username = req.params
-                    if(session.username){
+                    // session.username = req.params
+                    // if(session.username){
                 
-                        db.query(`INSERT INTO sessions(session_username, id) VALUES ("${session.username.username}","${req.session.id}") ;`,function(err,data){
-                            if (err) throw err
-                            else console.log(data);
-                        })
+                        // db.query(`INSERT INTO sessions(session_username, id) VALUES ("${session.username.username}","${req.session.id}") ;`,function(err,data){
+                        //     if (err) throw err
+                        //     else console.log(data);
+                        // })
                         
                         console.log(`User ${user_pass.username} is loged`);
                         return    res.redirect(`/guest/${username}`)
-                    }
+                    // }
                 } 
    
                     
                 }
-            }
-              console.log("wrong pass");
+                console.log("wrong pass");
                 res.redirect("/loginWrongPass")
+            }
     })
 }
 

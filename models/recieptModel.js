@@ -160,7 +160,8 @@ const addCinemaFKtoReciept = (username)=> {
 
 
 const addTotalPriceForBooking = (username)=> {
-    var sql = `SELECT (sauna.total_price_sauna +  gym.total_price_gym +restaurant.total_price_restaurant  + cinema.total_price_cinema +pool.total_price_pool + booking.total_price_for_room) AS total_price 
+    var sql = `SELECT (sauna.total_price_sauna +  gym.total_price_gym +restaurant.total_price_restaurant  + 
+        cinema.total_price_cinema +pool.total_price_pool + booking.total_price_for_room) AS total_price 
     FROM booking
     INNER JOIN sauna ON booking.username = sauna.username
     INNER JOIN cinema ON booking.username = cinema.username
